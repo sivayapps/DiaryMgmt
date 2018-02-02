@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">DiaryMgmt</string>
     <string name="title_activity_login2">hbjh</string>
+    <string name="dairy_owner_name">Dairy Owner Name</string>
+    <string name="phone_number">Phone Number</string>
 </resources>

@@ -20,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Arrays;
 import java.util.List;
 
+import in.boshanam.diarymgmt.domain.DairyOwner;
+import in.boshanam.diarymgmt.repository.FireBaseDao;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
@@ -38,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
-            Toast.makeText(this, "Already signed in " + user.getDisplayName(), Toast.LENGTH_LONG);
+            Toast.makeText(this, "Already signed in " + user.getDisplayName(), Toast.LENGTH_LONG).show();
             checkDairyOwnerProfileAndProceed();
         } else {
             loginOrRegister();
@@ -48,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginOrRegister() {
         // No user is signed in
-        Toast.makeText(this, "Not signed in, now signing-in ", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Not signed in, now signing-in ", Toast.LENGTH_LONG).show();
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -64,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
 
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(LoginActivity.this, "User signed out", Toast.LENGTH_LONG);
+                        Toast.makeText(LoginActivity.this, "User signed out", Toast.LENGTH_LONG).show();
                         setContentView(R.layout.activity_login);
                     }
                 });
@@ -96,21 +99,15 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "Successfully signed in", Toast.LENGTH_LONG);
         if (user != null) {
             // Access a Cloud Firestore instance from your Activity
-            String userId = user.getUid();
-            DocumentReference dairyOwnerProfileRef = db.collection("DairyOwnerProfile").document(userId);
-            dairyOwnerProfileRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            FireBaseDao.onDairyOwnerProfileStatusValidation(user, this, new Runnable() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null) {
-                            Log.d("DEBUG", "DocumentSnapshot data: " + task.getResult().getData());
-                        } else {
-                            Log.d("DEBUG", "No such document");
-                        }
-                    } else {
-                        Log.d("DEBUG", "get failed with ", task.getException());
-                    }
+                public void run() {
+
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(LoginActivity.this, DairyOwnerProfileSetup.class));
                 }
             });
         } else {
@@ -118,4 +115,5 @@ public class LoginActivity extends AppCompatActivity {
             loginOrRegister();
         }
     }
+
 }

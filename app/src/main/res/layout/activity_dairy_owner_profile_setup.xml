@@ -11,32 +11,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/dairyName"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:ems="10"
-            android:hint="Dairy Owner Name"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="15dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/dairyOwnerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Dairy Owner Name"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/dairyOwnerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/dairy_owner_name"
+                android:inputType="textPersonName"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <EditText
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Phone Number"
+            android:hint="@string/phone_number"
             android:inputType="phone" />
 
+        <CheckedTextView
+            android:id="@+id/checkedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckedTextView" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="saveDairyOwnerProfile"
+            android:text="Save" />
+
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
