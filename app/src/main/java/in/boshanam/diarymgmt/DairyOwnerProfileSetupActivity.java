@@ -19,7 +19,7 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_menu);
        dairyName = (EditText) findViewById(R.id.dairy_name);
         ownerName = (EditText) findViewById(R.id.owner_name);
         phoneNumber = (EditText) findViewById(R.id.phone_number);

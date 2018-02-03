@@ -23,7 +23,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         random=new Random();
         id= new HashSet<Integer>();
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
+       setContentView(R.layout.activity_main_menu);
         findViewById(R.id.farmerRegister).setOnClickListener(this);
     }
 
