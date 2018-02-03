@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             loginOrRegister();
         }
-//        setContentView(R.layout.activity_login);
+     // setContentView(R.layout.activity_login);
     }
 
     private void loginOrRegister() {
@@ -104,7 +104,8 @@ public class LoginActivity extends AppCompatActivity {
             }, new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(LoginActivity.this, DairyOwnerProfileSetupActivity.class));
+                    Intent intent=new Intent(LoginActivity.this,DairyOwnerProfileSetupActivity.class);
+                    startActivity(intent);
                 }
             });
         } else {
