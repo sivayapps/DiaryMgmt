@@ -20,9 +20,10 @@
             android:id="@+id/farmerRegister"
             style="?android:attr/buttonStyle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_gravity="center_horizontal|center"
-            android:layout_margin="25dp"
+            android:layout_margin="5dp"
 
             android:background="#006699"
             android:text="@string/farmer_register"
@@ -36,9 +37,10 @@
             android:id="@+id/rateEntry"
             style="?android:attr/buttonStyle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_gravity="center_horizontal|center"
-            android:layout_margin="25dp"
+            android:layout_margin="5dp"
 
             android:background="#006699"
             android:text="@string/rate_entry"
@@ -48,53 +50,57 @@
             android:textStyle="normal"
             android:visibility="visible" />
 
-         <Button
-             android:id="@+id/milkCollect"
-             style="?android:attr/buttonStyle"
-             android:layout_width="match_parent"
-             android:layout_height="50dp"
-             android:layout_gravity="center_horizontal|center"
-             android:layout_margin="25dp"
+        <Button
+            android:id="@+id/milkCollect"
+            style="?android:attr/buttonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal|center"
 
-             android:background="#006699"
-             android:text="@string/collect_milk"
-             android:textColor="#fff"
-             android:textSize="30sp"
-             android:textStyle="normal"
-
-             android:visibility="visible" />
-
-          <Button
-              android:id="@+id/fatEntry"
-              style="?android:attr/buttonStyle"
-              android:layout_width="match_parent"
-              android:layout_height="50dp"
-              android:layout_gravity="center_horizontal|center"
-              android:layout_margin="25dp"
-
-              android:background="#006699"
-              android:text="@string/fat_entry"
-              android:textColor="#fff"
-              android:textSize="30sp"
-              android:textStyle="normal"
-
-              android:visibility="visible" />
+            android:adjustViewBounds="true"
+            android:background="#006699"
+            android:scaleType="centerInside"
+            android:text="@string/collect_milk"
+            android:textColor="#fff"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            android:visibility="visible" />
 
         <Button
-             android:id="@+id/paymentReport"
-             style="?android:attr/buttonStyle"
-             android:layout_width="match_parent"
-             android:layout_height="50dp"
-             android:layout_gravity="center_horizontal|center"
-             android:layout_margin="25dp"
+            android:id="@+id/fatEntry"
+            style="?android:attr/buttonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal|center"
 
-             android:background="#006699"
-             android:text="@string/payment_reports"
-             android:textColor="#fff"
-             android:textSize="30sp"
-             android:textStyle="normal"
+            android:background="#006699"
+            android:text="@string/fat_entry"
+            android:textColor="#fff"
+            android:textSize="30sp"
+            android:textStyle="normal"
 
-             android:visibility="visible" />
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/paymentReport"
+            style="?android:attr/buttonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal|center"
+
+            android:background="#006699"
+            android:text="@string/payment_reports"
+            android:textColor="#fff"
+            android:textSize="30sp"
+            android:textStyle="normal"
+
+            android:visibility="visible" />
 
     </LinearLayout>
 

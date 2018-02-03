@@ -6,13 +6,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
-import in.boshanam.diarymgmt.R;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 
 /**
@@ -21,7 +23,8 @@ import in.boshanam.diarymgmt.domain.DairyOwner;
 
 public class FireBaseDao {
 
-    private FireBaseDao() {}
+    private FireBaseDao() {
+    }
 
     public static void onDairyOwnerProfileStatusValidation(FirebaseUser user, final AppCompatActivity activity, final Runnable successCommand, final Runnable failureCommand) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -34,7 +37,7 @@ public class FireBaseDao {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
                         DairyOwner dairyOwner = document.toObject(DairyOwner.class);
-                        if(dairyOwner.getDairyIds() != null && dairyOwner.getDairyIds().size() > 0
+                        if (dairyOwner.getDairyIds() != null && dairyOwner.getDairyIds().size() > 0
                                 && dairyOwner.getName() != null) {
                             Log.d("DEBUG", "Owner Profile Complete - DocumentSnapshot data: " + dairyOwner);
                         }
@@ -51,5 +54,21 @@ public class FireBaseDao {
         });
     }
 
-
+    public static void saveDairyOwner(DairyOwner dairyOwner, final AppCompatActivity activity,
+                                      final Runnable successCommand, final Runnable failureCommand) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = dairyOwner.getUid();
+        DocumentReference dairyOwnerProfileRef = db.collection("DairyOwnerProfile").document(userId);
+        dairyOwnerProfileRef.set(dairyOwner, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                successCommand.run();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                failureCommand.run();
+            }
+        });
+    }
 }

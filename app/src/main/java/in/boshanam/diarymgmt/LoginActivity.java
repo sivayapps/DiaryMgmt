@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             loginOrRegister();
         }
-     // setContentView(R.layout.activity_login);
+        // setContentView(R.layout.activity_login);
     }
 
     private void loginOrRegister() {
@@ -99,12 +99,12 @@ public class LoginActivity extends AppCompatActivity {
             FireBaseDao.onDairyOwnerProfileStatusValidation(user, this, new Runnable() {
                 @Override
                 public void run() {
-
+                    //On success, do this
                 }
             }, new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(LoginActivity.this,DairyOwnerProfileSetupActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, DairyOwnerProfileSetupActivity.class);
                     startActivity(intent);
                 }
             });
