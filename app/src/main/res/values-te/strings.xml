@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_activity_login2">hbjh</string>
-    <string name="dairy_owner_name">Dairy Owner Name</string>
-    
-
+    <string name="dairy_owner_name">పాల కేంద్ర యజమాని పేరు</string>
     <string name="app_name">పాల కేంద్రానికి స్వాగతం</string>
     <string name="dairy_name">కేంద్రం పేరు</string>
     <string name="register">నమోదు చేయండి</string>
@@ -12,21 +9,21 @@
     <string name="phone_number">ఫోను నంబరు</string>
     <string name="farmer_register">రైతు నమోదు</string>
     <string name="save">సేవ్</string>
-    <string name="rate_entry">రేటు ఎంట్రీ</string>
+    <string name="rate_entry">ధర నమోదు</string>
     <string name="collect_milk">పాలు సేకరించండి</string>
-    <string name="fat_entry">పాలు కొవ్వు ప్రవేశం</string>
+    <string name="fat_entry">వెన్న శాతం నమోదు</string>
     <string name="payment_reports">చెల్లింపు నివేదికలు</string>
     <string name="farmer_registraion">రైతు నమోదు</string>
     <string name="farmer_name">రైతు పేరు</string>
     <string name="milk_type">పాలు రకం</string>
-    <string name="dairy_registraion">Dairy Registration</string>
-    <string name="farmer_id">Farmer Id</string>
-    <string name="fat">Fat</string>
-    <string name="rate">Rate</string>
-    <string name="next">Next</string>
-    <string name="finish">Finish</string>
+    <string name="dairy_registraion">పాల కేంద్రం నమోదు</string>
+    <string name="farmer_id">రైతు గుర్తింపు సంఖ్య</string>
+    <string name="fat">వెన్న</string>
+    <string name="rate">ధర</string>
+    <string name="next">తరువాత</string>
+    <string name="finish">ముగించు</string>
     <string-array name="milk_type">
-        <item>BUFFLO</item>
-        <item>COW</item>
+        <item>గేదె పాలు</item>
+        <item>ఆవు పాలు</item>
     </string-array>
 </resources>
