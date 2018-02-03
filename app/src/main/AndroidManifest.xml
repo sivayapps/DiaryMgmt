@@ -21,7 +21,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DairyOwnerProfileSetup"></activity>
+        <activity android:name=".DairyRegistrationActivity"
+            android:label="@string/dairy_registraion"
+            android:parentActivityName=".LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+        </activity>
+        <activity
+            android:name=".SecondActivity"
+            android:label="@string/dairy_registraion"
+            android:parentActivityName=".DairyRegistrationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DairyRegistrationActivity" />
+        </activity>
+        <activity
+            android:name=".FarmerActivity"
+            android:label="@string/farmer_register"
+            android:parentActivityName=".SecondActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SecondActivity" />
+        </activity>
+        <activity android:name=".RateEntryActivity"
+            android:label="@string/farmer_register"
+            android:parentActivityName=".FarmerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FarmerActivity" />
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shiva.myapplication.RateEntryActivity"
+    tools:layout_editor_absoluteY="81dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        android:background="@android:color/white"
+        android:gravity="top|center"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="2dp"
+        android:theme="@style/AppTheme"
+
+
+        android:visibility="visible"
+
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="31dp">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="@string/milk_prompt"
+
+
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/milk_type"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:entries="@array/milk_type" />
+
+
+ -->
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+
+            >
+
+            <EditText
+
+                android:id="@+id/fat"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:ems="10"
+                android:gravity="bottom"
+                android:hint="@string/fat"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:textColorHint="#000"
+                tools:layout_editor_absoluteX="50dp"
+                tools:layout_editor_absoluteY="112dp" />
+
+            <EditText
+                android:id="@+id/rate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_toEndOf="@id/fat"
+                android:layout_toRightOf="@id/fat"
+                android:ems="10"
+                android:hint="@string/rate"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:textColorHint="#000"
+                tools:layout_editor_absoluteX="51dp"
+                tools:layout_editor_absoluteY="196dp" />
+
+            <Button
+                android:id="@+id/next"
+                style="?android:attr/buttonStyle"
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal|center"
+
+                android:layout_toRightOf="@id/rate"
+
+
+                android:background="#006699"
+                android:text="@string/next"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="normal"
+
+                android:visibility="visible" android:layout_toEndOf="@id/rate" />
+            <!-- </android.support.design.widget.TextInputLayout>-->
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/finish"
+            style="?android:attr/buttonStyle"
+
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_margin="25dp"
+            android:background="#006699"
+
+            android:text="@string/finish"
+            android:textColor="#fff"
+            android:textSize="30sp"
+            android:textStyle="normal"
+
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(LoginActivity.this, "User signed out", Toast.LENGTH_LONG).show();
-                        setContentView(R.layout.activity_login);
+                        return;
                     }
                 });
     }
@@ -87,8 +87,9 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 // Sign in failed, check response for error code
                 // ...
-                Toast.makeText(this, "Sign in failed, check response for error code", Toast.LENGTH_LONG);
-                setContentView(R.layout.activity_login);
+                Toast.makeText(this, "Sign in failed, check response for error code", Toast.LENGTH_LONG).show();
+                return;
+
 
             }
         }
@@ -96,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkDairyOwnerProfileAndProceed() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Toast.makeText(this, "Successfully signed in", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Successfully signed in", Toast.LENGTH_LONG).show();
         if (user != null) {
             // Access a Cloud Firestore instance from your Activity
             FireBaseDao.onDairyOwnerProfileStatusValidation(user, this, new Runnable() {
@@ -107,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             }, new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(LoginActivity.this, DairyOwnerProfileSetup.class));
+                    startActivity(new Intent(LoginActivity.this, DairyRegistrationActivity.class));
                 }
             });
         } else {
