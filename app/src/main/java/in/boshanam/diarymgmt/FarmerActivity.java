@@ -14,7 +14,7 @@ public class FarmerActivity extends AppCompatActivity {
     /*private static final String[] TYPE_MILK = new String[] {
             "BUFFlO", "OX"
     };*/
-   private Spinner  spinner,spinner2;
+   private Spinner  milkType;
    private Button register;
     private EditText farmername;
     private EditText id;
@@ -23,7 +23,7 @@ public class FarmerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_former);
+        setContentView(R.layout.activity_farmer);
         addListenerOnButton();
         addListenerOnSpinnerItemSelection();
 
@@ -32,12 +32,12 @@ public class FarmerActivity extends AppCompatActivity {
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        spinner = (Spinner) findViewById(R.id.spinner1);
-        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+        milkType = (Spinner) findViewById(R.id.spinner1);
+        milkType.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
     public void addListenerOnButton() {
 
-        spinner = (Spinner) findViewById(R.id.spinner1);
+        milkType = (Spinner) findViewById(R.id.spinner1);
         farmerId=(EditText)findViewById(R.id.generateId);
         farmername=(EditText)findViewById(R.id.farmerName);
 
@@ -48,7 +48,7 @@ public class FarmerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(FarmerActivity.this,"OnClickListener : "+String.valueOf(spinner.getSelectedItem()),Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerActivity.this,"OnClickListener : "+String.valueOf(milkType.getSelectedItem()),Toast.LENGTH_SHORT).show();
             }
 
         });

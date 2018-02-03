@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DairyRegistrationActivity"
+        <activity android:name=".DairyOwnerProfileSetupActivity"
             android:label="@string/dairy_registraion"
             android:parentActivityName=".LoginActivity">
             <meta-data
@@ -29,20 +29,20 @@
                 android:value=".LoginActivity" />
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name=".MainMenuActivity"
             android:label="@string/dairy_registraion"
-            android:parentActivityName=".DairyRegistrationActivity">
+            android:parentActivityName=".DairyOwnerProfileSetupActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DairyRegistrationActivity" />
+                android:value=".DairyOwnerProfileSetupActivity" />
         </activity>
         <activity
             android:name=".FarmerActivity"
             android:label="@string/farmer_register"
-            android:parentActivityName=".SecondActivity">
+            android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SecondActivity" />
+                android:value=".MainMenuActivity" />
         </activity>
         <activity android:name=".RateEntryActivity"
             android:label="@string/farmer_register"

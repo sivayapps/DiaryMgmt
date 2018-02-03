@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class DairyRegistrationActivity extends AppCompatActivity implements View.OnClickListener{
+public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText dairyName;
     private EditText ownerName;
     private EditText phoneNumber;
@@ -29,7 +29,7 @@ public class DairyRegistrationActivity extends AppCompatActivity implements View
         @Override
         public void onClick(View view) {
             if( validate()){
-                Intent intent = new Intent(this,SecondActivity.class);
+                Intent intent = new Intent(this,MainMenuActivity.class);
                 startActivity(intent);
             }
 

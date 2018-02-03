@@ -10,7 +10,7 @@ import android.widget.Toast;
 import java.util.HashSet;
 import java.util.Random;
 
-public class SecondActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
     private static int MAXIMUM=50;
     private Button farmarRegister;
    private  Random random;
@@ -23,7 +23,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         random=new Random();
         id= new HashSet<Integer>();
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_second);
+       setContentView(R.layout.activity_main);
         findViewById(R.id.farmerRegister).setOnClickListener(this);
     }
 
