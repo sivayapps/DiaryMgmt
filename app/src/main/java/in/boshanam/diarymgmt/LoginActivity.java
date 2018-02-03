@@ -93,13 +93,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkDairyOwnerProfileAndProceed() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         Toast.makeText(this, "Successfully signed in", Toast.LENGTH_LONG).show();
         if (user != null) {
             // Access a Cloud Firestore instance from your Activity
             FireBaseDao.onDairyOwnerProfileStatusValidation(user, this, new Runnable() {
                 @Override
                 public void run() {
-                    //On success, do this
+                    Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                    startActivity(intent);
                 }
             }, new Runnable() {
                 @Override

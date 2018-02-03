@@ -26,7 +26,8 @@ public class FireBaseDao {
     private FireBaseDao() {
     }
 
-    public static void onDairyOwnerProfileStatusValidation(FirebaseUser user, final AppCompatActivity activity, final Runnable successCommand, final Runnable failureCommand) {
+    public static void onDairyOwnerProfileStatusValidation(FirebaseUser user, final AppCompatActivity activity,
+                                                           final Runnable successCommand, final Runnable failureCommand) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = user.getUid();
         DocumentReference dairyOwnerProfileRef = db.collection("DairyOwnerProfile").document(userId);
@@ -40,6 +41,8 @@ public class FireBaseDao {
                         if (dairyOwner.getDairyIds() != null && dairyOwner.getDairyIds().size() > 0
                                 && dairyOwner.getName() != null) {
                             Log.d("DEBUG", "Owner Profile Complete - DocumentSnapshot data: " + dairyOwner);
+                            successCommand.run();
+                            return;
                         }
                         Log.d("DEBUG", "Owner Profile Not Complete - DocumentSnapshot data: " + dairyOwner);
                     } else {

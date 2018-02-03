@@ -21,50 +21,42 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
     private Button next;
     private Button finish;
     private List<RateEntry> rateEntry;
-    private final String MILK_TYPE="COW";
+    private final String MILK_TYPE = "COW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_entry);
-         rateEntry= new ArrayList<>();
+        rateEntry = new ArrayList<>();
 
-         milkType=(Spinner)findViewById(R.id.milk_type);
-         fat=(EditText)findViewById(R.id.fat);
-         rate=(EditText)findViewById(R.id.rate);
-         next=(Button)findViewById(R.id.next);
-         finish=(Button)findViewById(R.id.finish);
+        milkType = (Spinner) findViewById(R.id.milk_type);
+        fat = (EditText) findViewById(R.id.fat);
+        rate = (EditText) findViewById(R.id.rate);
+        next = (Button) findViewById(R.id.next);
+        finish = (Button) findViewById(R.id.finish);
         findViewById(R.id.next).setOnClickListener(this);
-
-
-
-
-
     }
-        @Override
-        public void onClick(View view) {
-            if (validate()) {
-                if(MILK_TYPE.equals(String.valueOf(milkType.getSelectedItem()))){
+
+    @Override
+    public void onClick(View view) {
+        if (validate()) {
+            if (MILK_TYPE.equals(String.valueOf(milkType.getSelectedItem()))) {
                 rateEntry.add(new RateEntry(milkType.toString(), fat.toString(), rate.toString()));
 
+            } else {
+                rateEntry.add(new RateEntry(milkType.toString(), fat.toString(), rate.toString()));
             }
-            else{
-                    rateEntry.add(new RateEntry(milkType.toString(), fat.toString(), rate.toString()));
-                }
 
-                }
         }
+    }
 
-
-    private boolean validate(){
-        if (fat.length() == 0 || rate.length() == 0)  {
+    private boolean validate() {
+        if (fat.length() == 0 || rate.length() == 0) {
 
             Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
-
-
     }
 
 
@@ -73,7 +65,6 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
         Toast.makeText(parent.getContext(),
                 "Milk Type Is : " + parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_SHORT).show();
-
     }
 
     @Override

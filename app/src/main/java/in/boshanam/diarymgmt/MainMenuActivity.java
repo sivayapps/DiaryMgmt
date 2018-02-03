@@ -11,31 +11,32 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
-    private static int MAXIMUM=50;
+    private static int MAXIMUM = 50;
     private Button farmarRegister;
-   private  Random random;
-   private  HashSet<Integer> id ;
-   private int genNextId;
-
+    private Random random;
+    private HashSet<Integer> id;
+    private int genNextId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        random=new Random();
-        id= new HashSet<Integer>();
+        random = new Random();
+        id = new HashSet<Integer>();
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_main_menu);
+
         findViewById(R.id.farmerRegister).setOnClickListener(this);
+        findViewById(R.id.rateEntry).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        /*Intent intent = new Intent(this, FarmerActivity.class);
-        startActivity(intent);*/
+
         switch (view.getId()) {
             case R.id.farmerRegister:
                 generateID();
                 break;
-            case R.id.rateEntry: rateEntry();
+            case R.id.rateEntry:
+                rateEntry();
                 break;
             case R.id.milkCollect:
                 break;
@@ -48,34 +49,26 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void rateEntry() {
+        startActivity(new Intent(this, RateEntryActivity.class));
     }
-
 
     private void generateID() {
-
-         genNextId=random.nextInt(MAXIMUM);
-         int count=0;
-
-        if(!id.contains(genNextId)) {
+        genNextId = random.nextInt(MAXIMUM);
+        int count = 0;
+        if (!id.contains(genNextId)) {
             id.add(genNextId);
-            Intent famarActivity=new Intent(this,FarmerActivity.class);
-            famarActivity.putExtra("generateId" ,genNextId );
+            Intent famarActivity = new Intent(this, FarmerActivity.class);
+            famarActivity.putExtra("generateId", genNextId);
             startActivity(famarActivity);
-
-            
-        }
-        else {
-
+        } else {
             generateID();
             count++;
-            if(count==MAXIMUM) {
-                Toast.makeText(this, "Sample Is Full ", Toast.LENGTH_SHORT).show();
-            }
+            if (count == MAXIMUM) {
+                Toast.makeText(this, "Samples Is Full ", Toast.LENGTH_SHORT).show();
             }
         }
-
-
-
-
     }
+
+
+}
 

@@ -1,5 +1,6 @@
 package in.boshanam.diarymgmt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,14 +18,22 @@ public class FarmerActivity extends AppCompatActivity {
    private Spinner  milkType;
    private Button register;
     private EditText farmername;
-    private EditText id;
+    private String id;
     private EditText farmerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer);
+        Intent iin= getIntent();
+        savedInstanceState = iin.getExtras();
+        farmerId=(EditText)findViewById(R.id.generateId);
+        if(savedInstanceState!=null){
+           id=(String.valueOf(savedInstanceState.get("generateId")));
+           farmerId.setText(id);
+        }
         addListenerOnButton();
+
         addListenerOnSpinnerItemSelection();
 
 
