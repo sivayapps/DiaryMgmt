@@ -20,14 +20,13 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
     private EditText rate;
     private Button next;
     private Button finish;
-    private List<RateEntry> rateEntry;
     private final String MILK_TYPE = "COW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_entry);
-        rateEntry = new ArrayList<>();
+
 
         milkType = (Spinner) findViewById(R.id.milk_type);
         fat = (EditText) findViewById(R.id.fat);
@@ -40,13 +39,15 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         if (validate()) {
-            if (MILK_TYPE.equals(String.valueOf(milkType.getSelectedItem()))) {
-                rateEntry.add(new RateEntry(milkType.toString(), fat.toString(), rate.toString()));
+            if (MILK_TYPE.equals(milkType.getSelectedItem().toString())) {
+               final RateEntry rateEntry = new RateEntry();
+
+
 
             } else {
-                rateEntry.add(new RateEntry(milkType.toString(), fat.toString(), rate.toString()));
-            }
 
+
+            }
         }
     }
 
