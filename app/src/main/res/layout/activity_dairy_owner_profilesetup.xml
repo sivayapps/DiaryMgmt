@@ -85,19 +85,9 @@
         </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/save"
-            style="?android:attr/buttonStyle"
-            android:layout_width="match_parent"
+            style="@style/mainMenuButtonStyle"
             android:layout_height="50dp"
-            android:layout_gravity="center_horizontal|center"
-            android:layout_margin="25dp"
-            android:background="#006699"
-
-            android:text="@string/save"
-            android:textColor="#fff"
-            android:textSize="30sp"
-            android:textStyle="normal"
-
-            android:visibility="visible" />
+            android:text="@string/save"/>
      <!--   <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

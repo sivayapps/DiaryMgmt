@@ -2,5 +2,6 @@
 <resources>
     <color name="textColorPrimary">#fbfbfc</color>
     <color name="background_material_light">#4e4d4d</color>
-    <color name="colorButtonNormal">#1b1919</color>
+    <color name="colorButtonNormal">#1e1d1d</color>
+    <color name="colorPrimary">#1b1919</color>
 </resources>
