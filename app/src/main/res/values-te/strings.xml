@@ -22,8 +22,14 @@
     <string name="rate">ధర</string>
     <string name="next">తరువాత</string>
     <string name="finish">ముగించు</string>
+    <string name="shift_prompt">Select Shift</string>
+    <string name="Next">Next</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>
+    </string-array>
+    <string-array name="shift">
+        <item>Morning</item>
+        <item>Afternoon</item>
     </string-array>
 </resources>

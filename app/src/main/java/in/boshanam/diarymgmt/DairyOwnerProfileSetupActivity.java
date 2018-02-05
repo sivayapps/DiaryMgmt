@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -13,14 +14,22 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 
-public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements View.OnClickListener {
+public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
 
-    private EditText dairyName;
-    private EditText ownerName;
-    private EditText phoneNumber;
+    @BindView(R.id.dairyName)
+    EditText dairyName;
+    @BindView(R.id.ownerName)
+    EditText ownerName;
+    @BindView(R.id.phoneNumber)
+    EditText phoneNumber;
+    @BindView(R.id.save)
+    Button save;
     private String uid;
     private String email;
     private List<String> dairyIds;
@@ -30,21 +39,15 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dairy_owner_profilesetup);
-
-        dairyName = (EditText) findViewById(R.id.dairy_name);
-        ownerName = (EditText) findViewById(R.id.owner_name);
-        phoneNumber = (EditText) findViewById(R.id.phone_number);
-
-        findViewById(R.id.save).setOnClickListener(this);
+        ButterKnife.bind(this);
     }
 
-    @Override
-    public void onClick(View view) {
+    @OnClick(R.id.save)
+    public void save(View view) {
         if (validate()) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             uid = user.getUid();
             email = user.getEmail();
-
             dairyIds = new ArrayList<String>();
             dairyIds.add(dairyName.getText().toString());
 
@@ -71,7 +74,6 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements
         }
     }
 
-
     private boolean validate() {
         String MobilePattern = "[0-9]{10}";
         if (dairyName.getText().length() > 25 || ownerName.getText().length() > 25) {
@@ -83,12 +85,9 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity implements
         } else if (!phoneNumber.getText().toString().matches(MobilePattern)) {
             Toast.makeText(this, "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
             return false;
-
         }
         return true;
     }
-
-
 }
 
 

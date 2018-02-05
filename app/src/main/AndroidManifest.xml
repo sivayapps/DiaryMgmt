@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DairyOwnerProfileSetupActivity"
+        <activity
+            android:name=".DairyOwnerProfileSetupActivity"
             android:label="@string/dairy_registraion"
             android:parentActivityName=".LoginActivity">
             <meta-data
@@ -44,14 +45,36 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainMenuActivity" />
         </activity>
-        <activity android:name=".RateEntryActivity"
+        <activity
+            android:name=".RateEntryActivity"
             android:label="@string/farmer_register"
-            android:parentActivityName=".FarmerActivity">
+            android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FarmerActivity" />
         </activity>
-
+        <activity
+            android:name=".CollectMilkActivity"
+            android:label="@string/collect_milk"
+            android:parentActivityName=".MainMenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainMenuActivity" />
+        </activity>
+        <activity android:name=".FatEntryActivity"
+            android:label="@string/fat_entry"
+            android:parentActivityName=".MainMenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainMenuActivity"/>
+        </activity>
+        <activity android:name=".PaymentReportActivity"
+            android:label="@string/payment_reports"
+            android:parentActivityName=".MainMenuActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainMenuActivity"/>
+        </activity>
     </application>
 
 </manifest>

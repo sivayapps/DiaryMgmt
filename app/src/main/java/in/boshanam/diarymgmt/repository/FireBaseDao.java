@@ -15,7 +15,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import in.boshanam.diarymgmt.FarmerActivity;
 import in.boshanam.diarymgmt.domain.DairyOwner;
+import in.boshanam.diarymgmt.domain.Farmer;
 
 /**
  * Created by Siva on 2/2/2018.
@@ -63,6 +65,23 @@ public class FireBaseDao {
         String userId = dairyOwner.getUid();
         DocumentReference dairyOwnerProfileRef = db.collection("DairyOwnerProfile").document(userId);
         dairyOwnerProfileRef.set(dairyOwner, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                successCommand.run();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                failureCommand.run();
+            }
+        });
+    }
+
+    public static void saveFarmer(Farmer farmer, final AppCompatActivity farmerActivity, final Runnable successCommand, final Runnable failureCommand) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = farmer.getId();
+        DocumentReference farmerRegistrationRef = db.collection("FarmerRegistration").document(userId);
+        farmerRegistrationRef.set(farmer, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 successCommand.run();

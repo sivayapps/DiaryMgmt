@@ -10,9 +10,23 @@ import android.widget.Toast;
 import java.util.HashSet;
 import java.util.Random;
 
-public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainMenuActivity extends AppCompatActivity {
     private static int MAXIMUM = 50;
-    private Button farmarRegister;
+    @BindView(R.id.farmerRegister)
+    Button farmerRegister;
+    @BindView(R.id.milkCollect)
+    Button collectMilk;
+    @BindView(R.id.fatEntry)
+    Button fatEntry;
+    @BindView(R.id.rateEntry)
+    Button rateEntry;
+    @BindView(R.id.paymentReport)
+    Button paymentEntry;
+
     private Random random;
     private HashSet<Integer> id;
     private int genNextId;
@@ -23,14 +37,11 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         id = new HashSet<Integer>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        findViewById(R.id.farmerRegister).setOnClickListener(this);
-        findViewById(R.id.rateEntry).setOnClickListener(this);
+        ButterKnife.bind(this);
     }
 
-    @Override
-    public void onClick(View view) {
-
+    @OnClick({R.id.farmerRegister, R.id.rateEntry, R.id.milkCollect, R.id.fatEntry, R.id.paymentReport})
+    public void action(View view) {
         switch (view.getId()) {
             case R.id.farmerRegister:
                 generateID();
@@ -39,17 +50,15 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                 rateEntry();
                 break;
             case R.id.milkCollect:
+                collectMilk();
                 break;
             case R.id.fatEntry:
+                fatEntry();
                 break;
             case R.id.paymentReport:
+                paymentReport();
                 break;
-
         }
-    }
-
-    private void rateEntry() {
-        startActivity(new Intent(this, RateEntryActivity.class));
     }
 
     private void generateID() {
@@ -69,6 +78,21 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void rateEntry() {
 
+        startActivity(new Intent(this, RateEntryActivity.class));
+    }
+
+    private void collectMilk() {
+        startActivity(new Intent(this, CollectMilkActivity.class));
+    }
+
+    private void fatEntry() {
+        startActivity(new Intent(this, FatEntryActivity.class));
+    }
+
+    private void paymentReport() {
+        startActivity(new Intent(this, FatEntryActivity.class));
+    }
 }
 

@@ -8,94 +8,64 @@
     android:visibility="visible"
     tools:context="in.boshanam.diarymgmt.DairyOwnerProfileSetupActivity">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
-        android:background="@android:color/white"
-        android:gravity="center_vertical|center"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="3dp"
         android:paddingTop="5dp"
         android:theme="@style/AppTheme"
-        android:ems="14"
+        android:visibility="visible">
 
-
-        android:visibility="visible"
-
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="31dp">
-       <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_dairy_name"
-            android:layout_width="280dp"
-            android:layout_height="50dp">
+            style="@style/formFieldsStyle"
+            android:layout_marginTop="30dp">
 
             <EditText
-                android:id="@+id/dairy_name"
+                android:id="@+id/dairyName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-
-                android:hint="@string/dairy_name"
+                android:layout_height="match_parent"
+                android:hint="@string/farmer_id"
                 android:inputType="text"
                 android:singleLine="true"
-                android:textColorHint="#000"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="50dp"
-                tools:layout_editor_absoluteY="112dp"/>
+                android:textColorHint="#000" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_owner_name"
-            android:layout_width="280dp"
-            android:layout_height="50dp">
+            style="@style/formFieldsStyle">
 
             <EditText
-                android:id="@+id/owner_name"
+                android:id="@+id/ownerName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-
-                android:hint="@string/owner_name"
+                android:layout_height="match_parent"
+                android:hint="@string/farmer_id"
                 android:inputType="text"
-                android:textColorHint="#000"
-                tools:layout_editor_absoluteX="51dp"
-                tools:layout_editor_absoluteY="196dp" />
+                android:singleLine="true"
+                android:textColorHint="#000" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_phone_number"
-            android:layout_width="280dp"
-            android:layout_height="50dp">
+            style="@style/formFieldsStyle">
 
             <EditText
-                android:id="@+id/phone_number"
+                android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:ems="14"
+                android:layout_height="match_parent"
+                android:hint="@string/farmer_id"
                 android:inputType="phone"
-                android:hint="@string/phone_number"
-
-                android:textColorHint="#000"
-                tools:layout_editor_absoluteX="51dp"
-                tools:layout_editor_absoluteY="196dp" />
+                android:singleLine="true"
+                android:textColorHint="#000" />
         </android.support.design.widget.TextInputLayout>
+
         <Button
             android:id="@+id/save"
-            style="@style/mainMenuButtonStyle"
-            android:layout_height="50dp"
-            android:text="@string/save"/>
-     <!--   <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="SHivakumar"/>-->
-
-
-
+            style="@style/formButtonStyle"
+            android:layout_height="60dp"
+            android:text="@string/save" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

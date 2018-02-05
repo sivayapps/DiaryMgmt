@@ -42,9 +42,15 @@
     <string name="rate">Rate</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
+    <string name="shift_prompt">Select Shift</string>
+    <string name="Next">Next</string>
     <string-array name="milk_type">
-        <item>BUFFLO</item>
-        <item>COW</item>
+        <item>Bufflo</item>
+        <item>Cow</item>
+    </string-array>
+    <string-array name="shift">
+        <item>Morning</item>
+        <item>Afternoon</item>
     </string-array>
 
 </resources>

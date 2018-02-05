@@ -9,59 +9,75 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import in.boshanam.diarymgmt.domain.DairyOwner;
+import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.listeners.CustomOnItemSelectedListener;
+import in.boshanam.diarymgmt.repository.FireBaseDao;
 
 public class FarmerActivity extends AppCompatActivity {
-    /*private static final String[] TYPE_MILK = new String[] {
-            "BUFFlO", "OX"
-    };*/
-   private Spinner  milkType;
-   private Button register;
-    private EditText farmername;
+
+    @BindView(R.id.generateId)
+    EditText farmerId;
+    @BindView(R.id.farmerName)
+    EditText farmerName;
+    @BindView(R.id.milkType)
+    Spinner milkType;
+    @BindView(R.id.register)
+    Button register;
     private String id;
-    private EditText farmerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer);
-        Intent iin= getIntent();
+        ButterKnife.bind(this);
+        Intent iin = getIntent();
         savedInstanceState = iin.getExtras();
-        farmerId=(EditText)findViewById(R.id.generateId);
-        if(savedInstanceState!=null){
-           id=(String.valueOf(savedInstanceState.get("generateId")));
-           farmerId.setText(id);
+        if (savedInstanceState != null) {
+            id = (String.valueOf(savedInstanceState.get("generateId")));
+            farmerId.setText(id);
         }
-        addListenerOnButton();
-
-        addListenerOnSpinnerItemSelection();
-
-
-
     }
 
-    public void addListenerOnSpinnerItemSelection() {
-        milkType = (Spinner) findViewById(R.id.spinner1);
-        milkType.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    @OnClick(R.id.register)
+    public void registerFarmer() {
+        if (validate()) {
+            final Farmer farmer = new Farmer();
+            farmer.setId(farmerId.getText().toString());
+            farmer.setName(farmerName.getText().toString());
+            farmer.setMilkType(milkType.getSelectedItem().toString());
+            FireBaseDao.saveFarmer(farmer, this, new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Successfully Save", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(FarmerActivity.this, MainMenuActivity.class);
+                    startActivity(intent);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    //TODO on failure
+                }
+            });
+        }
     }
-    public void addListenerOnButton() {
 
-        milkType = (Spinner) findViewById(R.id.spinner1);
-        farmerId=(EditText)findViewById(R.id.generateId);
-        farmername=(EditText)findViewById(R.id.farmerName);
-
-        register = (Button) findViewById(R.id.register);
-
-        register.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(FarmerActivity.this,"OnClickListener : "+String.valueOf(milkType.getSelectedItem()),Toast.LENGTH_SHORT).show();
-            }
-
-        });
+    private boolean validate() {
+        if (farmerName.getText().length() > 25) {
+            Toast.makeText(this, "pls enter less the 25 character in farmer name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (farmerName.getText().toString().trim().length() == 0 || farmerId.getText().toString().trim().length() == 0) {
+            Toast.makeText(this, "pls fill the empty fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
-
-
 }
