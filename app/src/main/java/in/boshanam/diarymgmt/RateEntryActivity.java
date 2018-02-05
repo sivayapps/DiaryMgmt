@@ -1,5 +1,6 @@
 package in.boshanam.diarymgmt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,40 +10,38 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import in.boshanam.diarymgmt.domain.RateEntry;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import in.boshanam.diarymgmt.domain.Rate;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RateEntryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    private Spinner milkType;
-    private EditText fat;
-    private EditText rate;
-    private Button next;
-    private Button finish;
+public class RateEntryActivity extends AppCompatActivity  {
+    @BindView(R.id.milkType)
+     Spinner milkType;
+    @BindView(R.id.fat)
+     EditText fat;
+    @BindView(R.id.rate)
+     EditText rate;
+    @BindView(R.id.next)
+     Button next;
+    @BindView(R.id.finish)
+     Button finish;
     private final String MILK_TYPE = "COW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_entry);
+        ButterKnife.bind(this);
 
-
-        milkType = (Spinner) findViewById(R.id.milk_type);
-        fat = (EditText) findViewById(R.id.fat);
-        rate = (EditText) findViewById(R.id.rate);
-        next = (Button) findViewById(R.id.next);
-        finish = (Button) findViewById(R.id.finish);
-        findViewById(R.id.next).setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View view) {
+    @OnClick(R.id.next)
+    public void save(View view) {
         if (validate()) {
             if (MILK_TYPE.equals(milkType.getSelectedItem().toString())) {
-               final RateEntry rateEntry = new RateEntry();
-
-
+               final Rate rate = new Rate();
+               rate.setMilkType(milkType.getSelectedItem().toString());
 
             } else {
 
@@ -50,9 +49,13 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
             }
         }
     }
+    @OnClick(R.id.next)
+    public void finish(View view) {
+        startActivity(new Intent(this,MainMenuActivity.class));
+    }
 
     private boolean validate() {
-        if (fat.length() == 0 || rate.length() == 0) {
+        if (fat.getText().length() == 0 || rate.getText().length() == 0) {
 
             Toast.makeText(getApplicationContext(), "pls fill the empty fields", Toast.LENGTH_SHORT).show();
             return false;
@@ -61,16 +64,6 @@ public class RateEntryActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
-        Toast.makeText(parent.getContext(),
-                "Milk Type Is : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
 

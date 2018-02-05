@@ -7,12 +7,10 @@ import android.widget.Spinner;
  * Created by user on 2/2/2018.
  */
 
-public class RateEntry {
+public class Rate {
     private String milkType;
     private float fat;
     private float rate;
-    private Long date;
-    private String shift;
 
     public String getMilkType() {
         return milkType;
@@ -38,19 +36,5 @@ public class RateEntry {
         this.rate = rate;
     }
 
-    public Long getDate() {
-        return date;
-    }
 
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
-    public String getShift() {
-        return shift;
-    }
-
-    public void setShift(String shift) {
-        this.shift = shift;
-    }
 }
