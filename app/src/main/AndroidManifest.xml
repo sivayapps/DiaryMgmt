@@ -54,26 +54,36 @@
                 android:value=".FarmerActivity" />
         </activity>
         <activity
-            android:name=".CollectMilkActivity"
+            android:name=".DateShiftSelectActivity"
             android:label="@string/collect_milk"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainMenuActivity" />
         </activity>
-        <activity android:name=".FatEntryActivity"
+        <activity
+            android:name=".CollectMilkActivity"
+            android:label="@string/title_activity_collect_milk_init"
+            android:parentActivityName=".DateShiftSelectActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DateShiftSelectActivity" />
+        </activity>
+        <activity
+            android:name=".FatEntryActivity"
             android:label="@string/fat_entry"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainMenuActivity"/>
+                android:value=".MainMenuActivity" />
         </activity>
-        <activity android:name=".PaymentReportActivity"
+        <activity
+            android:name=".PaymentReportActivity"
             android:label="@string/payment_reports"
             android:parentActivityName=".MainMenuActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainMenuActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainMenuActivity" />
         </activity>
     </application>
 

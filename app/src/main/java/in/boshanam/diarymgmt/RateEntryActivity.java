@@ -15,17 +15,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.boshanam.diarymgmt.domain.Rate;
 
-public class RateEntryActivity extends AppCompatActivity  {
-    @BindView(R.id.milkType)
-     Spinner milkType;
+public class RateEntryActivity extends AppCompatActivity {
+    @BindView(R.id.rate_milk_type)
+    Spinner milkType;
     @BindView(R.id.fat)
-     EditText fat;
+    EditText fat;
     @BindView(R.id.rate)
-     EditText rate;
+    EditText rate;
     @BindView(R.id.next)
-     Button next;
+    Button next;
     @BindView(R.id.finish)
-     Button finish;
+    Button finish;
     private final String MILK_TYPE = "COW";
 
     @Override
@@ -40,8 +40,8 @@ public class RateEntryActivity extends AppCompatActivity  {
     public void save(View view) {
         if (validate()) {
             if (MILK_TYPE.equals(milkType.getSelectedItem().toString())) {
-               final Rate rate = new Rate();
-               rate.setMilkType(milkType.getSelectedItem().toString());
+                final Rate rate = new Rate();
+                rate.setMilkType(milkType.getSelectedItem().toString());
 
             } else {
 
@@ -49,9 +49,10 @@ public class RateEntryActivity extends AppCompatActivity  {
             }
         }
     }
+
     @OnClick(R.id.next)
     public void finish(View view) {
-        startActivity(new Intent(this,MainMenuActivity.class));
+        startActivity(new Intent(this, MainMenuActivity.class));
     }
 
     private boolean validate() {
@@ -62,7 +63,6 @@ public class RateEntryActivity extends AppCompatActivity  {
         }
         return true;
     }
-
 
 
 }

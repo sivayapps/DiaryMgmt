@@ -52,5 +52,8 @@
         <item>Morning</item>
         <item>Afternoon</item>
     </string-array>
+    <string name="title_activity_collect_milk_init">CollectMilkInitActivity</string>
+    <string name="search">Search</string>
+    <string name="sample_id">SampleId</string>
 
 </resources>

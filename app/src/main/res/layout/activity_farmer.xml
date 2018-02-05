@@ -20,7 +20,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_farmer_id"
-            style="@style/formFieldsStyle"
+            style="@style/formFieldsVerticalFlowStyle"
             android:layout_marginTop="30dp">
 
             <EditText
@@ -29,13 +29,12 @@
                 android:layout_height="match_parent"
                 android:hint="@string/farmer_id"
                 android:inputType="text"
-                android:singleLine="true"
-                />
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_farmer_name"
-            style="@style/formFieldsStyle">
+            style="@style/formFieldsVerticalFlowStyle">
 
             <EditText
                 android:id="@+id/farmerName"
@@ -43,23 +42,24 @@
                 android:layout_height="match_parent"
                 android:hint="@string/farmer_name"
                 android:inputType="text"
-                android:singleLine="true"/>
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
-            style="@style/formFieldsStyle"
             android:id="@+id/textView"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_marginTop="0dp"
             android:gravity="bottom"
             android:text="@string/milk_prompt"
-            android:layout_marginTop="0dp"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/milkType"
-            style="@style/formFieldsStyle"
+            style="@style/formFieldsVerticalFlowStyle"
             android:layout_marginTop="0dp"
             android:entries="@array/milk_type" />
+
         <Button
             android:id="@+id/register"
             style="@style/formButtonStyle"

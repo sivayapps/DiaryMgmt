@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.boshanam.diarymgmt.CollectMilkActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:theme="@style/AppTheme"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/date"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:hint="dd/mm/yyyy"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/selectPrompt"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_marginTop="0dp"
+            android:gravity="bottom"
+            android:text="@string/shift_prompt"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/collect_milk_select_shift"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_marginTop="0dp"
+            android:entries="@array/shift" />
+
+        <Button
+            android:id="@+id/collect_milk_next"
+            style="@style/formButtonStyle"
+            android:layout_height="60dp"
+            android:text="@string/Next" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -46,13 +46,27 @@
         <item name="android:background">@drawable/rounded_button</item>
     </style>
 
-    <style name="formFieldsStyle">
+    <style name="formFieldsVerticalFlowStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">70dp</item>
         <item name="android:textSize">30sp</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>
+        <!--<item name="android:layout_gravity">center_horizontal|center</item>-->
+        <item name="android:layout_gravity">center_horizontal|top</item>
+        <!--<item name="android:background">@drawable/gradient_form_field</item>-->
+    </style>
+
+    <style name="formFieldsHorizontalFlowStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
         <!--<item name="android:layout_gravity">center_horizontal|center</item>-->
         <item name="android:layout_gravity">center_horizontal|top</item>
         <!--<item name="android:background">@drawable/gradient_form_field</item>-->

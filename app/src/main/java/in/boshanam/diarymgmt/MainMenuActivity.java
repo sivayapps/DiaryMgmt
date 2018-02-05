@@ -3,7 +3,6 @@ package in.boshanam.diarymgmt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,26 +39,34 @@ public class MainMenuActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.farmerRegister, R.id.rateEntry, R.id.milkCollect, R.id.fatEntry, R.id.paymentReport})
-    public void action(View view) {
-        switch (view.getId()) {
-            case R.id.farmerRegister:
-                generateID();
-                break;
-            case R.id.rateEntry:
-                rateEntry();
-                break;
-            case R.id.milkCollect:
-                collectMilk();
-                break;
-            case R.id.fatEntry:
-                fatEntry();
-                break;
-            case R.id.paymentReport:
-                paymentReport();
-                break;
-        }
+    @OnClick(R.id.farmerRegister)
+    public void farmerRegister() {
+        generateID();
+
     }
+
+    @OnClick(R.id.rateEntry)
+    public void setRateEntry() {
+        rateEntry();
+
+    }
+
+    @OnClick(R.id.fatEntry)
+    public void setratEntry() {
+        fatEntry();
+    }
+
+    @OnClick(R.id.milkCollect)
+    public void setCollectMilk() {
+        collectMilk();
+
+    }
+
+    @OnClick(R.id.paymentReport)
+    public void getPaymentReports() {
+        paymentReport();
+    }
+
 
     private void generateID() {
         genNextId = random.nextInt(MAXIMUM);
@@ -84,7 +91,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void collectMilk() {
-        startActivity(new Intent(this, CollectMilkActivity.class));
+        startActivity(new Intent(this, DateShiftSelectActivity.class));
     }
 
     private void fatEntry() {

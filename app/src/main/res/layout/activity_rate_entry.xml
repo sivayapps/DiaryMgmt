@@ -9,8 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="3dp"
@@ -20,65 +19,73 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_gravity="start"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="bottom"
             android:text="@string/milk_prompt"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/milk_type"
-            style="@style/formFieldsStyle"
-            android:layout_height="70dp"
-            android:layout_marginBottom="0dp"
+            android:id="@+id/rate_milk_type"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="0dp"
-            android:entries="@array/milk_type" />
+            android:entries="@array/milk_type"
+            android:gravity="top" />
 
-        <RelativeLayout
-            style="@style/formFieldsStyle"
+        <CheckBox
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            >
+            android:text="Predict Next Fat Vlue"
+            android:textSize="15sp" />
+
+        <CheckBox
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="Redict Next Rate Value"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/fat"
-                style="@style/formFieldsStyle"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="100dp"
+                style="@style/formFieldsHorizontalFlowStyle"
                 android:hint="@string/fat"
                 android:inputType="number|numberDecimal" />
 
             <EditText
                 android:id="@+id/rate"
-                style="@style/formFieldsStyle"
+                style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_marginLeft="0dp"
-                android:layout_width="100dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@id/fat"
-                android:layout_toRightOf="@id/fat"
                 android:hint="@string/rate"
                 android:inputType="number|numberDecimal" />
 
             <Button
                 android:id="@+id/next"
                 style="@style/formButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|center_vertical|center"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="0dp"
-                android:layout_width="100dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@id/rate"
-                android:layout_toRightOf="@id/rate"
-                android:text="@string/next"
-                android:textSize="20sp" />
-        </RelativeLayout>
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/finish"
             style="@style/formButtonStyle"
             android:text="@string/finish" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

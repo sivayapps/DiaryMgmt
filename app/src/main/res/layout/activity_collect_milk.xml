@@ -4,43 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.boshanam.diarymgmt.CollectMilkActivity">
+    tools:context="in.boshanam.diarymgmt.DateShiftSelectActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="3dp"
         android:paddingTop="5dp"
         android:theme="@style/AppTheme"
         android:visibility="visible">
-        <EditText
-            android:id="@+id/date"
-            style="@style/formFieldsStyle"
-            android:hint="dd/mm/yyyy"
-            android:inputType="text"
-            />
-        <TextView
-            android:id="@+id/selectPrompt"
-            style="@style/formFieldsStyle"
-            android:text="@string/shift_prompt"
-            android:layout_marginTop="0dp"
-            android:gravity="bottom"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/select_shift"
-            style="@style/formFieldsStyle"
-            android:layout_marginTop="0dp"
-            android:entries="@array/shift" />
-        <Button
-            android:id="@+id/next"
-            style="@style/formButtonStyle"
-            android:layout_height="60dp"
-            android:text="@string/Next" />
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/collect_milk_date"
+                style="@style/formFieldsVerticalFlowStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/collect_milk_shift"
+                style="@style/formFieldsVerticalFlowStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/collect_farmer_id"
+                style="@style/formFieldsHorizontalFlowStyle"
+                android:hint="@string/farmer_id"
+                android:inputType="number|numberDecimal" />
+
+            <Button
+                android:id="@+id/collect_milk_search"
+                style="@style/formButtonStyle"
+                android:layout_width="0dp"
+                android:layout_gravity="center_horizontal|center_vertical|center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/search" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/collect_sample_id"
+                style="@style/formFieldsHorizontalFlowStyle"
+                android:layout_marginRight="5dp"
+                android:hint="@string/sample_id"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/collect_milk"
+                style="@style/formFieldsHorizontalFlowStyle"
+                android:layout_marginLeft="0dp"
+                android:hint="@string/collect_milk"
+                android:inputType="number|numberDecimal"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/collect_save"
+                style="@style/formButtonStyle"
+                android:layout_width="0dp"
+                android:layout_gravity="center_horizontal|center_vertical|center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
 
