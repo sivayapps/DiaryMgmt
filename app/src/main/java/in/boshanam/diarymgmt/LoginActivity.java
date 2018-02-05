@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FireBaseDao.getInstance();//inti firestore
         // Create and launch sign-in intent
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

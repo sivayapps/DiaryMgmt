@@ -22,6 +22,8 @@ import in.boshanam.diarymgmt.repository.FireBaseDao;
 
 public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
 
+    private static final String MOBILE_PATTERN = "[0-9]{10}";
+
     @BindView(R.id.dairyName)
     EditText dairyName;
     @BindView(R.id.ownerName)
@@ -33,7 +35,6 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
     private String uid;
     private String email;
     private List<String> dairyIds;
-    private String MobilePattern = "[0-9]{10}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
             dairyOwner.setPhone(phoneNumber.getText().toString());
             dairyOwner.setName(ownerName.getText().toString());
 
-            FireBaseDao.saveDairyOwner(dairyOwner, this, new Runnable() {
+            FireBaseDao.saveDairyOwner(this, dairyOwner, new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Successfully Save", Toast.LENGTH_LONG).show();
@@ -75,14 +76,13 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        String MobilePattern = "[0-9]{10}";
         if (dairyName.getText().length() > 25 || ownerName.getText().length() > 25) {
             Toast.makeText(this, "pls enter less the 25 character in dairy name or owner name", Toast.LENGTH_SHORT).show();
             return false;
         } else if (dairyName.getText().toString().trim().length() == 0 || ownerName.getText().toString().trim().length() == 0 || phoneNumber.length() == 0) {
             Toast.makeText(this, "pls fill the empty fields", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!phoneNumber.getText().toString().matches(MobilePattern)) {
+        } else if (!phoneNumber.getText().toString().matches(MOBILE_PATTERN)) {
             Toast.makeText(this, "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
             return false;
         }

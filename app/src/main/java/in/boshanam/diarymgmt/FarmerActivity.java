@@ -54,7 +54,7 @@ public class FarmerActivity extends AppCompatActivity {
             farmer.setId(farmerId.getText().toString());
             farmer.setName(farmerName.getText().toString());
             farmer.setMilkType(milkType.getSelectedItem().toString());
-            FireBaseDao.saveFarmer(farmer, this, new Runnable() {
+            FireBaseDao.saveFarmer(this, farmer, this, new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Successfully Save", Toast.LENGTH_LONG).show();

@@ -1,0 +1,7 @@
+https://developer.android.com/guide/components/activities/activity-lifecycle.html#saras
+https://firebase.googleblog.com/2016/09/become-a-firebase-taskmaster-part-1.html
+
+
+Communicating with the UI Thread:
+https://developer.android.com/training/multiple-threads/communicate-ui.html#Handler
+
