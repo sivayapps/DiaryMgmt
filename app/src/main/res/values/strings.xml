@@ -55,5 +55,10 @@
     <string name="title_activity_collect_milk_init">CollectMilkInitActivity</string>
     <string name="search">Search</string>
     <string name="sample_id">SampleId</string>
+    <string name="find">find</string>
+    <string name="lr">LR</string>
+    <string name="sample_no">SampleNo</string>
+    <string name="snf">SNF</string>
+    <string name="per_ltr_Rate">1ltr Rate</string>
 
 </resources>

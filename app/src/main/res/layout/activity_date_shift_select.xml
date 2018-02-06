@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.boshanam.diarymgmt.CollectMilkActivity">
+    tools:context="in.boshanam.diarymgmt.DateShiftSelectActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         <EditText
             android:id="@+id/date"
             style="@style/formFieldsVerticalFlowStyle"
+            android:focusable="false"
             android:hint="dd/mm/yyyy"
             android:inputType="text" />
 
@@ -33,15 +34,17 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/collect_milk_select_shift"
+            android:id="@+id/collect_select_shift"
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_marginTop="0dp"
-            android:entries="@array/shift" />
+            android:entries="@array/shift"
+            android:focusable="false" />
 
         <Button
             android:id="@+id/collect_milk_next"
             style="@style/formButtonStyle"
             android:layout_height="60dp"
+            android:focusable="true"
             android:text="@string/Next" />
     </LinearLayout>
 

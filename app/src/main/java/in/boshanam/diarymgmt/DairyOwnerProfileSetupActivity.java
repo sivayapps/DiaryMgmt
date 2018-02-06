@@ -24,11 +24,11 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
 
     private static final String MOBILE_PATTERN = "[0-9]{10}";
 
-    @BindView(R.id.dairyName)
+    @BindView(R.id.dairy_name)
     EditText dairyName;
-    @BindView(R.id.ownerName)
+    @BindView(R.id.owner_name)
     EditText ownerName;
-    @BindView(R.id.phoneNumber)
+    @BindView(R.id.phone_number)
     EditText phoneNumber;
     @BindView(R.id.save)
     Button save;
