@@ -10,7 +10,11 @@ public class DairyOwner {
     private String name;
     private String phone;
     private String email;
-    private List<String> dairyIds;
+    private String dairyId;
+
+    //TODO dairy registration should have another UI and remove dairy name from this domain
+    // as DairyOwner can have multiple dairies owned by him.
+    private String dairyName;
 
     public String getUid() {
         return uid;
@@ -22,6 +26,14 @@ public class DairyOwner {
 
     public String getName() {
         return name;
+    }
+
+    public String getDairyId() {
+        return dairyId;
+    }
+
+    public void setDairyId(String dairyId) {
+        this.dairyId = dairyId;
     }
 
     public void setName(String name) {
@@ -44,12 +56,12 @@ public class DairyOwner {
         this.email = email;
     }
 
-    public List<String> getDairyIds() {
-        return dairyIds;
+    public String getDairyName() {
+        return dairyName;
     }
 
-    public void setDairyIds(List<String> dairyIds) {
-        this.dairyIds = dairyIds;
+    public void setDairyName(String dairyName) {
+        this.dairyName = dairyName;
     }
 
     @Override
@@ -72,7 +84,8 @@ public class DairyOwner {
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", dairyIds=" + dairyIds +
+                ", dairyId='" + dairyId + '\'' +
+                ", dairyName='" + dairyName + '\'' +
                 '}';
     }
 }

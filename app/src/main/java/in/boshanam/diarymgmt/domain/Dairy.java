@@ -1,5 +1,7 @@
 package in.boshanam.diarymgmt.domain;
 
+import java.util.Date;
+
 /**
  * Created by Siva on 2/3/2018.
  */
@@ -10,6 +12,15 @@ public class Dairy {
     private String dairyName;
     private boolean active;
     private String address;
+    private Date updateTime;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getId() {
         return id;

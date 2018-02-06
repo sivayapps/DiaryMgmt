@@ -1,5 +1,7 @@
 package in.boshanam.diarymgmt.domain;
 
+import java.util.Date;
+
 /**
  * Created by Siva on 2/3/2018.
  */
@@ -10,6 +12,9 @@ public class Farmer {
     private String email;
     private String phone;
     private String milkType;
+    private Date updateTime;
+    private String dairyAllocatedId;
+    private String dairyUid;
 
     public String getId() {
         return id;
@@ -49,5 +54,29 @@ public class Farmer {
 
     public void setMilkType(String milkType) {
         this.milkType = milkType;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getDairyAllocatedId() {
+        return dairyAllocatedId;
+    }
+
+    public void setDairyAllocatedId(String dairyAllocatedId) {
+        this.dairyAllocatedId = dairyAllocatedId;
+    }
+
+    public String getDairyUid() {
+        return dairyUid;
+    }
+
+    public void setDairyUid(String dairyUid) {
+        this.dairyUid = dairyUid;
     }
 }
