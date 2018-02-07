@@ -15,6 +15,7 @@ import butterknife.OnClick;
 
 public class MainMenuActivity extends AppCompatActivity {
     private static int MAXIMUM = 50;
+    public final String COLLECT_MILK="milk";
     @BindView(R.id.farmerRegister)
     Button farmerRegister;
     @BindView(R.id.milkCollect)
@@ -91,11 +92,12 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void collectMilk() {
-        startActivity(new Intent(this, DateShiftSelectActivity.class));
+
+        startActivity(new Intent(this, DateShiftSelectActivity.class).putExtra("milkType",COLLECT_MILK));
     }
 
     private void fatEntry() {
-        startActivity(new Intent(this, FatEntryActivity.class));
+        startActivity(new Intent(this, DateShiftSelectActivity.class));
     }
 
     private void paymentReport() {

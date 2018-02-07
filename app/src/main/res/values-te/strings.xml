@@ -26,6 +26,11 @@
     <string name="Next">Next</string>
     <string name="search">Search</string>
     <string name="sample_id">SampleId</string>
+    <string name="find">find</string>
+    <string name="lr">LR</string>
+    <string name="sample_no">SampleNo</string>
+    <string name="snf">SNF</string>
+    <string name="per_ltr_Rate">1ltr Rate</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>

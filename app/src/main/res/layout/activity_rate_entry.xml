@@ -15,7 +15,10 @@
         android:paddingBottom="3dp"
         android:paddingTop="5dp"
         android:theme="@style/AppTheme"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/textView"
@@ -52,32 +55,52 @@
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/fat"
-                style="@style/formFieldsHorizontalFlowStyle"
-                android:hint="@string/fat"
-                android:inputType="number|numberDecimal" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_fat_entry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/rate"
-                style="@style/formFieldsHorizontalFlowStyle"
-                android:layout_marginLeft="0dp"
-                android:hint="@string/rate"
-                android:inputType="number|numberDecimal" />
+                <EditText
+                    android:id="@+id/enter_fat"
+                    style="@style/formFieldsVerticalFlowStyle"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:hint="@string/fat"
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_rate_entry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/rate"
+                    style="@style/formFieldsVerticalFlowStyle"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:hint="@string/rate"
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/next"
+                android:id="@+id/rate_save"
                 style="@style/formButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal|center_vertical|center"
-                android:layout_marginBottom="10dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|center"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:text="@string/save" />
         </LinearLayout>

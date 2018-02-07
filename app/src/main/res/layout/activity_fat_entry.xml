@@ -6,4 +6,172 @@
     android:layout_height="match_parent"
     tools:context="in.boshanam.diarymgmt.FatEntryActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:theme="@style/AppTheme"
+        android:visibility="visible">
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fat_milk_date"
+                style="@style/formFieldsVerticalFlowStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fat_milk_shift"
+                style="@style/formFieldsVerticalFlowStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_sample_id_find"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/fat_sample_id"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/sample_no"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/fat_find"
+                style="@style/formButtonStyle"
+                android:layout_width="0dp"
+                android:layout_gravity="center_horizontal|center_vertical|center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/find" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_fat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/fat"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:hint="@string/fat"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/fat_save"
+                style="@style/formButtonStyle"
+                android:layout_width="0dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_snf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/fat_snf"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="0dp"
+                    android:hint="@string/snf"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_lr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/fat_lr"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:hint="@string/lr"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_rate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/ltr_rate"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:hint="@string/per_ltr_Rate"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
