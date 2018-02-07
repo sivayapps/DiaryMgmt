@@ -16,6 +16,24 @@ public class Rate {
     private float fat;
     private float rate;
     private Date effectiveDate;
+    private Date updateTime;
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getDairyId() {
         return dairyId;
