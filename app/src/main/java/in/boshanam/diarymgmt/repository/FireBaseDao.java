@@ -28,6 +28,8 @@ import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.domain.Farmer;
+import in.boshanam.diarymgmt.domain.Rate;
+import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
 
 /**
@@ -61,34 +63,12 @@ public class FireBaseDao {
         // [END set_firestore_settings]
     }
 
-    public static void onDairyOwnerProfileStatusValidation(FirebaseUser user, final AppCompatActivity activity,
-                                                           final Runnable successCommand, final Runnable failureCommand) {
+    public static void onDairyOwnerProfileStatusValidation(Activity activity, FirebaseUser user,
+                                                           final ListenerAdapter listenerCommand) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = user.getUid();
         DocumentReference dairyOwnerProfileRef = db.collection("DairyOwnerProfile").document(userId);
-        dairyOwnerProfileRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        DairyOwner dairyOwner = document.toObject(DairyOwner.class);
-                        if (StringUtils.isNotBlank(dairyOwner.getDairyName()) && StringUtils.isNotBlank(dairyOwner.getName())) {
-                            Log.d("DEBUG", "Owner Profile Complete - DocumentSnapshot data: " + dairyOwner);
-                            successCommand.run();
-                            return;
-                        }
-                        Log.d("DEBUG", "Owner Profile Not Complete - DocumentSnapshot data: " + dairyOwner);
-                    } else {
-                        Log.d("DEBUG", "Owner Profile not found");
-                    }
-                    failureCommand.run();
-                } else {
-                    Log.d("DEBUG", "get failed with ", task.getException());
-                    Toast.makeText(activity, "Data Retrieval failed with " + task.getException(), Toast.LENGTH_LONG);
-                }
-            }
-        });
+        dairyOwnerProfileRef.get().addOnSuccessListener(listenerCommand).addOnFailureListener(listenerCommand);
     }
 
     public static void findDairyOwner(Activity activity, String dairyOwnerUid,
@@ -160,6 +140,45 @@ public class FireBaseDao {
         farmerRegistrationRef.set(farmer, SetOptions.merge())
                 .addOnSuccessListener(activity, listenerAdapter)
                 .addOnFailureListener(activity, listenerAdapter);
+    }
+
+    public static void saveRate(Activity activity, final Rate rate, ListenerAdapter listenerAdapter) {
+        //TODO revisit method - this is incomplete
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String rateId = rate.getId();
+        DocumentReference farmerRegistrationRef;
+        if (StringUtils.isNotBlank(rateId)) {
+            farmerRegistrationRef = db.collection("Rate")
+                    .document(rateId);
+        } else {
+            Query query = buildRateEntryQuery(rate);
+            query.get().addOnSuccessListener(activity, listenerAdapter)
+                    .addOnFailureListener(activity, listenerAdapter);
+        }
+    }
+
+    private static Query buildRateEntryQuery(Rate rate) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection("Rate")
+                        .whereEqualTo("dairyId", rate.getDairyId())
+                        .whereEqualTo("milkType", rate.getMilkType())
+                        .whereEqualTo("effectiveDate", rate.getEffectiveDate())
+                        .whereGreaterThanOrEqualTo("fat", (rate.getFat() - MathUtil.EPS))
+                        .whereLessThan("fat", (rate.getFat() + MathUtil.EPS))
+                        .orderBy("fat");
+    }
+
+    /**
+     * TODO READ https://firebase.google.com/docs/firestore/query-data/listen
+     * Use snapshot listener to refresh the grid on every update on data in event handler
+     */
+    private static Query buildRateEntriesQuery(String dairyId, String milkType, Date effectiveDate) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection("Rate")
+                        .whereEqualTo("dairyId", dairyId)
+                        .whereEqualTo("milkType", milkType)
+                        .whereEqualTo("effectiveDate", effectiveDate)
+                        .orderBy("fat");
     }
 
     public ListenerRegistration registerSnapshotListener(Activity activity, Query query, EventListener<QuerySnapshot> snapshotEventListener) {
