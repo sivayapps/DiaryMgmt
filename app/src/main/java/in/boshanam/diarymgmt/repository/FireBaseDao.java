@@ -24,6 +24,7 @@ import com.google.firebase.firestore.WriteBatch;
 
 import java.util.Date;
 
+import in.boshanam.diarymgmt.FarmerActivity;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
@@ -36,6 +37,9 @@ import in.boshanam.diarymgmt.util.StringUtils;
  * Created by Siva on 2/2/2018.
  */
 public class FireBaseDao {
+
+    public static final String DAIRY_COLLECTION = "Dairy";
+    public static final String FARMER_COLLECTION = "Farmer";
 
     private FireBaseDao() {
     }
@@ -85,12 +89,7 @@ public class FireBaseDao {
                     listenerCommand.onSuccess(null);
                 }
             }
-        }).addOnFailureListener(activity, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                listenerCommand.onFailure(e);
-            }
-        });
+        }).addOnFailureListener(activity, listenerCommand);
     }
 
 
@@ -105,7 +104,7 @@ public class FireBaseDao {
         DocumentReference dairyRef = null;
 //        Task<Void> dairyAddOrUpdateTask;
         if (StringUtils.isNotBlank(dairyOwner.getDairyId())) {
-            dairyRef = db.collection("Dairy").document(dairyOwner.getDairyId());
+            dairyRef = db.collection(DAIRY_COLLECTION).document(dairyOwner.getDairyId());
 //            dairyAddOrUpdateTask = dairyRef.update("dairyName", dairyOwner.getDairyName());
             batch.update(dairyRef, "dairyName", dairyOwner.getDairyName());
         } else {
@@ -128,15 +127,15 @@ public class FireBaseDao {
     }
 
     public static void saveFarmer(Activity activity, Farmer farmer, ListenerAdapter listenerAdapter) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = farmer.getId();
-        DocumentReference farmerRegistrationRef;
-        if (StringUtils.isNotBlank(userId)) {
-            farmerRegistrationRef = db.collection("Farmer").document(userId);
-        } else {
-            farmerRegistrationRef = db.collection("Farmer").document();
-            farmer.setId(farmerRegistrationRef.getId());
+        String farmerId = farmer.getId();
+        String dairyId = farmer.getDairyId();
+        if(StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
+            throw new IllegalArgumentException("dairyID and FarmerID should not be null");
         }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference farmerRegistrationRef = db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(FARMER_COLLECTION).document(farmerId);
+
         farmerRegistrationRef.set(farmer, SetOptions.merge())
                 .addOnSuccessListener(activity, listenerAdapter)
                 .addOnFailureListener(activity, listenerAdapter);
@@ -190,5 +189,18 @@ public class FireBaseDao {
         // Stop listening to changes
         listenerRegistration.remove();
         ;
+    }
+
+    public static void loadFarmerById(Activity activity, String dairyId, String farmerId, ListenerAdapter<DocumentSnapshot> listenerAdapter) {
+
+        if(StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
+            throw new IllegalArgumentException("dairyID and FarmerID should not be null");
+        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference farmerRegistrationRef = db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(FARMER_COLLECTION).document(farmerId);
+
+        farmerRegistrationRef.get().addOnSuccessListener(activity, listenerAdapter)
+                .addOnFailureListener(activity, listenerAdapter);
     }
 }

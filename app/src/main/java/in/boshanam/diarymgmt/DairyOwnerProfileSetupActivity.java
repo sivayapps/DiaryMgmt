@@ -50,13 +50,13 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
             public void onSuccess(DairyOwner data) {
                 if (data == null) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    String displayName = user.getEmail();
+                    String displayName = user.getDisplayName();
                     String phoneNumberVal = user.getPhoneNumber();
                     if (StringUtils.isNotBlank(displayName)) {
                         ownerName.setText(displayName);
                     }
                     if (StringUtils.isNotBlank(phoneNumberVal)) {
-                        phoneNumber.setText(displayName);
+                        phoneNumber.setText(phoneNumberVal);
                     }
                 } else {
                     if (StringUtils.isNotBlank(data.getName())) {
@@ -64,6 +64,9 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
                     }
                     if (StringUtils.isNotBlank(data.getPhone())) {
                         phoneNumber.setText(data.getPhone());
+                    }
+                    if (StringUtils.isNotBlank(data.getDairyName())) {
+                        dairyName.setText(data.getDairyName());
                     }
                     //TODO set remaining UI fields
                     //TODO MUST SET DAIRY_ID if not null in DairyOwner object from DB
@@ -73,8 +76,9 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Exception data) {
+            public void onFailure(Exception e) {
                 //TODO handle error politely
+                Toast.makeText(DairyOwnerProfileSetupActivity.this, "Data Retrieval failed with " + e.getLocalizedMessage(), Toast.LENGTH_LONG);
                 findViewById(R.id.dairy_owner_profile_loadingProgressPanel).setVisibility(View.GONE);
             }
         });

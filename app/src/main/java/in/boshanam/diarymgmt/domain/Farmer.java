@@ -11,10 +11,9 @@ public class Farmer {
     private String name;
     private String email;
     private String phone;
-    private String milkType;
+    private MilkType milkType;
     private Date updateTime;
-    private String dairyAllocatedId;
-    private String dairyUid;
+    private String dairyId;
 
     public String getId() {
         return id;
@@ -48,11 +47,11 @@ public class Farmer {
         this.phone = phone;
     }
 
-    public String getMilkType() {
+    public MilkType getMilkType() {
         return milkType;
     }
 
-    public void setMilkType(String milkType) {
+    public void setMilkType(MilkType milkType) {
         this.milkType = milkType;
     }
 
@@ -64,19 +63,11 @@ public class Farmer {
         this.updateTime = updateTime;
     }
 
-    public String getDairyAllocatedId() {
-        return dairyAllocatedId;
+    public String getDairyId() {
+        return dairyId;
     }
 
-    public void setDairyAllocatedId(String dairyAllocatedId) {
-        this.dairyAllocatedId = dairyAllocatedId;
-    }
-
-    public String getDairyUid() {
-        return dairyUid;
-    }
-
-    public void setDairyUid(String dairyUid) {
-        this.dairyUid = dairyUid;
+    public void setDairyId(String dairyId) {
+        this.dairyId = dairyId;
     }
 }

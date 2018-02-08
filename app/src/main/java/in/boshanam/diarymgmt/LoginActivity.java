@@ -1,6 +1,7 @@
 package in.boshanam.diarymgmt;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,10 @@ import java.util.List;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.util.AppConstants;
 import in.boshanam.diarymgmt.util.StringUtils;
+
+import static in.boshanam.diarymgmt.util.AppConstants.DAIRY_ID_KEY;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -110,8 +114,13 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot document) {
                     if (document != null && document.exists()) {
                         DairyOwner dairyOwner = document.toObject(DairyOwner.class);
-                        if (StringUtils.isNotBlank(dairyOwner.getDairyName()) && StringUtils.isNotBlank(dairyOwner.getName())) {
+                        if (StringUtils.isNotBlank(dairyOwner.getDairyName()) && StringUtils.isNotBlank(dairyOwner.getName())
+                                && StringUtils.isNotBlank(dairyOwner.getDairyId())) {
                             Log.d("DEBUG", "Owner Profile Complete - DocumentSnapshot data: " + dairyOwner);
+                            SharedPreferences sharedPreferences = getSharedPreferences(AppConstants.DAIRY_PREFERENCES_FILE_NAME, MODE_PRIVATE);
+                            SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+                            sharedPreferencesEditor.putString(DAIRY_ID_KEY, dairyOwner.getDairyId());
+                            sharedPreferencesEditor.commit();
                             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                             startActivity(intent);
                             return;
