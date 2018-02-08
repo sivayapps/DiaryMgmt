@@ -75,8 +75,9 @@ public class FarmerActivity extends AppCompatActivity {
                         if(farmer.getMilkType() != null) {
                             UIHelper.setSpinnerSelection(milkType, farmer.getMilkType().getIndex());
                         }
+                    } else {
+                        farmerName.setText("");
                     }
-                    farmerName.setText("");
                     findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
                 }
 
@@ -84,6 +85,8 @@ public class FarmerActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(getApplicationContext(), "Failed to load Farmer, please retry.", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Failed to load Farmer", e);
+                    farmerName.setText("");
+                    findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
                 }
 
             });
