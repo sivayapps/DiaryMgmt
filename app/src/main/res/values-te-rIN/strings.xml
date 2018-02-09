@@ -22,6 +22,7 @@
     <string name="rate">ధర</string>
     <string name="next">తరువాత</string>
     <string name="finish">ముగించు</string>
+    <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>
