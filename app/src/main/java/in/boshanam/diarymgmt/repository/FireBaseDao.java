@@ -2,12 +2,7 @@ package in.boshanam.diarymgmt.repository;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,7 +10,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -25,7 +19,6 @@ import com.google.firebase.firestore.WriteBatch;
 
 import java.util.Date;
 
-import in.boshanam.diarymgmt.FarmerActivity;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
@@ -127,11 +120,15 @@ public class FireBaseDao {
                 .addOnFailureListener(activity, listenerCommand);
     }
 
-    public static void startFarmerListingQuerySnapshot(Activity activity, String dairyId,
-                                                       EventListener<QuerySnapshot> snapshotEventListener) {
+    public static ListenerRegistration registerQuerySnapshotListener(Activity activity, Query query, EventListener<QuerySnapshot> snapshotEventListener) {
+        return query.addSnapshotListener(activity, snapshotEventListener);
+    }
+
+    @NonNull
+    public static Query buildAllFarmersQuery(String dairyId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DAIRY_COLLECTION).document(dairyId)
-                .collection(FARMER_COLLECTION).addSnapshotListener(activity, snapshotEventListener);
+        return db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(FARMER_COLLECTION);
     }
 
     public static void saveFarmer(Activity activity, Farmer farmer, ListenerAdapter listenerAdapter) {

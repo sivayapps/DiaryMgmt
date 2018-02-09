@@ -10,16 +10,20 @@ public interface FarmerConstants {
     int FARMER_NAME_COL_HEADER_KEY = R.string.farmer_name_col_header_key;
     int FARMER_MILK_TYPE_COL_HEADER_KEY = AppConstants.MILK_TYPE_COL_HEADER_KEY;
 
-    enum FarmerDataGrid {
+    enum FarmerDataGrid implements GridBaseEnum {
 
-        NO(FARMER_ID_COL_HEADER_KEY, "id"), NAME(FARMER_NAME_COL_HEADER_KEY, "name"), MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType");
+        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER),
+        NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING),
+        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING);
 
         private int columnHeader;
         private String fieldName;
+        private GridColumnType columnType;
 
-        FarmerDataGrid(int columnHeader, String fieldName) {
+        FarmerDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
+            this.columnType = columnType;
         }
 
         public int getColumnHeader() {
@@ -30,12 +34,8 @@ public interface FarmerConstants {
             return fieldName;
         }
 
-        public static int[] getHeaders() {
-            int[] headers = new int[values().length];
-            for (FarmerDataGrid farmerDataGrid : values()) {
-                headers[farmerDataGrid.ordinal()] = farmerDataGrid.getColumnHeader();
-            }
-            return headers;
+        public GridColumnType getColumnType() {
+            return columnType;
         }
     }
 }

@@ -81,7 +81,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/register" />
 
-        <de.codecrafters.tableview.TableView
+        <de.codecrafters.tableview.SortableTableView
             xmlns:table="http://schemas.android.com/apk/res-auto"
             android:id="@+id/farmerListingTableView"
 

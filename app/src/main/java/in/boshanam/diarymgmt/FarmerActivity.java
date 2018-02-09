@@ -12,27 +12,21 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import de.codecrafters.tableview.SortableTableView;
+import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.FarmerConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
-import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
@@ -49,9 +43,11 @@ public class FarmerActivity extends AppCompatActivity {
     Button register;
 
     @BindView(R.id.farmerListingTableView)
-    TableView<String[]> farmerListingTableView;
+    SortableTableView<String[]> farmerListingTableView;
 
     private String id;
+
+    private ListenerRegistration listenerRegistration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,34 +56,8 @@ public class FarmerActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
-        final int columnCount = FarmerConstants.FarmerDataGrid.values().length;
-        farmerListingTableView.setColumnCount(columnCount);
-        SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(this,
-                FarmerConstants.FarmerDataGrid.getHeaders());
-        headerAdapter.setTextColor(getResources().getColor(R.color.textColorPrimary));
-        farmerListingTableView.setHeaderAdapter(headerAdapter);
-        FireBaseDao.startFarmerListingQuerySnapshot(this, dairyId, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "listen:error", e);
-                    Toast.makeText(getApplicationContext(), "Failed loading Farmers-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                List<String[]> rows = new ArrayList<>();
-                String[] row = null;
-                for (DocumentSnapshot dc : documentSnapshots.getDocuments()) {
-                    row = new String[columnCount];
-                    rows.add(row);
-                    for (FarmerConstants.FarmerDataGrid farmerDataGrid : FarmerConstants.FarmerDataGrid.values()) {
-                        row[farmerDataGrid.ordinal()] = dc.getString(farmerDataGrid.getFieldName());
-                    }
-                }
-                SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(FarmerActivity.this, rows);
-                dataAdapter.setTextColor(getResources().getColor(R.color.textColorPrimary));
-                farmerListingTableView.setDataAdapter(dataAdapter);
-            }
-        });
+        listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerListingTableView,
+                FarmerConstants.FarmerDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId));
     }
 
     @OnClick(R.id.register)
@@ -103,18 +73,18 @@ public class FarmerActivity extends AppCompatActivity {
         Toast.makeText(this, focused ? "Gained focus" : "Lost focus", Toast.LENGTH_SHORT).show();
         String farmerID = farmerId.getText().toString();
         String dairyId = getDairyID();
-        if(StringUtils.isNotBlank(farmerID) && StringUtils.isNotBlank(dairyId)) {
+        if (StringUtils.isNotBlank(farmerID) && StringUtils.isNotBlank(dairyId)) {
             findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.VISIBLE);
             FireBaseDao.loadFarmerById(this, dairyId, farmerID, new ListenerAdapter<DocumentSnapshot>() {
 
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if(documentSnapshot != null && documentSnapshot.exists()) {
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
                         Farmer farmer = documentSnapshot.toObject(Farmer.class);
-                        if(StringUtils.isNotBlank(farmer.getName())) {
+                        if (StringUtils.isNotBlank(farmer.getName())) {
                             farmerName.setText(farmer.getName());
                         }
-                        if(farmer.getMilkType() != null) {
+                        if (farmer.getMilkType() != null) {
                             UIHelper.setSpinnerSelection(milkType, farmer.getMilkType().getIndex());
                         }
                     } else {
@@ -147,7 +117,7 @@ public class FarmerActivity extends AppCompatActivity {
         farmer.setDairyId(dairyId);
         farmer.setId(farmerId.getText().toString());
         farmer.setName(farmerName.getText().toString());
-        if(milkType.getSelectedItemPosition() >= 0) {
+        if (milkType.getSelectedItemPosition() >= 0) {
             farmer.setMilkType(MilkType.getMilkTypeForIndex(milkType.getSelectedItemPosition()));
         }
         findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.VISIBLE);
@@ -197,5 +167,14 @@ public class FarmerActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+            listenerRegistration = null;
+        }
     }
 }
