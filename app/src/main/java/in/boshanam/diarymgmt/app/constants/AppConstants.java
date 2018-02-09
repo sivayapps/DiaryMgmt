@@ -1,4 +1,4 @@
-package in.boshanam.diarymgmt.util;
+package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
 

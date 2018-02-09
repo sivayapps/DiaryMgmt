@@ -23,10 +23,10 @@ import java.util.List;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
-import in.boshanam.diarymgmt.util.AppConstants;
+import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.util.StringUtils;
 
-import static in.boshanam.diarymgmt.util.AppConstants.DAIRY_ID_KEY;
+import static in.boshanam.diarymgmt.app.constants.AppConstants.DAIRY_ID_KEY;
 
 public class LoginActivity extends AppCompatActivity {
 

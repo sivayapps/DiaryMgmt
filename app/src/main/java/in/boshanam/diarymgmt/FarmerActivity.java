@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -32,7 +31,7 @@ import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
-import in.boshanam.diarymgmt.util.AppConstants;
+import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
