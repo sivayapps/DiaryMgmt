@@ -64,7 +64,7 @@ public class FarmerActivity extends AppCompatActivity {
         farmerListingTableView.setColumnCount(columnCount);
         SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(this,
                 AppConstants.FarmerConstants.FarmerDataGrid.getHeaders());
-//        headerAdapter.setTextColor(R.color.textColorPrimary); // TODO set white color
+        headerAdapter.setTextColor(getResources().getColor(R.color.textColorPrimary));
         farmerListingTableView.setHeaderAdapter(headerAdapter);
         FireBaseDao.startFarmerListingQuerySnapshot(this, dairyId, new EventListener<QuerySnapshot>() {
             @Override
@@ -84,7 +84,7 @@ public class FarmerActivity extends AppCompatActivity {
                     }
                 }
                 SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(FarmerActivity.this, rows);
-//                dataAdapter.setTextColor(R.color.textColorPrimary); TODO set white color
+                dataAdapter.setTextColor(getResources().getColor(R.color.textColorPrimary));
                 farmerListingTableView.setDataAdapter(dataAdapter);
             }
         });
