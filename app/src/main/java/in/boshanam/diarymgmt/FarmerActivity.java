@@ -27,6 +27,7 @@ import butterknife.OnFocusChange;
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import in.boshanam.diarymgmt.app.constants.FarmerConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
@@ -59,10 +60,10 @@ public class FarmerActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
-        final int columnCount = AppConstants.FarmerConstants.FarmerDataGrid.values().length;
+        final int columnCount = FarmerConstants.FarmerDataGrid.values().length;
         farmerListingTableView.setColumnCount(columnCount);
         SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(this,
-                AppConstants.FarmerConstants.FarmerDataGrid.getHeaders());
+                FarmerConstants.FarmerDataGrid.getHeaders());
         headerAdapter.setTextColor(getResources().getColor(R.color.textColorPrimary));
         farmerListingTableView.setHeaderAdapter(headerAdapter);
         FireBaseDao.startFarmerListingQuerySnapshot(this, dairyId, new EventListener<QuerySnapshot>() {
@@ -78,7 +79,7 @@ public class FarmerActivity extends AppCompatActivity {
                 for (DocumentSnapshot dc : documentSnapshots.getDocuments()) {
                     row = new String[columnCount];
                     rows.add(row);
-                    for (AppConstants.FarmerConstants.FarmerDataGrid farmerDataGrid : AppConstants.FarmerConstants.FarmerDataGrid.values()) {
+                    for (FarmerConstants.FarmerDataGrid farmerDataGrid : FarmerConstants.FarmerDataGrid.values()) {
                         row[farmerDataGrid.ordinal()] = dc.getString(farmerDataGrid.getFieldName());
                     }
                 }
