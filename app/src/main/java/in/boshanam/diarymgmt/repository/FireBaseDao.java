@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -124,6 +125,13 @@ public class FireBaseDao {
 
         batch.commit().addOnSuccessListener(activity, listenerCommand)
                 .addOnFailureListener(activity, listenerCommand);
+    }
+
+    public static void startFarmerListingQuerySnapshot(Activity activity, String dairyId,
+                                                       EventListener<QuerySnapshot> snapshotEventListener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(FARMER_COLLECTION).addSnapshotListener(activity, snapshotEventListener);
     }
 
     public static void saveFarmer(Activity activity, Farmer farmer, ListenerAdapter listenerAdapter) {

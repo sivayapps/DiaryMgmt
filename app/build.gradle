@@ -32,5 +32,6 @@ dependencies {
     // ButterKnife (for code brevity)
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'de.codecrafters.tableview:tableview:2.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -11,14 +11,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
@@ -38,6 +47,10 @@ public class FarmerActivity extends AppCompatActivity {
     Spinner milkType;
     @BindView(R.id.register)
     Button register;
+
+    @BindView(R.id.farmerListingTableView)
+    TableView<String[]> farmerListingTableView;
+
     private String id;
 
     @Override
@@ -46,6 +59,35 @@ public class FarmerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_farmer);
         ButterKnife.bind(this);
         //TODO generate next available ID for farmer
+        String dairyId = getDairyID();
+        final int columnCount = AppConstants.FarmerConstants.FarmerDataGrid.values().length;
+        farmerListingTableView.setColumnCount(columnCount);
+        SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(this,
+                AppConstants.FarmerConstants.FarmerDataGrid.getHeaders());
+//        headerAdapter.setTextColor(R.color.textColorPrimary); // TODO set white color
+        farmerListingTableView.setHeaderAdapter(headerAdapter);
+        FireBaseDao.startFarmerListingQuerySnapshot(this, dairyId, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e);
+                    Toast.makeText(getApplicationContext(), "Failed loading Farmers-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                List<String[]> rows = new ArrayList<>();
+                String[] row = null;
+                for (DocumentSnapshot dc : documentSnapshots.getDocuments()) {
+                    row = new String[columnCount];
+                    rows.add(row);
+                    for (AppConstants.FarmerConstants.FarmerDataGrid farmerDataGrid : AppConstants.FarmerConstants.FarmerDataGrid.values()) {
+                        row[farmerDataGrid.ordinal()] = dc.getString(farmerDataGrid.getFieldName());
+                    }
+                }
+                SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(FarmerActivity.this, rows);
+//                dataAdapter.setTextColor(R.color.textColorPrimary); TODO set white color
+                farmerListingTableView.setDataAdapter(dataAdapter);
+            }
+        });
     }
 
     @OnClick(R.id.register)
