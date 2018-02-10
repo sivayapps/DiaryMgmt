@@ -12,9 +12,9 @@ import java.util.Date;
 public class Rate {
     private String id;
     private String dairyId;
-    private String milkType;
+    private MilkType milkType;
     private float fat;
-    private float rate;
+    private float price;
     private Date effectiveDate;
     private Date updateTime;
     private boolean active;
@@ -59,11 +59,11 @@ public class Rate {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getMilkType() {
+    public MilkType getMilkType() {
         return milkType;
     }
 
-    public void setMilkType(String milkType) {
+    public void setMilkType(MilkType milkType) {
         this.milkType = milkType;
     }
 
@@ -75,12 +75,12 @@ public class Rate {
         this.fat = fat;
     }
 
-    public float getRate() {
-        return rate;
+    public float getPrice() {
+        return price;
     }
 
-    public void setRate(float rate) {
-        this.rate = rate;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
 
