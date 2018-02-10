@@ -31,6 +31,7 @@
     <string name="sample_no">SampleNo</string>
     <string name="snf">SNF</string>
     <string name="per_ltr_Rate">1ltr Rate</string>
+    <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>
