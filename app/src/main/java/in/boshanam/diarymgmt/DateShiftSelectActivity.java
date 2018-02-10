@@ -63,7 +63,7 @@ public class DateShiftSelectActivity extends AppCompatActivity {
 
     private void updateDateDisplay() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month + 1, dayOfMonth);
+        calendar.set(year, month, dayOfMonth);
         date.setText(simpleDateFormat.format(calendar.getTime()));
         date.setInputType(InputType.TYPE_NULL);
     }
