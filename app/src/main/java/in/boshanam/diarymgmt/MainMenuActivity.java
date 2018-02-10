@@ -3,6 +3,7 @@ package in.boshanam.diarymgmt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -34,10 +35,16 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         random = new Random();
-        id = new HashSet<Integer>();
+        id = new HashSet<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @OnClick(R.id.farmerRegister)
