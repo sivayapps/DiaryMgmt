@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    android:visibility="visible"
     tools:context="in.boshanam.diarymgmt.CollectMilkActivity">
 
     <LinearLayout
@@ -52,8 +54,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="normal"
+            android:textColor="@color/colorAccent"
             android:text="@string/fat_rates_missing_for_selected_date"
             android:visibility="gone"
             />
@@ -74,7 +76,7 @@
                 android:layout_weight="2">
 
                 <EditText
-                    android:id="@+id/register_farmer_id"
+                    android:id="@+id/registered_farmer_id"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
                     android:hint="@string/farmer_id"
@@ -83,7 +85,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/find_farmer_milk"
+                android:id="@+id/find_farmer_button_id"
                 style="@style/formButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -111,7 +113,7 @@
                 android:layout_weight="1">
 
                 <EditText
-                    android:id="@+id/farmer_sample_id"
+                    android:id="@+id/farmer_milk_sample_id"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
                     android:layout_marginEnd="5dp"
@@ -128,11 +130,28 @@
                 android:layout_weight="1">
 
                 <EditText
-                    android:id="@+id/collect_farmer_milk"
+                    android:id="@+id/collect_milk_form_quantity_field_id"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
                     android:layout_marginStart="5dp"
-                    android:hint="@string/collect_milk"
+                    android:hint="@string/milk_volume"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/input_layout_collect_milk_fat_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/collect_milk_form_fat_field_id"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:hint="@string/fat"
                     android:inputType="number|numberDecimal"
                     android:textSize="20sp" />
             </android.support.design.widget.TextInputLayout>

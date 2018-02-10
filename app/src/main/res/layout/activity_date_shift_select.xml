@@ -25,22 +25,14 @@
             android:textSize="30sp"
             android:inputType="text" />
 
-        <TextView
-            android:id="@+id/selectPrompt"
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="15dp"
-            android:gravity="bottom"
-            android:text="@string/shift_prompt"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <Spinner
             android:id="@+id/collect_select_shift"
             style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
             android:entries="@array/shift"
             android:focusable="false"
-            android:layout_marginBottom="20dp"/>
+            />
 
         <Button
             android:id="@+id/collect_milk_next"
