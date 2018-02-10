@@ -23,6 +23,8 @@
     <string name="next">తరువాత</string>
     <string name="finish">ముగించు</string>
     <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
+    <string name="predict_next_fat_vlue">PredictNextFatValue</string>
+    <string name="redict_next_rate_value">PredictNextRateValue</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>

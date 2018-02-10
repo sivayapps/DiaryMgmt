@@ -45,12 +45,12 @@
     <string name="shift_prompt">Select Shift</string>
     <string name="Next">Next</string>
     <string-array name="milk_type">
-        <item>Bufflo</item>
-        <item>Cow</item>
+        <item>BUFFALO</item>
+        <item>COW</item>
     </string-array>
     <string-array name="shift">
-        <item>Morning</item>
-        <item>Afternoon</item>
+        <item>MORNING</item>
+        <item>EVENING</item>
     </string-array>
     <string name="title_activity_collect_milk_init">CollectMilkInitActivity</string>
     <string name="search">Search</string>
@@ -60,6 +60,7 @@
     <string name="sample_no">SampleNo</string>
     <string name="snf">SNF</string>
     <string name="per_ltr_Rate">1ltr Rate</string>
-    <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
+    <string name="predict_next_fat_vlue">PredictNextFatValue</string>
+    <string name="redict_next_rate_value">PredictNextRateValue</string>
 
 </resources>
