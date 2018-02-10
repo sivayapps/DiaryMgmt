@@ -59,19 +59,11 @@
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="0dp"
-            android:gravity="bottom"
-            android:text="@string/milk_prompt"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <Spinner
             android:id="@+id/milkType"
             style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
             android:entries="@array/milk_type" />
 
         <Button

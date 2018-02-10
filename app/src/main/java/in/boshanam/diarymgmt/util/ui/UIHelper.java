@@ -85,7 +85,7 @@ public class UIHelper {
                     row = new String[columnCount];
                     rows.add(row);
                     for (E columnDef : enumConstants) {
-                        row[columnDef.ordinal()] = dc.getString(columnDef.getFieldName());
+                        row[columnDef.ordinal()] = String.valueOf(dc.get(columnDef.getFieldName()));
                     }
                 }
                 SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(context, rows);

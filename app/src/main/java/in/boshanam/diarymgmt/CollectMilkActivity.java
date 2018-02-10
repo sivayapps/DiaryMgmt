@@ -2,7 +2,7 @@ package in.boshanam.diarymgmt;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,19 +11,20 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.boshanam.diarymgmt.util.StringUtils;
 
-public class CollectMilkActivity extends Activity {
+public class CollectMilkActivity extends AppCompatActivity {
     @BindView(R.id.collect_milk_date)
     TextView dateView;
     @BindView(R.id.collect_milk_shift)
     TextView shiftView;
-    @BindView(R.id.register_farmer_id)
+    @BindView(R.id.registered_farmer_id)
     EditText registerFormerId;
-    @BindView(R.id.farmer_sample_id)
+    @BindView(R.id.farmer_milk_sample_id)
     EditText farmerSampleId;
-    @BindView(R.id.collect_farmer_milk)
+    @BindView(R.id.collect_milk_form_quantity_field_id)
     EditText collectMilk;
-    @BindView(R.id.find_farmer_milk)
+    @BindView(R.id.find_farmer_button_id)
     Button findFarmerMilk;
     @BindView(R.id.collect_milk_save)
     Button saveMilk;
@@ -45,7 +46,7 @@ public class CollectMilkActivity extends Activity {
         shiftView.setText(shift);
     }
 
-    @OnClick(R.id.find_farmer_milk)
+    @OnClick(R.id.find_farmer_button_id)
     public void getMilk() {
         if (findValidate()) {
 
@@ -60,7 +61,7 @@ public class CollectMilkActivity extends Activity {
     }
 
     private boolean findValidate() {
-        if (registerFormerId.getText().toString().trim().length() == 0) {
+        if (StringUtils.isBlank(registerFormerId.getText().toString())) {
             Toast.makeText(this, "pls fill the empty farmer id", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -68,8 +69,9 @@ public class CollectMilkActivity extends Activity {
     }
 
     private boolean saveValidate() {
-        if (registerFormerId.getText().toString().trim().length() == 0 || farmerSampleId.getText().toString().trim().length() == 0 ||
-                collectMilk.getText().toString().trim().length() == 0) {
+        if (StringUtils.isBlank(registerFormerId.getText().toString())
+                || StringUtils.isBlank(farmerSampleId.getText().toString())
+                || StringUtils.isBlank(collectMilk.getText().toString())) {
             Toast.makeText(this, "pls fill the empty Field", Toast.LENGTH_SHORT).show();
             return false;
         }

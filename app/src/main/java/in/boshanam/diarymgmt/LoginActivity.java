@@ -33,13 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     public static final String TAG = "LoginActivity";
 
-
-    // Choose authentication providers
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build());
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +51,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginOrRegister() {
         // No user is signed in
+
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+//                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
         Toast.makeText(this, "Not signed in, now signing-in ", Toast.LENGTH_LONG).show();
         startActivityForResult(
                 AuthUI.getInstance()
@@ -105,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkDairyOwnerProfileAndProceed() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Toast.makeText(this, "Successfully signed in", Toast.LENGTH_LONG).show();
+        Log.d(TAG,"Successfully signed in");
         if (user != null) {
             // Access a Cloud Firestore instance from your Activity
             FireBaseDao.onDairyOwnerProfileStatusValidation(this, user, new ListenerAdapter<DocumentSnapshot>() {
@@ -125,9 +124,9 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             return;
                         }
-                        Log.d("DEBUG", "Owner Profile Not Complete - DocumentSnapshot data: " + dairyOwner);
+                        Log.d(TAG, "Owner Profile Not Complete - DocumentSnapshot data: " + dairyOwner);
                     } else {
-                        Log.d("DEBUG", "Owner Profile not found");
+                        Log.d(TAG, "Owner Profile not found");
                     }
                     Intent intent = new Intent(LoginActivity.this, DairyOwnerProfileSetupActivity.class);
                     startActivity(intent);

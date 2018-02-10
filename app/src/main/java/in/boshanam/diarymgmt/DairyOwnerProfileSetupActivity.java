@@ -22,8 +22,6 @@ import in.boshanam.diarymgmt.util.StringUtils;
 
 public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
 
-    private static final String MOBILE_PATTERN = "[0-9]{10}";
-
     @BindView(R.id.dairy_name)
     EditText dairyName;
     @BindView(R.id.owner_name)
@@ -116,14 +114,10 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        if (dairyName.getText().length() > 25 || ownerName.getText().length() > 25) {
-            Toast.makeText(this, "pls enter less the 25 character in dairy name or owner name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (dairyName.getText().toString().trim().length() == 0 || ownerName.getText().toString().trim().length() == 0 || phoneNumber.length() == 0) {
-            Toast.makeText(this, "pls fill the empty fields", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (!phoneNumber.getText().toString().matches(MOBILE_PATTERN)) {
-            Toast.makeText(this, "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
+        if (StringUtils.isBlank(dairyName.getText().toString())
+                || StringUtils.isBlank(ownerName.getText().toString())
+                || StringUtils.isBlank(phoneNumber.getText().toString())) {
+            Toast.makeText(this, R.string.user_input_blank_error_msg, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
