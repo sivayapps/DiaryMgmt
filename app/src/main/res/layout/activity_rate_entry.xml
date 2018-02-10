@@ -16,6 +16,18 @@
         android:paddingTop="1dp"
         android:theme="@style/AppTheme"
         android:visibility="visible">
+        <RelativeLayout
+            android:id="@+id/rate_loadingProgressPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/effective_date"
