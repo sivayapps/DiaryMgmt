@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to Rate  -->
+    <string name="rate_date_col_header_key">Date</string>
+    <string name="rate_price_col_header_key">Price</string>
+    <string name="rate_fat_col_header_key">Fat</string>
+</resources>
