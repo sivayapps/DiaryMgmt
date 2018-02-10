@@ -21,13 +21,14 @@
             android:id="@+id/date"
             style="@style/formFieldsVerticalFlowStyle"
             android:focusable="false"
-            android:hint="dd/mm/yyyy"
+            android:layout_height="70dp"
+            android:textSize="30sp"
             android:inputType="text" />
 
         <TextView
             android:id="@+id/selectPrompt"
             style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="15dp"
             android:gravity="bottom"
             android:text="@string/shift_prompt"
             android:textSize="20sp"
@@ -38,7 +39,8 @@
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_marginTop="0dp"
             android:entries="@array/shift"
-            android:focusable="false" />
+            android:focusable="false"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/collect_milk_next"

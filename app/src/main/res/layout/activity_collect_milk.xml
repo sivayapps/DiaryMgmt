@@ -19,7 +19,7 @@
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal">
@@ -28,7 +28,7 @@
                 android:id="@+id/collect_milk_date"
                 style="@style/formFieldsVerticalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="0dp"
+                android:layout_marginEnd="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="20sp"
@@ -38,7 +38,7 @@
                 android:id="@+id/collect_milk_shift"
                 style="@style/formFieldsVerticalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="20sp"
@@ -76,7 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical|center"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_weight="1"
                 android:text="@string/find"
                 android:textSize="20sp" />
@@ -86,7 +86,7 @@
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal">
 
@@ -101,7 +101,7 @@
                     android:id="@+id/farmer_sample_id"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:hint="@string/sample_id"
                     android:inputType="number"
                     android:textSize="20sp" />
@@ -118,7 +118,7 @@
                     android:id="@+id/collect_farmer_milk"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:hint="@string/collect_milk"
                     android:inputType="number|numberDecimal"
                     android:textSize="20sp" />
@@ -130,10 +130,17 @@
                 android:layout_width="0dp"
                 android:layout_gravity="center_horizontal|center_vertical|center"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/save" />
         </LinearLayout>
+
+        <de.codecrafters.tableview.SortableTableView
+            xmlns:table="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/milkListingTableView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            table:tableView_headerColor="@color/colorPrimary" />
     </LinearLayout>
 
 
