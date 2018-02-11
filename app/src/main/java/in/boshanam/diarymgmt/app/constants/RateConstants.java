@@ -18,8 +18,8 @@ public interface RateConstants {
     enum RateDataGrid implements GridBaseEnum {
         DATE(RATE_DATE_COL_HEADER_KEY,"effectiveDate",GridColumnType.DATE),
         MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING),
-        FAT(RATE_FAT_COL_HEADER_KEY , "fat", GridColumnType.FLOAT),
-        PRICE(RATE_PRICE_COL_HEADER_KEY, "price", GridColumnType.FLOAT);
+        FAT(RATE_FAT_COL_HEADER_KEY , "fat", GridColumnType.NUMBER),
+        PRICE(RATE_PRICE_COL_HEADER_KEY, "price", GridColumnType.NUMBER);
 
         private int columnHeader;
         private String fieldName;
