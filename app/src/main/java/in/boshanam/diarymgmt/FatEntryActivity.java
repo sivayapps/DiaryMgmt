@@ -1,31 +1,22 @@
 package in.boshanam.diarymgmt;
 
 import android.content.Intent;
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import in.boshanam.diarymgmt.domain.Fat;
-import in.boshanam.diarymgmt.domain.Milk;
 
 public class FatEntryActivity extends AppCompatActivity {
     @BindView(R.id.fat_milk_date)
