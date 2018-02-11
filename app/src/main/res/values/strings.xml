@@ -65,5 +65,15 @@
     <string name="predict_next_fat_vlue">PredictNextFatValue</string>
     <string name="redict_next_rate_value">PredictNextRateValue</string>
     <string name="user_input_blank_error_msg">please fill empty fields</string>
+    <string name="total_farmer_report">Total Farmer Reports</string>
+    <string name="selected_farmer_report">Selected Farmer Report</string>
+    <string name="title_activity_payment_reports_dates">PaymentReportsDatesActivity</string>
+    <string name="farmer_reports">Farmer Reports</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="Retrive">farmer_report_retrive</string>
+    <string name="farmer_payment_retrive">Retrive</string>
+    <string name="logout">logout</string>
+    <string name="rate_register">Rate Register</string>
 
 </resources>

@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
-    private void logoutUser() {
+    public void logoutUser() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

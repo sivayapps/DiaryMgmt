@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name=".RateEntryActivity"
-            android:label="@string/farmer_register"
+            android:label="@string/rate_register"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -80,6 +80,14 @@
         <activity
             android:name=".PaymentReportActivity"
             android:label="@string/payment_reports"
+            android:parentActivityName=".MainMenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainMenuActivity" />
+        </activity>
+        <activity
+            android:name=".FarmerReportActivity"
+            android:label="@string/title_activity_payment_reports_dates"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

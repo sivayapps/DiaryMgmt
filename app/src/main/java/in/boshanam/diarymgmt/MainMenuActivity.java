@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class MainMenuActivity extends AppCompatActivity {
     Button rateEntry;
     @BindView(R.id.paymentReport)
     Button paymentEntry;
+    @BindView(R.id.farmerReport)
+    Button farmerReport;
 
     private Random random;
     private HashSet<Integer> id;
@@ -43,8 +46,19 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            LoginActivity loginActivity = new LoginActivity();
+            loginActivity.logoutUser();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.farmerRegister)
@@ -75,6 +89,8 @@ public class MainMenuActivity extends AppCompatActivity {
         paymentReport();
     }
 
+    @OnClick(R.id.farmerReport)
+    public void getFarmerReports(){ farmerReport();}
 
     private void generateID() {
         genNextId = random.nextInt(MAXIMUM);
@@ -108,7 +124,10 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void paymentReport() {
-        startActivity(new Intent(this, FatEntryActivity.class));
+
+    }
+    private void farmerReport() {
+
     }
 }
 

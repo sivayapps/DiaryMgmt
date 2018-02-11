@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.boshanam.diarymgmt.MainMenuActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +30,7 @@
         <Button
             android:id="@+id/fatEntry"
             style="@style/mainMenuButtonStyle"
-            android:text="@string/fat_entry"/>
+            android:text="@string/fat_entry" />
 
         <Button
             android:id="@+id/rateEntry"
@@ -41,8 +42,12 @@
             style="@style/mainMenuButtonStyle"
             android:text="@string/payment_reports" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/farmerReport"
+            style="@style/mainMenuButtonStyle"
+            android:text="@string/farmer_reports" />
 
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -5,5 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.boshanam.diarymgmt.PaymentReportActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:theme="@style/AppTheme"
+        android:visibility="visible">
+    <LinearLayout
+        style="@style/formFieldsVerticalFlowStyle"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal|center"
+        android:orientation="horizontal">
+        <EditText
+                android:id="@+id/payment_from_date"
+                style="@style/formFieldsHorizontalFlowStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:inputType="date"
+                android:hint="@string/from_date"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/payment_to_date"
+            style="@style/formFieldsHorizontalFlowStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:inputType="date"
+            android:hint="@string/to_date"
+            android:textSize="20sp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/farmer_payment_retrive"
+            style="@style/formButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:layout_marginBottom="0dp"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:text="@string/farmer_payment_retrive" />
+    </LinearLayout>
+        <de.codecrafters.tableview.SortableTableView
+            xmlns:table="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/milkListingTableView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            table:tableView_headerColor="@color/colorPrimary" />
+    </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>
