@@ -17,14 +17,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
+import in.boshanam.diarymgmt.RateEntryActivity;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.domain.Farmer;
+import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
-import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
 
 /**
@@ -34,6 +38,8 @@ public class FireBaseDao {
 
     public static final String DAIRY_COLLECTION = "Dairy";
     public static final String FARMER_COLLECTION = "Farmer";
+    public static final String RATE_COLLECTION = "Rate";
+
 
     private FireBaseDao() {
     }
@@ -131,10 +137,17 @@ public class FireBaseDao {
                 .collection(FARMER_COLLECTION);
     }
 
+    @NonNull
+    public static Query buildRateQuery(String dairyId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(RATE_COLLECTION);
+    }
+
     public static void saveFarmer(Activity activity, Farmer farmer, ListenerAdapter listenerAdapter) {
         String farmerId = farmer.getId();
         String dairyId = farmer.getDairyId();
-        if(StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
+        if (StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
             throw new IllegalArgumentException("dairyID and FarmerID should not be null");
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -146,30 +159,30 @@ public class FireBaseDao {
                 .addOnFailureListener(activity, listenerAdapter);
     }
 
-    public static void saveRate(Activity activity, final Rate rate, ListenerAdapter listenerAdapter) {
-        //TODO revisit method - this is incomplete
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String rateId = rate.getId();
-        DocumentReference farmerRegistrationRef;
-        if (StringUtils.isNotBlank(rateId)) {
-            farmerRegistrationRef = db.collection("Rate")
-                    .document(rateId);
-        } else {
-            Query query = buildRateEntryQuery(rate);
-            query.get().addOnSuccessListener(activity, listenerAdapter)
-                    .addOnFailureListener(activity, listenerAdapter);
+    public static void saveRates(Activity activity, final Rate rate, ListenerAdapter listenerAdapter) {
+        String dairyId = rate.getDairyId();
+        String id = rate.getId();
+        if (StringUtils.isBlank(dairyId)) {
+            throw new IllegalArgumentException("dairyID  should not be null");
         }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference rateRegistrationRef = db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(RATE_COLLECTION).document(id);
+
+        rateRegistrationRef.set(rate, SetOptions.merge())
+                .addOnSuccessListener(activity, listenerAdapter)
+                .addOnFailureListener(activity, listenerAdapter);
     }
 
     private static Query buildRateEntryQuery(Rate rate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection("Rate")
-                        .whereEqualTo("dairyId", rate.getDairyId())
-                        .whereEqualTo("milkType", rate.getMilkType())
-                        .whereEqualTo("effectiveDate", rate.getEffectiveDate())
-                        .whereGreaterThanOrEqualTo("fat", (rate.getFat() - MathUtil.EPS))
-                        .whereLessThan("fat", (rate.getFat() + MathUtil.EPS))
-                        .orderBy("fat");
+                .whereEqualTo("dairyId", rate.getDairyId())
+                .whereEqualTo("milkType", rate.getMilkType())
+                .whereEqualTo("effectiveDate", rate.getEffectiveDate());
+        //  .orderBy("fat");//.whereGreaterThanOrEqualTo("fat", (rate.getFat() - MathUtil.EPS))
+        // .whereLessThan("fat", (rate.getFat() + MathUtil.EPS))
+
     }
 
     /**
@@ -178,11 +191,11 @@ public class FireBaseDao {
      */
     private static Query buildRateEntriesQuery(String dairyId, String milkType, Date effectiveDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db.collection("Rate")
-                        .whereEqualTo("dairyId", dairyId)
-                        .whereEqualTo("milkType", milkType)
-                        .whereEqualTo("effectiveDate", effectiveDate)
-                        .orderBy("fat");
+        return db.collection(RATE_COLLECTION)
+                .whereEqualTo("dairyId", dairyId)
+                .whereEqualTo("milkType", milkType)
+                .whereEqualTo("effectiveDate", effectiveDate)
+                .orderBy("fat");
     }
 
     public ListenerRegistration registerSnapshotListener(Activity activity, Query query, EventListener<QuerySnapshot> snapshotEventListener) {
@@ -193,12 +206,12 @@ public class FireBaseDao {
     public void detachListener(ListenerRegistration listenerRegistration) {
         // Stop listening to changes
         listenerRegistration.remove();
-        ;
+
     }
 
     public static void loadFarmerById(Activity activity, String dairyId, String farmerId, ListenerAdapter<DocumentSnapshot> listenerAdapter) {
 
-        if(StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
+        if (StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
             throw new IllegalArgumentException("dairyID and FarmerID should not be null");
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
