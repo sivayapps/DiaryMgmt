@@ -4,14 +4,28 @@ import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.boshanam.diarymgmt.domain.Fat;
+import in.boshanam.diarymgmt.domain.Milk;
 
 public class FatEntryActivity extends AppCompatActivity {
     @BindView(R.id.fat_milk_date)
@@ -32,8 +46,6 @@ public class FatEntryActivity extends AppCompatActivity {
     Button findFat;
     @BindView(R.id.fat_save)
     Button saveFat;
-
-
     private String date;
     private String shift;
 
@@ -48,6 +60,7 @@ public class FatEntryActivity extends AppCompatActivity {
         shift = String.valueOf((savedInstanceState.get("shift")));
         fatDateView.setText(date);
         fatShiftView.setText(shift);
+        Date date = Calendar.getInstance().getTime();
     }
 
     @OnClick(R.id.fat_find)
@@ -60,7 +73,13 @@ public class FatEntryActivity extends AppCompatActivity {
     @OnClick(R.id.fat_save)
     public void saveFat() {
         if (saveValidate()) {
-
+            String dateFormate = fatDateView.getText().toString();
+            DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+            try {
+                Date date = formatter.parse(dateFormate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

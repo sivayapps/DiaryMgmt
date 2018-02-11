@@ -16,6 +16,7 @@
         android:paddingTop="1dp"
         android:theme="@style/AppTheme"
         android:visibility="visible">
+
         <RelativeLayout
             android:id="@+id/rate_loadingProgressPanel"
             android:layout_width="match_parent"
@@ -34,8 +35,8 @@
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_marginTop="0dp"
             android:focusable="false"
-            android:textSize="30sp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView"
@@ -55,25 +56,11 @@
             android:entries="@array/milk_type"
             android:gravity="top" />
 
-      <CheckBox
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/predict_next_fat_vlue"
-            android:textSize="15sp" />
-
-        <CheckBox
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:text="@string/redict_next_rate_value"
-            android:textSize="15sp" />
-
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal">
 
@@ -86,9 +73,9 @@
                 <EditText
                     android:id="@+id/enter_fat"
                     style="@style/formFieldsVerticalFlowStyle"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:layout_height="50dp"
                     android:hint="@string/fat"
                     android:inputType="number|numberDecimal"
                     android:singleLine="true" />
@@ -97,8 +84,8 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_rate_entry"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
                 <EditText
                     android:id="@+id/rate"
@@ -114,13 +101,13 @@
             <Button
                 android:id="@+id/rate_save"
                 style="@style/formButtonStyle"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="top|center"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
+                android:layout_weight="1"
                 android:text="@string/save" />
         </LinearLayout>
 
@@ -128,8 +115,8 @@
             android:id="@+id/finish"
             style="@style/formButtonStyle"
             android:layout_height="wrap_content"
-            android:text="@string/finish"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:text="@string/finish" />
         <!--above Property: "layout_height"  adding visibility for my mobile-->
 
         <de.codecrafters.tableview.SortableTableView xmlns:table="http://schemas.android.com/apk/res-auto"
