@@ -14,16 +14,22 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import in.boshanam.diarymgmt.LoginActivity;
 import in.boshanam.diarymgmt.R;
+import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.GridBaseEnum;
+import in.boshanam.diarymgmt.app.constants.GridColumnType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.util.StringUtils;
 
 import static in.boshanam.diarymgmt.FarmerActivity.TAG;
 
@@ -79,13 +85,28 @@ public class UIHelper {
                     Toast.makeText(context, "Failed loading Data-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
+                SimpleDateFormat displayDateFormat = null;
                 List<String[]> rows = new ArrayList<>();
                 String[] row = null;
                 for (DocumentSnapshot dc : documentSnapshots.getDocuments()) {
                     row = new String[columnCount];
                     rows.add(row);
                     for (E columnDef : enumConstants) {
-                        row[columnDef.ordinal()] = String.valueOf(dc.get(columnDef.getFieldName()));
+                        Object value = dc.get(columnDef.getFieldName());
+                        if (value != null) {
+                            String formattedValue;
+                            if (columnDef.getColumnType() == GridColumnType.DATE && value instanceof Date) {
+                                if (displayDateFormat == null) {
+                                    displayDateFormat = new SimpleDateFormat(AppConstants.DISPLAY_DATE_FORMATE, Locale.getDefault());
+                                }
+                                formattedValue = displayDateFormat.format(value);
+                            } else if (StringUtils.isNotBlank(columnDef.getFormatString())) {
+                                formattedValue = String.format(columnDef.getFormatString(), value);
+                            } else {
+                                formattedValue = String.valueOf(value);
+                            }
+                            row[columnDef.ordinal()] = formattedValue;
+                        }
                     }
                 }
                 SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(context, rows);

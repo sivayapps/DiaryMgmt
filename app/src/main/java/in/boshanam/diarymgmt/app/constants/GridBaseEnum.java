@@ -9,4 +9,5 @@ public interface GridBaseEnum {
     int getColumnHeader();
     String getFieldName();
     GridColumnType getColumnType();
+    String getFormatString();
 }

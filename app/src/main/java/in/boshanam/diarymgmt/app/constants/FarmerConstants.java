@@ -37,5 +37,11 @@ public interface FarmerConstants {
         public GridColumnType getColumnType() {
             return columnType;
         }
+
+        @Override
+        public String getFormatString() {
+            return null;
+        }
+
     }
 }

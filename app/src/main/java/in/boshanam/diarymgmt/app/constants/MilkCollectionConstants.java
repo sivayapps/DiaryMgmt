@@ -7,18 +7,57 @@ import in.boshanam.diarymgmt.R;
  */
 
 public interface MilkCollectionConstants {
-    enum Shift {
-        MORNING(0), EVENING(1);
 
-        private final int index;
+    int FARMER_ID_COL_HEADER_KEY = R.string.farmer_id_col_header_key;
+    int MILK_COLLECTED_DATE_COL_HEADER_KEY = R.string.collected_milk_date_col_header_key;
+    int MILK_COLLECTED_SHIFT_COL_HEADER_KEY = R.string.collected_milk_shift_col_header_key;
+    int MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY = R.string.collected_milk_sample_num_col_header_key;
+    int MILK_COLLECTED_QUANTITY_COL_HEADER_KEY = R.string.collected_milk_quantity_col_header_key;
+    int MILK_COLLECTED_FAT_COL_HEADER_KEY = R.string.collected_milk_fat_col_header_key;
+    int MILK_COLLECTED_PRICE_COL_HEADER_KEY = R.string.collected_milk_price_col_header_key;
 
-        Shift(int index) {
-            this.index = index;
+
+    enum CollectedMilkDataGrid implements GridBaseEnum {
+
+        FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER, null),
+        DATE(MILK_COLLECTED_DATE_COL_HEADER_KEY, "date", GridColumnType.DATE, null),
+        SHIFT(MILK_COLLECTED_SHIFT_COL_HEADER_KEY, "shift", GridColumnType.STRING, null),
+        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING, null),
+        SAMPLE_NUM(MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY, "milkSampleNumber", GridColumnType.NUMBER, null),
+        QUANTITY(MILK_COLLECTED_QUANTITY_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER, "%.2f"),
+        FAT(MILK_COLLECTED_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f");
+//        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER);
+// TODO
+
+        private int columnHeader;
+        private String fieldName;
+        private GridColumnType columnType;
+        private String formatString;
+
+        CollectedMilkDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
+            this.columnHeader = columnHeader;
+            this.fieldName = fieldName;
+            this.columnType = columnType;
+            this.formatString = formatString;
         }
 
-        public int getIndex() {
-            return index;
+        public int getColumnHeader() {
+            return columnHeader;
         }
+
+        public String getFieldName() {
+            return fieldName;
+        }
+
+        public GridColumnType getColumnType() {
+            return columnType;
+        }
+
+        @Override
+        public String getFormatString() {
+            return formatString;
+        }
+
     }
 
 }

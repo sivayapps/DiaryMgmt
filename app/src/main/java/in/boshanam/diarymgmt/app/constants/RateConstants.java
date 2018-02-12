@@ -2,7 +2,6 @@ package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
 
-import static in.boshanam.diarymgmt.app.constants.FarmerConstants.FARMER_ID_COL_HEADER_KEY;
 import static in.boshanam.diarymgmt.app.constants.FarmerConstants.FARMER_MILK_TYPE_COL_HEADER_KEY;
 
 /**
@@ -16,19 +15,21 @@ public interface RateConstants {
 
 
     enum RateDataGrid implements GridBaseEnum {
-        DATE(RATE_DATE_COL_HEADER_KEY,"effectiveDate",GridColumnType.DATE),
-        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING),
-        FAT(RATE_FAT_COL_HEADER_KEY , "fat", GridColumnType.NUMBER),
-        PRICE(RATE_PRICE_COL_HEADER_KEY, "price", GridColumnType.NUMBER);
+        DATE(RATE_DATE_COL_HEADER_KEY, "effectiveDate", GridColumnType.DATE, null),
+        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING, null),
+        FAT(RATE_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f"),
+        PRICE(RATE_PRICE_COL_HEADER_KEY, "price", GridColumnType.NUMBER, "%.2f");
 
         private int columnHeader;
         private String fieldName;
         private GridColumnType columnType;
+        private String formatString;
 
-        RateDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
+        RateDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
+            this.formatString = formatString;
         }
 
         public int getColumnHeader() {
@@ -41,6 +42,11 @@ public interface RateConstants {
 
         public GridColumnType getColumnType() {
             return columnType;
+        }
+
+        @Override
+        public String getFormatString() {
+            return formatString;
         }
     }
 }
