@@ -3,7 +3,6 @@ package in.boshanam.diarymgmt;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -14,15 +13,13 @@ import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 
-public class DateShiftSelectActivity extends AppCompatActivity {
-    public static final String DATE_FORMATE = "dd-MMM-yyy";
-    public static final String TAG = "DateShiftSelectActivity";
+public class DateShiftSelectActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.date)
     EditText date;
@@ -34,7 +31,6 @@ public class DateShiftSelectActivity extends AppCompatActivity {
     private int month;
     private int dayOfMonth;
     private String collectType;
-    private SimpleDateFormat simpleDateFormat;
     private Calendar calendar;
 
     @Override
@@ -42,6 +38,7 @@ public class DateShiftSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_shift_select);
         ButterKnife.bind(this);
+        initDateFormatters();
         Intent iin = getIntent();
         savedInstanceState = iin.getExtras();
         if (savedInstanceState != null) {
@@ -49,8 +46,7 @@ public class DateShiftSelectActivity extends AppCompatActivity {
             Log.w("Collect Milk Type", collectType);
         }
         calendar = Calendar.getInstance();
-        simpleDateFormat = new SimpleDateFormat(DATE_FORMATE);
-        date.setText(simpleDateFormat.format(calendar.getTime()));
+        date.setText(dateFormatterDisplay.format(calendar.getTime()));
         Log.d(TAG, "MilkType" + collectType);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         if (hours > 12) {
@@ -58,13 +54,12 @@ public class DateShiftSelectActivity extends AppCompatActivity {
         } else {
             shift.setSelection(0);
         }
-        Log.d("Collect Milk Type", collectType);
     }
 
     private void updateDateDisplay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
-        date.setText(simpleDateFormat.format(calendar.getTime()));
+        date.setText(dateFormatterDisplay.format(calendar.getTime()));
         date.setInputType(InputType.TYPE_NULL);
     }
 
@@ -89,17 +84,16 @@ public class DateShiftSelectActivity extends AppCompatActivity {
     @OnClick(R.id.collect_milk_next)
     public void nextButtonHandler() {
         Log.d(TAG, "MilkType: " + collectType);
+        Intent intent;
         if ("milk".equals(collectType)) {
-            Intent intent = new Intent(DateShiftSelectActivity.this, CollectMilkActivity.class);
-            intent.putExtra("date", date.getText().toString());
-            intent.putExtra("shift", shift.getSelectedItem().toString());
-            startActivity(intent);
+            intent = new Intent(DateShiftSelectActivity.this, CollectMilkActivity.class);
         } else {
-            Intent intent = new Intent(DateShiftSelectActivity.this, FatEntryActivity.class);
-            intent.putExtra("date", date.getText().toString());
-            intent.putExtra("shift", shift.getSelectedItem().toString());
-            startActivity(intent);
+            intent = new Intent(DateShiftSelectActivity.this, FatEntryActivity.class);
         }
+        intent.putExtra("date", date.getText().toString());
+        intent.putExtra("shift", shift.getSelectedItem().toString());
+        intent.putExtra("shift_index", shift.getSelectedItemPosition());
+        startActivity(intent);
 
     }
 }

@@ -35,7 +35,7 @@
     <string name="autocompletetextview">AutoCompleteTextView</string>
     <string name="milk_type">Milk Type</string>
     <string name="dairy_registraion">Dairy Registration</string>
-    <string name="farmer_id">FarmerID</string>
+    <string name="farmer_id">Farmer No</string>
 
 
     <string name="milk_prompt">Choose Milk Type</string>
@@ -47,12 +47,12 @@
     <string name="shift_prompt">Select Shift</string>
     <string name="Next">Next</string>
     <string-array name="milk_type">
-        <item>BUFFALO</item>
-        <item>COW</item>
+        <item>Buffalo</item>
+        <item>Cow</item>
     </string-array>
     <string-array name="shift">
-        <item>MORNING</item>
-        <item>EVENING</item>
+        <item>Morning</item>
+        <item>Evening</item>
     </string-array>
     <string name="title_activity_collect_milk_init">Collect Milk</string>
     <string name="search">Search</string>
@@ -62,8 +62,6 @@
     <string name="sample_no">SampleNo</string>
     <string name="snf">SNF</string>
     <string name="per_ltr_Rate">1ltr Rate</string>
-    <string name="predict_next_fat_vlue">PredictNextFatValue</string>
-    <string name="redict_next_rate_value">PredictNextRateValue</string>
     <string name="user_input_blank_error_msg">please fill empty fields</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
@@ -75,5 +73,10 @@
     <string name="farmer_payment_retrive">Retrive</string>
     <string name="logout">logout</string>
     <string name="rate_register">Rate Register</string>
+    <string name="farmer_id_heading">Farmer ID:</string>
+    <string name="farmer_name_heading">Name:</string>
+    <string name="error_msg_sample_number_already_used_for_other_farmer">Sample Number Already used for other Farmer</string>
+    <string name="error_msg_invalid_farmer_id">Farmer Number Invalid</string>
+    <string name="error_msg_verify_all_fields">Verify Collected Milk Information</string>
 
 </resources>

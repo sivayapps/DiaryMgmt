@@ -9,6 +9,8 @@ import in.boshanam.diarymgmt.R;
 public interface AppConstants {
     String DAIRY_ID_KEY = "dairy_id";
     String DAIRY_PREFERENCES_FILE_NAME = "dairyPreferences";
+    String DISPLAY_DATE_FORMATE = "dd-MMM-yyyy";
+    String DB_KEY_DATE_FORMATE = "yyyyMMdd";
 
     int MILK_TYPE_COL_HEADER_KEY = R.string.milk_type_col_header_key;
 

@@ -19,12 +19,12 @@ public abstract class ListenerAdapter<T> implements OnSuccessListener<T>, OnFail
     }
 
     @Override
-    public void onFailure(@NonNull Exception e) {
+    public void onSuccess(T t) {
 
     }
 
     @Override
-    public void onSuccess(T t) {
+    public void onFailure(@NonNull Exception e) {
 
     }
 }

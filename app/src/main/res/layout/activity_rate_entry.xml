@@ -38,16 +38,6 @@
             android:inputType="text"
             android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="bottom"
-            android:text="@string/milk_prompt"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <Spinner
             android:id="@+id/rate_milk_type"
             style="@style/formFieldsVerticalFlowStyle"

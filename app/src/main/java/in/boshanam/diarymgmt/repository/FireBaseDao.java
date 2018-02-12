@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -17,17 +18,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
-import in.boshanam.diarymgmt.RateEntryActivity;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
+import in.boshanam.diarymgmt.domain.CollectedMilk;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.domain.Farmer;
-import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
 import in.boshanam.diarymgmt.util.StringUtils;
 
@@ -39,6 +36,7 @@ public class FireBaseDao {
     public static final String DAIRY_COLLECTION = "Dairy";
     public static final String FARMER_COLLECTION = "Farmer";
     public static final String RATE_COLLECTION = "Rate";
+    public static final String COLLECTED_MILK = "CollectedMilk";
 
 
     private FireBaseDao() {
@@ -159,7 +157,7 @@ public class FireBaseDao {
                 .addOnFailureListener(activity, listenerAdapter);
     }
 
-    public static void saveRates(Activity activity, final Rate rate, ListenerAdapter listenerAdapter) {
+    public static void saveRate(Activity activity, final Rate rate, ListenerAdapter listenerAdapter) {
         String dairyId = rate.getDairyId();
         String id = rate.getId();
         if (StringUtils.isBlank(dairyId)) {
@@ -172,6 +170,34 @@ public class FireBaseDao {
         rateRegistrationRef.set(rate, SetOptions.merge())
                 .addOnSuccessListener(activity, listenerAdapter)
                 .addOnFailureListener(activity, listenerAdapter);
+    }
+
+    public static void saveCollectedMilkDetails(Activity activity, final CollectedMilk collectedMilk,
+                                                ListenerAdapter listenerAdapter) {
+        String dairyId = collectedMilk.getDairyId();
+        String id = collectedMilk.getId();
+        if (StringUtils.isBlank(dairyId)) {
+            throw new IllegalArgumentException("dairyID  should not be null");
+        }
+        CollectionReference collection = buildCollectedMilkQuery(dairyId);
+        DocumentReference collectedMilkDocRef;
+        if (StringUtils.isNotBlank(id)) {
+            collectedMilkDocRef = collection.document(id);
+        } else {
+            collectedMilkDocRef = collection.document();
+            collectedMilk.setId(collectedMilkDocRef.getId());
+        }
+        collectedMilk.setUpdateTime(new Date());
+        collectedMilkDocRef.set(collectedMilk, SetOptions.merge())
+                .addOnSuccessListener(activity, listenerAdapter)
+                .addOnFailureListener(activity, listenerAdapter);
+    }
+
+    @NonNull
+    public static CollectionReference buildCollectedMilkQuery(String dairyId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(COLLECTED_MILK);
     }
 
     private static Query buildRateEntryQuery(Rate rate) {
@@ -196,17 +222,6 @@ public class FireBaseDao {
                 .whereEqualTo("milkType", milkType)
                 .whereEqualTo("effectiveDate", effectiveDate)
                 .orderBy("fat");
-    }
-
-    public ListenerRegistration registerSnapshotListener(Activity activity, Query query, EventListener<QuerySnapshot> snapshotEventListener) {
-        ListenerRegistration listenerRegistration = query.addSnapshotListener(activity, snapshotEventListener);
-        return listenerRegistration;
-    }
-
-    public void detachListener(ListenerRegistration listenerRegistration) {
-        // Stop listening to changes
-        listenerRegistration.remove();
-
     }
 
     public static void loadFarmerById(Activity activity, String dairyId, String farmerId, ListenerAdapter<DocumentSnapshot> listenerAdapter) {

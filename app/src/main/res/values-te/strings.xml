@@ -12,7 +12,7 @@
     <string name="phone_number">ఫోను నంబరు</string>
     <string name="farmer_register">రైతు నమోదు</string>
     <string name="save">సేవ్</string>
-    <string name="rate_entry">ధర నమోదు</string>
+    <string name="rate_entry">పాల ధర నమోదు</string>
     <string name="collect_milk">పాల సేకరణ</string>
     <string name="milk_volume">పరిమాణము</string>
     <string name="fat_entry">వెన్న శాతం నమోదు</string>
@@ -48,6 +48,11 @@
     <string name="farmer_payment_retrive">Retrive</string>
     <string name="logout">logout</string>
     <string name="rate_register">Rate Register</string>
+    <string name="farmer_id_heading">Farmer ID:</string>
+    <string name="farmer_name_heading">Name:</string>
+    <string name="error_msg_sample_number_already_used_for_other_farmer">Sample Number Already used for other Farmer</string>
+    <string name="error_msg_invalid_farmer_id">Farmer Number Invalid</string>
+    <string name="error_msg_verify_all_fields">Verify Collected Milk Information</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>

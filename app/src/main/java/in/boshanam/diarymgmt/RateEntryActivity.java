@@ -2,51 +2,39 @@ package in.boshanam.diarymgmt;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
-import butterknife.OnItemSelected;
 import de.codecrafters.tableview.SortableTableView;
-import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.RateConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
-import in.boshanam.diarymgmt.domain.Farmer;
+import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
-public class RateEntryActivity extends AppCompatActivity {
+public class RateEntryActivity extends BaseAppCompatActivity {
     public static final String TAG = "RateEntryActivity";
-    public static final String DATE_FORMATE = "dd-MMM-yyyy";
-    public static final String DB_DATE_FORMATE = "yyyyMMdd";
+
     @BindView(R.id.rate_milk_type)
     Spinner milkType;
     @BindView(R.id.enter_fat)
@@ -70,24 +58,19 @@ public class RateEntryActivity extends AppCompatActivity {
     SortableTableView<String[]> rateListingTableView;
 
     private ListenerRegistration listenerRegistration;
-    private DateFormat changeDateFormater;
-    private DateFormat getFormater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initDateFormatters();
+
         setContentView(R.layout.activity_rate_entry);
         ButterKnife.bind(this);
         calendar = Calendar.getInstance();
-        changeDateFormater = new SimpleDateFormat(DATE_FORMATE, Locale.getDefault());
-        effectiveDate.setText(changeDateFormater.format(calendar.getTime()));
+        effectiveDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         String dairyId = getDairyID();
         listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, rateListingTableView,
                 RateConstants.RateDataGrid.class, FireBaseDao.buildRateQuery(dairyId));
-    }
-
-    private String getDairyID() {
-        SharedPreferences sharedPreferences = getSharedPreferences(AppConstants.DAIRY_PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        return sharedPreferences.getString(AppConstants.DAIRY_ID_KEY, null);
     }
 
     @OnClick(R.id.effective_date)
@@ -111,7 +94,7 @@ public class RateEntryActivity extends AppCompatActivity {
     private void updateDateDisplay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
-        effectiveDate.setText(changeDateFormater.format(calendar.getTime()));
+        effectiveDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         effectiveDate.setInputType(InputType.TYPE_NULL);
     }
 
@@ -124,8 +107,6 @@ public class RateEntryActivity extends AppCompatActivity {
 
     public void saveRates() {
         final Calendar calendar = Calendar.getInstance();
-        getFormater = new SimpleDateFormat(DATE_FORMATE, Locale.getDefault());
-        changeDateFormater = new SimpleDateFormat(DB_DATE_FORMATE);
         String dairyId = getDairyID();
         if (StringUtils.isBlank(dairyId)) {
             UIHelper.logoutAndShowLogin(this, "Dairy Information not available, logging out to reload");
@@ -146,8 +127,8 @@ public class RateEntryActivity extends AppCompatActivity {
         String expectedStringFormateDate = null;
         Date getDate = null;
         try {
-            getDate = getFormater.parse(dateFormate);
-            expectedStringFormateDate = changeDateFormater.format(getDate);
+            getDate = dateFormatterDbKey.parse(dateFormate);
+            expectedStringFormateDate = dateFormatterDisplay.format(getDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -160,7 +141,7 @@ public class RateEntryActivity extends AppCompatActivity {
     private void save(Rate rate) {
 
         findViewById(R.id.rate_loadingProgressPanel).setVisibility(View.VISIBLE);
-        FireBaseDao.saveRates(this, rate, new ListenerAdapter<Rate>() {
+        FireBaseDao.saveRate(this, rate, new ListenerAdapter<Rate>() {
             @Override
             public void onSuccess(Rate data) {
                 Toast.makeText(getApplicationContext(), "Successfully Save", Toast.LENGTH_LONG).show();

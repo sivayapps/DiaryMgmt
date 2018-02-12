@@ -24,21 +24,25 @@ import de.codecrafters.tableview.SortableTableView;
 import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.FarmerConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
+import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
-public class FarmerActivity extends AppCompatActivity {
+public class FarmerActivity extends BaseAppCompatActivity {
 
     public static final String TAG = "FarmerActivity";
     @BindView(R.id.farmerId)
     EditText farmerId;
+
     @BindView(R.id.farmerName)
     EditText farmerName;
+
     @BindView(R.id.milkType)
     Spinner milkType;
+
     @BindView(R.id.register)
     Button register;
 
@@ -69,8 +73,6 @@ public class FarmerActivity extends AppCompatActivity {
 
     @OnFocusChange(R.id.farmerId)
     public void onFocusChanged(boolean focused) {
-        //TODO remove below Toast
-        Toast.makeText(this, focused ? "Gained focus" : "Lost focus", Toast.LENGTH_SHORT).show();
         String farmerID = farmerId.getText().toString();
         String dairyId = getDairyID();
         if (StringUtils.isNotBlank(farmerID) && StringUtils.isNotBlank(dairyId)) {
@@ -146,7 +148,7 @@ public class FarmerActivity extends AppCompatActivity {
         farmerName.setText("");
     }
 
-    private String getDairyID() {
+    protected String getDairyID() {
         SharedPreferences sharedPreferences = getSharedPreferences(AppConstants.DAIRY_PREFERENCES_FILE_NAME, MODE_PRIVATE);
         return sharedPreferences.getString(AppConstants.DAIRY_ID_KEY, null);
     }

@@ -2,18 +2,31 @@ package in.boshanam.diarymgmt.domain;
 
 import java.util.Date;
 
+import in.boshanam.diarymgmt.util.StringUtils;
+
 /**
  * Created by Siva on 2/10/2018.
  */
 public class CollectedMilk {
     private String id;
     private Date date;
+    private Shift shift;
     private String dairyId;
     private String farmerId;
+    private MilkType milkType;
     private float milkQuantity;
     private float fat;
+    private float milkPerLtrPriceOverride;
     private int milkSampleNumber;
     private Date updateTime;
+
+    public boolean isValid() {
+        if (StringUtils.isNotBlank(dairyId) && StringUtils.isNotBlank(farmerId) && milkQuantity > 0
+                && (milkSampleNumber > 0 || (fat > 0 && fat < 10.1)) && date != null) {
+            return true;
+        }
+        return false;
+    }
 
     public String getId() {
         return id;
@@ -75,7 +88,31 @@ public class CollectedMilk {
         return updateTime;
     }
 
+    public float getMilkPerLtrPriceOverride() {
+        return milkPerLtrPriceOverride;
+    }
+
+    public void setMilkPerLtrPriceOverride(float milkPerLtrPriceOverride) {
+        this.milkPerLtrPriceOverride = milkPerLtrPriceOverride;
+    }
+
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Shift getShift() {
+        return shift;
+    }
+
+    public void setShift(Shift shift) {
+        this.shift = shift;
+    }
+
+    public MilkType getMilkType() {
+        return milkType;
+    }
+
+    public void setMilkType(MilkType milkType) {
+        this.milkType = milkType;
     }
 }

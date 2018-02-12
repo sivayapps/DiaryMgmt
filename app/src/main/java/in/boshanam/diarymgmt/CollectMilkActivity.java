@@ -2,81 +2,336 @@ package in.boshanam.diarymgmt;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import de.codecrafters.tableview.SortableTableView;
+import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
+import in.boshanam.diarymgmt.command.ListenerAdapter;
+import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
+import in.boshanam.diarymgmt.domain.CollectedMilk;
+import in.boshanam.diarymgmt.domain.Farmer;
+import in.boshanam.diarymgmt.domain.Shift;
+import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.util.StringUtils;
+import in.boshanam.diarymgmt.util.ui.UIHelper;
 
-public class CollectMilkActivity extends AppCompatActivity {
+public class CollectMilkActivity extends BaseAppCompatActivity {
+
     @BindView(R.id.collect_milk_date)
     TextView dateView;
+
     @BindView(R.id.collect_milk_shift)
     TextView shiftView;
+
+    @BindView(R.id.fat_rates_missing_error_message_view)
+    TextView errorMessageView;
+
     @BindView(R.id.registered_farmer_id)
-    EditText registerFormerId;
+    EditText registeredFarmerId;
+
     @BindView(R.id.farmer_milk_sample_id)
     EditText farmerSampleId;
-    @BindView(R.id.collect_milk_form_quantity_field_id)
-    EditText collectMilk;
-    @BindView(R.id.find_farmer_button_id)
-    Button findFarmerMilk;
+
+    @BindView(R.id.collect_milk_quantity_field_id)
+    EditText milkQuantityField;
+
+    @BindView(R.id.collect_milk_fat_field_id)
+    EditText fatField;
+
+    @BindView(R.id.collect_milk_farmer_details_display_text_field_id)
+    TextView selectedFarmerIdDisplayView;
+
+    @BindView(R.id.collected_milk_listing_table_view)
+    SortableTableView<String[]> collectedMilkListingTableView;
+
+//    @BindView(R.id.find_farmer_button_id)
+//    Button findFarmerMilk;
+
     @BindView(R.id.collect_milk_save)
     Button saveMilk;
 
-    private String date;
-    private String shift;
+    private String dateForDisplay;
+    private String dateForDbKey;
+    private String shiftStr;
+    private Shift shift;
+    private Date collectionDate;
+
+    private volatile boolean farmerListLoaded = false;
+    private volatile boolean collectedMilkDetailsLoaded = false;
+    private boolean progressBarVisible = true;
+
+    private Map<String, Farmer> registeredFarmers;
+    private Map<String, CollectedMilk> collectedMilkBySampleNum;
+    private Map<String, CollectedMilk> collectedMilkByFarmerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initDateFormatters();
         setContentView(R.layout.activity_collect_milk);
         ButterKnife.bind(this);
+        errorMessageView.setVisibility(View.GONE);
+        showProgressBar();
 
         Intent iin = getIntent();
         savedInstanceState = iin.getExtras();
-        date = (String.valueOf(savedInstanceState.get("date")));
-        shift = (String.valueOf(savedInstanceState.get("shift")));
-        dateView.setText(date);
-        shiftView.setText(shift);
+        dateForDisplay = (String.valueOf(savedInstanceState.get("date")));
+        shiftStr = (String.valueOf(savedInstanceState.get("shift")));
+        shift = Shift.getShiftForIndex(savedInstanceState.getInt("shift_index", -1));
+        dateView.setText(dateForDisplay);
+        shiftView.setText(shiftStr);
+        try {
+            collectionDate = dateFormatterDisplay.parse(dateForDisplay);
+            dateForDbKey = dateFormatterDbKey.format(collectionDate);
+            Toast.makeText(this, "Selected date '" + dateForDisplay + "' invalid format", Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            Log.e(TAG, "Date parse error: " + e.getLocalizedMessage());
+        }
+        String dairyId = getDairyID();
+        registerFarmersCacheLoader(dairyId);
+        Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
+                .whereEqualTo("shift", shift.name())
+                .whereEqualTo("date", collectionDate);
+        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
+                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+        collectedMilkQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e);
+                    Toast.makeText(CollectMilkActivity.this, "Failed loading Data-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Map<String, CollectedMilk> collectedMilkByFarmerIdMap = new HashMap<>();
+                Map<String, CollectedMilk> collectedMilkBySampleNumMap = new HashMap<>();
+                for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
+                    CollectedMilk collectedMilk = ds.toObject(CollectedMilk.class);
+                    collectedMilkByFarmerIdMap.put(collectedMilk.getFarmerId(), collectedMilk);
+                    collectedMilkBySampleNumMap.put("" + collectedMilk.getMilkSampleNumber(), collectedMilk);
+                }
+                collectedMilkByFarmerId = collectedMilkByFarmerIdMap;
+                collectedMilkBySampleNum = collectedMilkBySampleNumMap;
+                collectedMilkDetailsLoaded = true;
+                hideProgressBar();
+            }
+        });
     }
 
-    @OnClick(R.id.find_farmer_button_id)
-    public void getMilk() {
-        if (findValidate()) {
+    private void registerFarmersCacheLoader(String dairyId) {
+        FireBaseDao.buildAllFarmersQuery(dairyId).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e);
+                    Toast.makeText(CollectMilkActivity.this, "Failed loading Data-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Map<String, Farmer> idFarmerMap = new HashMap<>();
+                for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
+                    Farmer farmer = ds.toObject(Farmer.class);
+                    idFarmerMap.put(farmer.getId(), farmer);
+                }
+                registeredFarmers = idFarmerMap;
+                farmerListLoaded = true;
+                hideProgressBar();
+            }
+        });
+    }
 
+    private void showProgressBar() {
+        progressBarVisible = true;
+        findViewById(R.id.find_farmer_milk_collection_loadingProgressPanel).setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        if (progressBarVisible && farmerListLoaded && collectedMilkDetailsLoaded) {
+            findViewById(R.id.find_farmer_milk_collection_loadingProgressPanel).setVisibility(View.GONE);
+            progressBarVisible = false;
         }
+    }
+
+    @OnFocusChange(R.id.registered_farmer_id)
+    public void farmerIdFieldOnFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            //we are interested only on moving out of field after entering input, ignore when focus received
+            return;
+        }
+        String farmerID = registeredFarmerId.getText().toString().trim();
+        String dairyId = getDairyID();
+        if (StringUtils.isBlank(dairyId)) {
+            UIHelper.logoutAndShowLogin(this, "Dairy Information not available, logging out to reload");
+            return;
+        }
+        if (StringUtils.isNotBlank(farmerID)) {
+            Farmer registeredFarmer = registeredFarmers.get(farmerID);
+            updateFarmerDetailsView(registeredFarmer);
+            CollectedMilk collectedMilk = collectedMilkByFarmerId.get(farmerID);
+            updateCollectedMilkFields(collectedMilk, true);
+        }
+    }
+
+    @OnFocusChange(R.id.farmer_milk_sample_id)
+    public void sampleNumberFieldOnFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            //we are interested only on moving out of field after entering input, ignore when focus received
+            return;
+        }
+        String farmerSampleNo = farmerSampleId.getText().toString().trim();
+        String dairyId = getDairyID();
+        if (StringUtils.isBlank(dairyId)) {
+            UIHelper.logoutAndShowLogin(this, "Dairy Information not available, logging out to reload");
+            return;
+        }
+        if (StringUtils.isNotBlank(farmerSampleNo)) {
+            CollectedMilk collectedMilk = collectedMilkBySampleNum.get(farmerSampleNo);
+            if (collectedMilk != null) {
+                Farmer registeredFarmer = registeredFarmers.get(collectedMilk.getFarmerId());
+                updateFarmerDetailsView(registeredFarmer);
+                updateCollectedMilkFields(collectedMilk, false);
+            }
+        }
+    }
+
+    private void updateCollectedMilkFields(CollectedMilk collectedMilk, boolean byFarmerId) {
+        if (collectedMilk == null) {
+            return;
+        }
+        int milkSampleNumber = collectedMilk.getMilkSampleNumber();
+        if (byFarmerId && milkSampleNumber > 0) {
+            farmerSampleId.setText("" + milkSampleNumber);
+        } else {
+            registeredFarmerId.setText(collectedMilk.getFarmerId());
+        }
+        float quantity = collectedMilk.getMilkQuantity();
+        if (quantity > 0) {
+            milkQuantityField.setText(String.format("%.2f", quantity));
+        }
+        float fat = collectedMilk.getFat();
+        if (fat > 0) {
+            fatField.setText(String.format("%.1f", fat));
+        }
+    }
+
+    private void updateFarmerDetailsView(Farmer registeredFarmer) {
+        if (registeredFarmer == null) {
+            return;
+        }
+        selectedFarmerIdDisplayView.setText(getString(R.string.farmer_id_heading) + registeredFarmer.getId() + ", " + getString(R.string.farmer_name_heading) + registeredFarmer.getName());
+        findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.collect_milk_save)
     public void saveMilk() {
-        if (saveValidate()) {
+        CollectedMilk collectedMilk = extractCollectedMilkData();
+        if (validateInputData(collectedMilk) && collectedMilk.isValid()) {
+            errorMessageView.setText("");
+            errorMessageView.setVisibility(View.GONE);
+            FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {
+                @Override
+                public void onSuccess(Object o) {
+                    Toast.makeText(CollectMilkActivity.this, "Successfully saved collected milk details", Toast.LENGTH_SHORT).show();
+                    resetFields();
+                }
 
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Exception while saving Collected milk details", e);
+                    Toast.makeText(CollectMilkActivity.this, "Error while saving Collected milk details", Toast.LENGTH_LONG).show();
+                }
+
+            });
+        } else {
+            errorMessageView.setText(R.string.error_msg_verify_all_fields);
+            errorMessageView.setVisibility(View.VISIBLE);
         }
     }
 
-    private boolean findValidate() {
-        if (StringUtils.isBlank(registerFormerId.getText().toString())) {
-            Toast.makeText(this, "pls fill the empty farmer id", Toast.LENGTH_SHORT).show();
+    private boolean validateInputData(CollectedMilk collectedMilk) {
+        if (!registeredFarmers.containsKey(collectedMilk.getFarmerId())) {
+            errorMessageView.setText(R.string.error_msg_invalid_farmer_id);
+            errorMessageView.setVisibility(View.VISIBLE);
             return false;
         }
+        CollectedMilk collectedMilkExisting = collectedMilkBySampleNum.get("" + collectedMilk.getMilkSampleNumber());
+        if (collectedMilkExisting != null && collectedMilkExisting.getFarmerId().equals(collectedMilk.getFarmerId())) {
+            errorMessageView.setText(R.string.error_msg_sample_number_already_used_for_other_farmer);
+            errorMessageView.setVisibility(View.VISIBLE);
+            return false;
+        }
+        //TODO validate sample number is not duplicated
+        //Farmer number is valid and exists by checking with cache
+        errorMessageView.setText("");
+        errorMessageView.setVisibility(View.GONE);
         return true;
     }
 
-    private boolean saveValidate() {
-        if (StringUtils.isBlank(registerFormerId.getText().toString())
-                || StringUtils.isBlank(farmerSampleId.getText().toString())
-                || StringUtils.isBlank(collectMilk.getText().toString())) {
-            Toast.makeText(this, "pls fill the empty Field", Toast.LENGTH_SHORT).show();
-            return false;
+    private CollectedMilk extractCollectedMilkData() {
+        CollectedMilk collectedMilk = new CollectedMilk();
+        String farmerID = registeredFarmerId.getText().toString().trim();
+        String dairyId = getDairyID();
+        if (StringUtils.isNotBlank(dateForDbKey) && shift != null && StringUtils.isNotBlank(farmerID)) {
+            collectedMilk.setId(farmerID + "_" + dateForDbKey + "_" + dateForDbKey + shift);
         }
-        return true;
+        collectedMilk.setDairyId(dairyId);
+        collectedMilk.setFarmerId(farmerID);
+        collectedMilk.setDate(collectionDate);
+        collectedMilk.setShift(this.shift);
+        Farmer registeredFarmer = registeredFarmers.get(farmerID);
+        if (registeredFarmer != null) {
+            collectedMilk.setMilkType(registeredFarmer.getMilkType());
+        }
+        String sampleNumber = farmerSampleId.getText().toString().trim();
+        if (StringUtils.isNotBlank(sampleNumber)) {
+            try {
+                collectedMilk.setMilkSampleNumber(Integer.parseInt(sampleNumber));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        String quantity = milkQuantityField.getText().toString().trim();
+        if (StringUtils.isNotBlank(quantity)) {
+            try {
+                collectedMilk.setMilkQuantity(Float.parseFloat(quantity));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        String fat = fatField.getText().toString().trim();
+        if (StringUtils.isNotBlank(fat)) {
+            try {
+                collectedMilk.setFat(Float.parseFloat(fat));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return collectedMilk;
     }
 
+    private void resetFields() {
+        registeredFarmerId.setText("");
+        farmerSampleId.setText("");
+        milkQuantityField.setText("");
+        fatField.setText("");
+        selectedFarmerIdDisplayView.setText("");
+        findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.GONE);
+    }
 
 }
