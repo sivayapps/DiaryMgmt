@@ -1,0 +1,9 @@
+<resources>
+    <!-- Strings related to Farmer -->
+    <string name="collected_milk_date_col_header_key">Date</string>
+    <string name="collected_milk_shift_col_header_key">Shift</string>
+    <string name="collected_milk_quantity_col_header_key">Qty</string>
+    <string name="collected_milk_sample_num_col_header_key">Sample Num</string>
+    <string name="collected_milk_fat_col_header_key">Fat</string>
+    <string name="collected_milk_price_col_header_key">Price</string>
+</resources>

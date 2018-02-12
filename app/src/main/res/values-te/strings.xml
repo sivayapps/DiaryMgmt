@@ -26,39 +26,36 @@
     <string name="rate">ధర</string>
     <string name="next">తరువాత</string>
     <string name="finish">ముగించు</string>
-    <string name="shift_prompt">Select Shift</string>
-    <string name="Next">Next</string>
+    <string name="Next">తరువాత</string>
     <string name="search">Search</string>
     <string name="sample_id">నమూనా సంఖ్య</string>
     <string name="find">find</string>
     <string name="lr">LR</string>
-    <string name="sample_no">SampleNo</string>
+    <string name="sample_no">నమూనా సంఖ్య</string>
     <string name="snf">SNF</string>
-    <string name="per_ltr_Rate">1ltr Rate</string>
+    <string name="per_ltr_Rate">లీ. ధర</string>
     <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
-    <string name="predict_next_fat_vlue">PredictNextFatValue</string>
-    <string name="redict_next_rate_value">PredictNextRateValue</string>
-    <string name="user_input_blank_error_msg">please fill empty fields</string>
+    <string name="user_input_blank_error_msg">దయచేసి ఖాళీని పూరించండి</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
     <string name="farmer_reports">Farmer Reports</string>
-    <string name="from_date">From Date</string>
-    <string name="to_date">To Date</string>
+    <string name="from_date">ప్రారంబపు తేది</string>
+    <string name="to_date">తేదీ వరకు</string>
     <string name="Retrive">farmer_report_retrive</string>
     <string name="farmer_payment_retrive">Retrive</string>
     <string name="logout">logout</string>
-    <string name="rate_register">Rate Register</string>
-    <string name="farmer_id_heading">Farmer ID:</string>
-    <string name="farmer_name_heading">Name:</string>
-    <string name="error_msg_sample_number_already_used_for_other_farmer">Sample Number Already used for other Farmer</string>
-    <string name="error_msg_invalid_farmer_id">Farmer Number Invalid</string>
-    <string name="error_msg_verify_all_fields">Verify Collected Milk Information</string>
+    <string name="rate_register">ధర నమోదు</string>
+    <string name="farmer_id_heading">రైతు సంఖ్య:</string>
+    <string name="farmer_name_heading">పేరు:</string>
+    <string name="error_msg_sample_number_already_used_for_other_farmer">నమూనా సంఖ్య ఇప్పటికే ఉపయోగించబడింది</string>
+    <string name="error_msg_invalid_farmer_id">రైతు సంఖ్య చెల్లదు</string>
+    <string name="error_msg_verify_all_fields">సేకరించిన పాలు సమాచారం సరి చూడుము</string>
     <string-array name="milk_type">
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>
     </string-array>
     <string-array name="shift">
-        <item>Morning</item>
-        <item>Afternoon</item>
+        <item>ఉదయం</item>
+        <item>సాయంత్రం</item>
     </string-array>
 </resources>

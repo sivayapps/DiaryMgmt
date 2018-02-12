@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import de.codecrafters.tableview.SortableTableView;
+import de.codecrafters.tableview.model.TableColumnWeightModel;
 import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
@@ -113,8 +114,16 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
                 .whereEqualTo("shift", shift.name())
                 .whereEqualTo("date", collectionDate);
+        TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
+        columnModel.setColumnWeight(0, 1);
+        columnModel.setColumnWeight(1, 2);
+        columnModel.setColumnWeight(2, 2);
+        columnModel.setColumnWeight(3, 2);
+        columnModel.setColumnWeight(4, 2);
+        columnModel.setColumnWeight(5, 1);
+        columnModel.setColumnWeight(6, 1);
         UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
         collectedMilkQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {

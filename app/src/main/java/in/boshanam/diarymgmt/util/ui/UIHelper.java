@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.model.TableColumnModel;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import in.boshanam.diarymgmt.LoginActivity;
@@ -65,13 +66,24 @@ public class UIHelper {
                                                                                                     final TableView<String[]> tableView,
                                                                                                     final Class<E> gridConfigEnumClass,
                                                                                                     final Query dataQuery) {
+        return initGridWithQuerySnapshot(context, tableView, gridConfigEnumClass, dataQuery, null);
+    }
+
+    public static <E extends Enum<E> & GridBaseEnum> ListenerRegistration initGridWithQuerySnapshot(final Activity context,
+                                                                                                    final TableView<String[]> tableView,
+                                                                                                    final Class<E> gridConfigEnumClass,
+                                                                                                    final Query dataQuery, final TableColumnModel columnModel) {
 
         //Get Grid header definition enums
         final E[] enumConstants = gridConfigEnumClass.getEnumConstants();
         final int columnCount = enumConstants.length;
 
         //Setup TableHeaderModel
-        tableView.setColumnCount(columnCount);
+        if (columnModel != null) {
+            tableView.setColumnModel(columnModel);
+        } else {
+            tableView.setColumnCount(columnCount);
+        }
         SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(context, getHeaders(enumConstants));
         headerAdapter.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
         tableView.setHeaderAdapter(headerAdapter);
