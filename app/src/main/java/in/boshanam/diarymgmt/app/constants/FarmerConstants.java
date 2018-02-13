@@ -1,6 +1,7 @@
 package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
+import in.boshanam.diarymgmt.domain.MilkType;
 
 /**
  * Created by Siva on 2/9/2018.
@@ -14,16 +15,22 @@ public interface FarmerConstants {
 
         NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER),
         NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING),
-        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING);
+        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, new DisplayValueProvider(MilkType.class));
 
         private int columnHeader;
         private String fieldName;
         private GridColumnType columnType;
+        private DisplayValueProvider displayValueProvider;
 
         FarmerDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
+        }
+
+        FarmerDataGrid(int columnHeader, String fieldName, GridColumnType columnType, DisplayValueProvider displayValueProvider) {
+            this(columnHeader, fieldName, columnType);
+            this.displayValueProvider = displayValueProvider;
         }
 
         public int getColumnHeader() {
@@ -43,5 +50,12 @@ public interface FarmerConstants {
             return null;
         }
 
+        @Override
+        public int getResourceIdForValue(String value) {
+            if (displayValueProvider != null) {
+                return displayValueProvider.getResourceIdForValue(value);
+            }
+            return -1;
+        }
     }
 }

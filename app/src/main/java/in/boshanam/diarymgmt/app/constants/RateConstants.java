@@ -1,6 +1,7 @@
 package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
+import in.boshanam.diarymgmt.domain.MilkType;
 
 import static in.boshanam.diarymgmt.app.constants.FarmerConstants.FARMER_MILK_TYPE_COL_HEADER_KEY;
 
@@ -16,7 +17,7 @@ public interface RateConstants {
 
     enum RateDataGrid implements GridBaseEnum {
         DATE(RATE_DATE_COL_HEADER_KEY, "effectiveDate", GridColumnType.DATE, null),
-        MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING, null),
+        MILK_TYPE(RATE_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, null, new DisplayValueProvider(MilkType.class)),
         FAT(RATE_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f"),
         PRICE(RATE_PRICE_COL_HEADER_KEY, "price", GridColumnType.NUMBER, "%.2f");
 
@@ -24,12 +25,18 @@ public interface RateConstants {
         private String fieldName;
         private GridColumnType columnType;
         private String formatString;
+        private DisplayValueProvider displayValueProvider;
 
         RateDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
             this.formatString = formatString;
+        }
+
+        RateDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString, DisplayValueProvider displayValueProvider) {
+            this(columnHeader, fieldName, columnType, formatString);
+            this.displayValueProvider = displayValueProvider;
         }
 
         public int getColumnHeader() {
@@ -47,6 +54,15 @@ public interface RateConstants {
         @Override
         public String getFormatString() {
             return formatString;
+        }
+
+
+        @Override
+        public int getResourceIdForValue(String value) {
+            if (displayValueProvider != null) {
+                return displayValueProvider.getResourceIdForValue(value);
+            }
+            return -1;
         }
     }
 }

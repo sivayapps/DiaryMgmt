@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/farmer_id"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 

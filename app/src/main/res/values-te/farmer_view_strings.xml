@@ -1,6 +1,6 @@
 <resources>
     <!-- Strings related to Farmer -->
-    <string name="farmer_id_col_header_key">NO</string>
-    <string name="milk_type_col_header_key">Milk</string>
-    <string name="farmer_name_col_header_key">Name</string>
+    <string name="farmer_id_col_header_key">రై. సం.</string>
+    <string name="milk_type_col_header_key">పాలు</string>
+    <string name="farmer_name_col_header_key">పేరు</string>
 </resources>

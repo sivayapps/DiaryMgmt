@@ -50,10 +50,14 @@
         <item>Buffalo</item>
         <item>Cow</item>
     </string-array>
+    <string name="milk_type_buffalo">Buffalo</string>
+    <string name="milk_type_cow">Cow</string>
     <string-array name="shift">
         <item>Morning</item>
         <item>Evening</item>
     </string-array>
+    <string name="shift_type_morning">Morning</string>
+    <string name="shift_type_evening">Evening</string>
     <string name="title_activity_collect_milk_init">Collect Milk</string>
     <string name="search">Search</string>
     <string name="sample_id">Sample Number</string>
@@ -61,7 +65,7 @@
     <string name="lr">LR</string>
     <string name="sample_no">SampleNo</string>
     <string name="snf">SNF</string>
-    <string name="per_ltr_Rate">1ltr Rate</string>
+    <string name="per_ltr_Rate">Ltr Rate</string>
     <string name="user_input_blank_error_msg">please fill empty fields</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>

@@ -10,4 +10,5 @@ public interface GridBaseEnum {
     String getFieldName();
     GridColumnType getColumnType();
     String getFormatString();
+    int getResourceIdForValue(String value);
 }

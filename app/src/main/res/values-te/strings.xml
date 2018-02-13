@@ -34,7 +34,7 @@
     <string name="sample_no">నమూనా సంఖ్య</string>
     <string name="snf">SNF</string>
     <string name="per_ltr_Rate">లీ. ధర</string>
-    <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
+    <string name="fat_rates_missing_for_selected_date">ఎంచుకున్న తేదీకి వెన్న ధరలు లేవు</string>
     <string name="user_input_blank_error_msg">దయచేసి ఖాళీని పూరించండి</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
@@ -54,8 +54,12 @@
         <item>గేదె పాలు</item>
         <item>ఆవు పాలు</item>
     </string-array>
+    <string name="milk_type_buffalo">గేదె</string>
+    <string name="milk_type_cow">ఆవు</string>
     <string-array name="shift">
         <item>ఉదయం</item>
         <item>సాయంత్రం</item>
     </string-array>
+    <string name="shift_type_morning">ఉదయం</string>
+    <string name="shift_type_evening">సాయంత్రం</string>
 </resources>

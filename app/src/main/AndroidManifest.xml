@@ -64,10 +64,10 @@
         <activity
             android:name=".CollectMilkActivity"
             android:label="@string/title_activity_collect_milk_init"
-            android:parentActivityName=".DateShiftSelectActivity">
+            android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DateShiftSelectActivity" />
+                android:value=".MainMenuActivity" />
         </activity>
         <activity
             android:name=".FatEntryActivity"

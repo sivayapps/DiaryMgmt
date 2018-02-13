@@ -106,18 +106,26 @@ public class UIHelper {
                     for (E columnDef : enumConstants) {
                         Object value = dc.get(columnDef.getFieldName());
                         if (value != null) {
-                            String formattedValue;
+                            String formattedValue = null;
                             if (columnDef.getColumnType() == GridColumnType.DATE && value instanceof Date) {
                                 if (displayDateFormat == null) {
                                     displayDateFormat = new SimpleDateFormat(AppConstants.DISPLAY_DATE_FORMATE, Locale.getDefault());
                                 }
                                 formattedValue = displayDateFormat.format(value);
+                            } else if (columnDef.getColumnType() == GridColumnType.ENUM) {
+                                int resourceIdForValue = columnDef.getResourceIdForValue(value.toString());
+                                if(resourceIdForValue != -1) {
+                                    formattedValue = context.getString(resourceIdForValue);
+                                }
                             } else if (StringUtils.isNotBlank(columnDef.getFormatString())) {
                                 formattedValue = String.format(columnDef.getFormatString(), value);
-                            } else {
+                            }
+                            if(StringUtils.isBlank(formattedValue)){
                                 formattedValue = String.valueOf(value);
                             }
                             row[columnDef.ordinal()] = formattedValue;
+                        } else {
+                            row[columnDef.ordinal()] = "";
                         }
                     }
                 }

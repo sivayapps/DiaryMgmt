@@ -31,7 +31,7 @@ public class FatEntryActivity extends AppCompatActivity {
     EditText lr;
     @BindView(R.id.fat_snf)
     EditText snf;
-    @BindView(R.id.ltr_rate)
+    @BindView(R.id.ltr_rate_entry_field)
     EditText ltrRate;
     @BindView((R.id.fat_find))
     Button findFat;

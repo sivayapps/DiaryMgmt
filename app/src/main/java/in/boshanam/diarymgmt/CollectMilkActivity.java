@@ -115,13 +115,13 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                 .whereEqualTo("shift", shift.name())
                 .whereEqualTo("date", collectionDate);
         TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
-        columnModel.setColumnWeight(0, 1);
-        columnModel.setColumnWeight(1, 2);
-        columnModel.setColumnWeight(2, 2);
-        columnModel.setColumnWeight(3, 2);
-        columnModel.setColumnWeight(4, 2);
-        columnModel.setColumnWeight(5, 1);
-        columnModel.setColumnWeight(6, 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SHIFT.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.MILK_TYPE.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SAMPLE_NUM.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.QUANTITY.ordinal(), 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FAT.ordinal(), 1);
         UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
                 MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
         collectedMilkQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
@@ -253,26 +253,28 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     @OnClick(R.id.collect_milk_save)
     public void saveMilk() {
         CollectedMilk collectedMilk = extractCollectedMilkData();
-        if (validateInputData(collectedMilk) && collectedMilk.isValid()) {
-            errorMessageView.setText("");
-            errorMessageView.setVisibility(View.GONE);
-            FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {
-                @Override
-                public void onSuccess(Object o) {
-                    Toast.makeText(CollectMilkActivity.this, "Successfully saved collected milk details", Toast.LENGTH_SHORT).show();
-                    resetFields();
-                }
+        if (validateInputData(collectedMilk)) {
+            if (collectedMilk.isValid()) {
+                errorMessageView.setText("");
+                errorMessageView.setVisibility(View.GONE);
+                FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(CollectMilkActivity.this, "Successfully saved collected milk details", Toast.LENGTH_SHORT).show();
+                        resetFields();
+                    }
 
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, "Exception while saving Collected milk details", e);
-                    Toast.makeText(CollectMilkActivity.this, "Error while saving Collected milk details", Toast.LENGTH_LONG).show();
-                }
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Exception while saving Collected milk details", e);
+                        Toast.makeText(CollectMilkActivity.this, "Error while saving Collected milk details", Toast.LENGTH_LONG).show();
+                    }
 
-            });
-        } else {
-            errorMessageView.setText(R.string.error_msg_verify_all_fields);
-            errorMessageView.setVisibility(View.VISIBLE);
+                });
+            } else {
+                errorMessageView.setText(R.string.error_msg_verify_all_fields);
+                errorMessageView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -283,7 +285,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
             return false;
         }
         CollectedMilk collectedMilkExisting = collectedMilkBySampleNum.get("" + collectedMilk.getMilkSampleNumber());
-        if (collectedMilkExisting != null && collectedMilkExisting.getFarmerId().equals(collectedMilk.getFarmerId())) {
+        if (collectedMilkExisting != null && !collectedMilkExisting.getFarmerId().equals(collectedMilk.getFarmerId())) {
             errorMessageView.setText(R.string.error_msg_sample_number_already_used_for_other_farmer);
             errorMessageView.setVisibility(View.VISIBLE);
             return false;

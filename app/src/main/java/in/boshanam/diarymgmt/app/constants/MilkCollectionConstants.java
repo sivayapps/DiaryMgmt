@@ -1,6 +1,8 @@
 package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
+import in.boshanam.diarymgmt.domain.MilkType;
+import in.boshanam.diarymgmt.domain.Shift;
 
 /**
  * Created by Siva on 2/11/2018.
@@ -19,26 +21,37 @@ public interface MilkCollectionConstants {
 
     enum CollectedMilkDataGrid implements GridBaseEnum {
 
-        FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER, null),
-        DATE(MILK_COLLECTED_DATE_COL_HEADER_KEY, "date", GridColumnType.DATE, null),
-        SHIFT(MILK_COLLECTED_SHIFT_COL_HEADER_KEY, "shift", GridColumnType.STRING, null),
-        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.STRING, null),
-        SAMPLE_NUM(MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY, "milkSampleNumber", GridColumnType.NUMBER, null),
+        FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER),
+        DATE(MILK_COLLECTED_DATE_COL_HEADER_KEY, "date", GridColumnType.DATE),
+        SHIFT(MILK_COLLECTED_SHIFT_COL_HEADER_KEY, "shift", GridColumnType.ENUM, null, new DisplayValueProvider(Shift.class)),
+        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, null, new DisplayValueProvider(MilkType.class)),
+        SAMPLE_NUM(MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY, "milkSampleNumber", GridColumnType.NUMBER),
         QUANTITY(MILK_COLLECTED_QUANTITY_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER, "%.2f"),
         FAT(MILK_COLLECTED_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f");
 //        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER);
 // TODO
 
+        private DisplayValueProvider displayValueProvider;
         private int columnHeader;
         private String fieldName;
         private GridColumnType columnType;
         private String formatString;
 
-        CollectedMilkDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
+        CollectedMilkDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
+        }
+
+
+        CollectedMilkDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
+            this(columnHeader, fieldName, columnType);
             this.formatString = formatString;
+        }
+
+        CollectedMilkDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString, DisplayValueProvider displayValueProvider) {
+            this(columnHeader, fieldName, columnType, formatString);
+            this.displayValueProvider = displayValueProvider;
         }
 
         public int getColumnHeader() {
@@ -58,6 +71,13 @@ public interface MilkCollectionConstants {
             return formatString;
         }
 
+        @Override
+        public int getResourceIdForValue(String value) {
+            if (displayValueProvider != null) {
+                return displayValueProvider.getResourceIdForValue(value);
+            }
+            return -1;
+        }
     }
 
 }

@@ -36,7 +36,7 @@
             android:id="@+id/rateEntry"
             style="@style/mainMenuButtonStyle"
             android:text="@string/rate_entry" />
-
+<!--
         <Button
             android:id="@+id/paymentReport"
             style="@style/mainMenuButtonStyle"
@@ -45,7 +45,7 @@
         <Button
             android:id="@+id/farmerReport"
             style="@style/mainMenuButtonStyle"
-            android:text="@string/farmer_reports" />
+            android:text="@string/farmer_reports" />-->
 
     </LinearLayout>
 
