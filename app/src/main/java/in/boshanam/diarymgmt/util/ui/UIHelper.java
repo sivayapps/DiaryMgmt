@@ -109,7 +109,7 @@ public class UIHelper {
                             String formattedValue = null;
                             if (columnDef.getColumnType() == GridColumnType.DATE && value instanceof Date) {
                                 if (displayDateFormat == null) {
-                                    displayDateFormat = new SimpleDateFormat(AppConstants.DISPLAY_DATE_FORMATE, Locale.getDefault());
+                                    displayDateFormat = new SimpleDateFormat(AppConstants.DISPLAY_GRID_DATE_FORMAT, Locale.getDefault());
                                 }
                                 formattedValue = displayDateFormat.format(value);
                             } else if (columnDef.getColumnType() == GridColumnType.ENUM) {

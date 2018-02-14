@@ -17,6 +17,7 @@ public interface MilkCollectionConstants {
     int MILK_COLLECTED_QUANTITY_COL_HEADER_KEY = R.string.collected_milk_quantity_col_header_key;
     int MILK_COLLECTED_FAT_COL_HEADER_KEY = R.string.collected_milk_fat_col_header_key;
     int MILK_COLLECTED_PRICE_COL_HEADER_KEY = R.string.collected_milk_price_col_header_key;
+    int MILK_COLLECTED_LTR_PRICE_COL_HEADER_KEY = R.string.collected_milk_ltr_price_col_header_key;
 
 
     enum CollectedMilkDataGrid implements GridBaseEnum {
@@ -24,12 +25,12 @@ public interface MilkCollectionConstants {
         FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER),
         DATE(MILK_COLLECTED_DATE_COL_HEADER_KEY, "date", GridColumnType.DATE),
         SHIFT(MILK_COLLECTED_SHIFT_COL_HEADER_KEY, "shift", GridColumnType.ENUM, null, new DisplayValueProvider(Shift.class)),
-        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, null, new DisplayValueProvider(MilkType.class)),
+//        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, null, new DisplayValueProvider(MilkType.class)),
         SAMPLE_NUM(MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY, "milkSampleNumber", GridColumnType.NUMBER),
         QUANTITY(MILK_COLLECTED_QUANTITY_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER, "%.2f"),
-        FAT(MILK_COLLECTED_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f");
-//        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER);
-// TODO
+        FAT(MILK_COLLECTED_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f"),
+        LTR_PRICE(MILK_COLLECTED_LTR_PRICE_COL_HEADER_KEY, "perLtrPriceUsed", GridColumnType.NUMBER, "%.2f"),
+        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkPriceComputed", GridColumnType.NUMBER, "%.2f");
 
         private DisplayValueProvider displayValueProvider;
         private int columnHeader;

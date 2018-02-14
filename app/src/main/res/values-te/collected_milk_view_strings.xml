@@ -3,7 +3,10 @@
     <string name="collected_milk_date_col_header_key">తేదీ</string>
     <string name="collected_milk_shift_col_header_key">ఉ/సా</string>
     <string name="collected_milk_quantity_col_header_key">లీ.</string>
-    <string name="collected_milk_sample_num_col_header_key">శా. నెం.</string>
-    <string name="collected_milk_fat_col_header_key">వె. శా</string>
+    <string name="collected_milk_sample_num_col_header_key">శా.నెం.</string>
+    <string name="collected_milk_fat_col_header_key">వె.శా</string>
     <string name="collected_milk_price_col_header_key">ధర</string>
+    <string name="collected_milk_ltr_price_col_header_key">లీ.ధర</string>
+    <string name="quantity_header">పరిమాణము: </string>
+    <string name="milk_unit">లీ</string>
 </resources>

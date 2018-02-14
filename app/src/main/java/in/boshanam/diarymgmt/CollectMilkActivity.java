@@ -61,7 +61,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     EditText fatField;
 
     @BindView(R.id.collect_milk_farmer_details_display_text_field_id)
-    TextView selectedFarmerIdDisplayView;
+    TextView selectedFarmerDisplayView;
 
     @BindView(R.id.collected_milk_listing_table_view)
     SortableTableView<String[]> collectedMilkListingTableView;
@@ -114,16 +114,11 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
                 .whereEqualTo("shift", shift.name())
                 .whereEqualTo("date", collectionDate);
-        TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SHIFT.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.MILK_TYPE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SAMPLE_NUM.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.QUANTITY.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FAT.ordinal(), 1);
-        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
+        initMilkCollectionDetailsGrid(collectedMilkQuery);
+        registerMilkCollectedCacheLoader(collectedMilkQuery);
+    }
+
+    private void registerMilkCollectedCacheLoader(Query collectedMilkQuery) {
         collectedMilkQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -147,7 +142,24 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         });
     }
 
-    private void registerFarmersCacheLoader(String dairyId) {
+    private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
+        TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SHIFT.ordinal(), 2);
+//        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.MILK_TYPE.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SAMPLE_NUM.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.QUANTITY.ordinal(), 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FAT.ordinal(), 1);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.LTR_PRICE.ordinal(), 2);
+        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.PRICE.ordinal(), 2);
+//        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
+//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
+        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
+                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+    }
+
+    protected void registerFarmersCacheLoader(String dairyId) {
         FireBaseDao.buildAllFarmersQuery(dairyId).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -196,6 +208,10 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
             Farmer registeredFarmer = registeredFarmers.get(farmerID);
             updateFarmerDetailsView(registeredFarmer);
             CollectedMilk collectedMilk = collectedMilkByFarmerId.get(farmerID);
+            if(collectedMilk == null) {
+                collectedMilk = new CollectedMilk();
+                collectedMilk.setFarmerId(farmerID);
+            }
             updateCollectedMilkFields(collectedMilk, true);
         }
     }
@@ -207,11 +223,6 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
             return;
         }
         String farmerSampleNo = farmerSampleId.getText().toString().trim();
-        String dairyId = getDairyID();
-        if (StringUtils.isBlank(dairyId)) {
-            UIHelper.logoutAndShowLogin(this, "Dairy Information not available, logging out to reload");
-            return;
-        }
         if (StringUtils.isNotBlank(farmerSampleNo)) {
             CollectedMilk collectedMilk = collectedMilkBySampleNum.get(farmerSampleNo);
             if (collectedMilk != null) {
@@ -229,16 +240,22 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         int milkSampleNumber = collectedMilk.getMilkSampleNumber();
         if (byFarmerId && milkSampleNumber > 0) {
             farmerSampleId.setText("" + milkSampleNumber);
+        } else if(byFarmerId) {
+            farmerSampleId.setText("");
         } else {
             registeredFarmerId.setText(collectedMilk.getFarmerId());
         }
         float quantity = collectedMilk.getMilkQuantity();
         if (quantity > 0) {
             milkQuantityField.setText(String.format("%.2f", quantity));
+        } else {
+            milkQuantityField.setText("");
         }
         float fat = collectedMilk.getFat();
         if (fat > 0) {
             fatField.setText(String.format("%.1f", fat));
+        } else {
+            fatField.setText("");
         }
     }
 
@@ -246,7 +263,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         if (registeredFarmer == null) {
             return;
         }
-        selectedFarmerIdDisplayView.setText(getString(R.string.farmer_id_heading) + registeredFarmer.getId() + ", " + getString(R.string.farmer_name_heading) + registeredFarmer.getName());
+        selectedFarmerDisplayView.setText(getString(R.string.farmer_id_heading) + registeredFarmer.getId() + ", " + getString(R.string.farmer_name_heading) + registeredFarmer.getName());
         findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.VISIBLE);
     }
 
@@ -341,7 +358,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         farmerSampleId.setText("");
         milkQuantityField.setText("");
         fatField.setText("");
-        selectedFarmerIdDisplayView.setText("");
+        selectedFarmerDisplayView.setText("");
         findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.GONE);
     }
 

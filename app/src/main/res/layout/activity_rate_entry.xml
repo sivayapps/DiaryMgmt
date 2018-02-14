@@ -17,32 +17,44 @@
         android:theme="@style/AppTheme"
         android:visibility="visible">
 
+    <LinearLayout
+        style="@style/formFieldsVerticalFlowStyle"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal|center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/effective_date"
+            style="@style/formFieldsHorizontalFlowStyle"
+            android:layout_marginTop="0dp"
+            android:layout_weight="3"
+            android:focusable="false"
+            android:inputType="text"
+            android:textSize="30sp" />
+
         <RelativeLayout
             android:id="@+id/rate_loadingProgressPanel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
             android:gravity="center"
-            android:visibility="gone">
-
+            android:visibility="visible">
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true" />
         </RelativeLayout>
-
-        <EditText
-            android:id="@+id/effective_date"
-            style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="0dp"
-            android:focusable="false"
-            android:inputType="text"
-            android:textSize="30sp" />
+    </LinearLayout>
 
         <Spinner
             android:id="@+id/rate_milk_type"
             style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
             android:entries="@array/milk_type"
             android:gravity="top" />
 
@@ -113,6 +125,8 @@
             android:id="@+id/rateListingTableView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             table:tableView_headerColor="@color/colorPrimary" />
     </LinearLayout>
 

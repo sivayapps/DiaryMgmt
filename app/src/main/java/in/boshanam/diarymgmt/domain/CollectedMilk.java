@@ -17,6 +17,9 @@ public class CollectedMilk {
     private float milkQuantity;
     private float fat;
     private float milkPerLtrPriceOverride;
+    private float perLtrPriceUsed;
+    private float milkPriceComputed;
+    private float lr;
     private int milkSampleNumber;
     private Date updateTime;
 
@@ -114,5 +117,29 @@ public class CollectedMilk {
 
     public void setMilkType(MilkType milkType) {
         this.milkType = milkType;
+    }
+
+    public float getPerLtrPriceUsed() {
+        return perLtrPriceUsed;
+    }
+
+    public void setPerLtrPriceUsed(float perLtrPriceUsed) {
+        this.perLtrPriceUsed = perLtrPriceUsed;
+    }
+
+    public float getMilkPriceComputed() {
+        return milkPriceComputed;
+    }
+
+    public void setMilkPriceComputed(float milkPriceComputed) {
+        this.milkPriceComputed = milkPriceComputed;
+    }
+
+    public float getLr() {
+        return lr;
+    }
+
+    public void setLr(float lr) {
+        this.lr = lr;
     }
 }

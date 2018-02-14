@@ -63,9 +63,9 @@ public class RateEntryActivity extends BaseAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDateFormatters();
-
         setContentView(R.layout.activity_rate_entry);
         ButterKnife.bind(this);
+        findViewById(R.id.rate_loadingProgressPanel).setVisibility(View.GONE);
         calendar = Calendar.getInstance();
         effectiveDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         String dairyId = getDairyID();
@@ -127,8 +127,8 @@ public class RateEntryActivity extends BaseAppCompatActivity {
         String expectedStringFormateDate = null;
         Date getDate = null;
         try {
-            getDate = dateFormatterDbKey.parse(dateFormate);
-            expectedStringFormateDate = dateFormatterDisplay.format(getDate);
+            getDate = dateFormatterDisplay.parse(dateFormate);
+            expectedStringFormateDate = dateFormatterDbKey.format(getDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

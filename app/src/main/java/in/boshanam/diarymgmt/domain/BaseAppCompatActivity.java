@@ -22,8 +22,8 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected DateFormat dateFormatterDbKey;
 
     protected void initDateFormatters() {
-        dateFormatterDisplay = new SimpleDateFormat(AppConstants.DISPLAY_DATE_FORMATE, Locale.getDefault());
-        dateFormatterDbKey = new SimpleDateFormat(AppConstants.DB_KEY_DATE_FORMATE, Locale.getDefault());
+        dateFormatterDisplay = new SimpleDateFormat(AppConstants.DISPLAY_DATE_FORMAT, Locale.getDefault());
+        dateFormatterDbKey = new SimpleDateFormat(AppConstants.DB_KEY_DATE_FORMAT, Locale.getDefault());
     }
 
     protected String getDairyID() {

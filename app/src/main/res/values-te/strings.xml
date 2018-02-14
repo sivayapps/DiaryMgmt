@@ -2,6 +2,8 @@
 <resources>
 
     <string name="title_activity_collect_milk_init">పాల సేకరణ</string>
+    <string name="title_activity_dairy_owner_profile_update">పాల కేంద్ర నమోదు</string>
+    <string name="title_activity_payment_reports_dates">Reports Dates</string>
 
 
     <string name="dairy_owner_name">పాల కేంద్ర యజమాని పేరు</string>
@@ -17,7 +19,6 @@
     <string name="milk_volume">పరిమాణము</string>
     <string name="fat_entry">వెన్న శాతం నమోదు</string>
     <string name="payment_reports">చెల్లింపు నివేదికలు</string>
-    <string name="farmer_registraion">రైతు నమోదు</string>
     <string name="farmer_name">రైతు పేరు</string>
     <string name="milk_type">పాలు రకం</string>
     <string name="dairy_registraion">పాల కేంద్రం నమోదు</string>
@@ -33,7 +34,7 @@
     <string name="lr">LR</string>
     <string name="sample_no">నమూనా సంఖ్య</string>
     <string name="snf">SNF</string>
-    <string name="per_ltr_Rate">లీ. ధర</string>
+    <string name="per_ltr_rate">లీ. ధర</string>
     <string name="fat_rates_missing_for_selected_date">ఎంచుకున్న తేదీకి వెన్న ధరలు లేవు</string>
     <string name="user_input_blank_error_msg">దయచేసి ఖాళీని పూరించండి</string>
     <string name="total_farmer_report">Total Farmer Reports</string>

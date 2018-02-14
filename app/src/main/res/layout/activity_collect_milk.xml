@@ -141,18 +141,6 @@
                     android:layout_height="wrap_content"
                     android:indeterminate="true" />
             </RelativeLayout>
-            <!--
-                        <Button
-                            android:id="@+id/find_farmer_button_id"
-                            style="@style/formButtonStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal|center_vertical|center"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginStart="0dp"
-                            android:layout_weight="1"
-                            android:text="@string/find"
-                            android:textSize="20sp" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -237,8 +225,8 @@
             android:id="@+id/collected_milk_listing_table_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             table:tableView_headerColor="@color/colorPrimary" />
     </LinearLayout>
 

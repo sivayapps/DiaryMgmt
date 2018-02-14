@@ -24,7 +24,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/collect_milk_filler_1"
+                android:id="@+id/fat_entry_filler_1"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
@@ -33,7 +33,7 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/fat_milk_date"
+                android:id="@+id/fat_entry_milk_collection_date"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
@@ -44,7 +44,7 @@
                 android:text="Date"
                 />
             <TextView
-                android:id="@+id/fat_milk_shift"
+                android:id="@+id/fat_entry_milk_collection_shift"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -55,7 +55,7 @@
                 android:text="Shift"
                 />
             <TextView
-                android:id="@+id/collect_milk_filler_2"
+                android:id="@+id/fat_entry_filler_2"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
@@ -66,21 +66,38 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/fat_entry_view_error_message_view"
+            style="@style/formFieldsVerticalFlowStyle"
+            android:gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/fat_rates_missing_for_selected_date"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:visibility="gone"
+            />
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal">
+            android:orientation="horizontal" android:baselineAligned="false">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_sample_id_find"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="3"
+                >
                 <EditText
-                    android:id="@+id/fat_sample_id"
+                    android:id="@+id/fat_entry_milk_sample_id"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -88,15 +105,56 @@
                     android:inputType="number"
                     android:textSize="20sp" />
             </android.support.design.widget.TextInputLayout>
-            <Button
-                android:id="@+id/fat_find"
-                style="@style/formButtonStyle"
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_fat"
                 android:layout_width="0dp"
-                android:layout_gravity="center_horizontal|center_vertical|center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="2">
+                <EditText
+                    android:id="@+id/fat_entry_fat_field"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/fat"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_lr"
+                android:layout_width="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <EditText
+                    android:id="@+id/fat_entry_lr_field"
+                    style="@style/formFieldsHorizontalFlowStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:hint="@string/lr"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/fat_entry_view_loading_progress_panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/find" />
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:visibility="visible">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -108,17 +166,16 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_fat"
+                android:id="@+id/fat_entry_ltr_rate_entry_field_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
-
                 <EditText
-                    android:id="@+id/fat"
+                    android:id="@+id/fat_entry_ltr_rate_entry_field"
                     style="@style/formFieldsHorizontalFlowStyle"
                     android:layout_width="match_parent"
-                    android:layout_marginEnd="5dp"
-                    android:hint="@string/fat"
+                    android:layout_marginStart="5dp"
+                    android:hint="@string/per_ltr_rate"
                     android:inputType="number|numberDecimal"
                     android:textSize="20sp" />
             </android.support.design.widget.TextInputLayout>
@@ -134,69 +191,37 @@
                 android:text="@string/save" />
         </LinearLayout>
 
+
         <LinearLayout
+            android:id="@+id/fat_entry_farmer_details_display_view_id"
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:baselineAligned="false"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_lr"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/fat_entry_farmer_details_display_text_field_id"
+                style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:gravity="start"
+                android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/fat_lr"
-                    style="@style/formFieldsHorizontalFlowStyle"
-                    android:layout_width="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:hint="@string/lr"
-                    android:inputType="number|numberDecimal"
-                    android:textSize="20sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_snf"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/fat_snf"
-                    style="@style/formFieldsHorizontalFlowStyle"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginStart="5dp"
-                    android:hint="@string/snf"
-                    android:inputType="number|numberDecimal"
-                    android:textSize="20sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_rate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <EditText
-                    android:id="@+id/ltr_rate_entry_field"
-                    style="@style/formFieldsHorizontalFlowStyle"
-                    android:layout_width="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:hint="@string/per_ltr_Rate"
-                    android:inputType="number|numberDecimal"
-                    android:textSize="20sp" />
-            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <de.codecrafters.tableview.SortableTableView
             xmlns:table="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fat_entry_view_fat_listing_table_view"
+            android:id="@+id/fat_entry_view_collected_milk_listing_table_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             table:tableView_headerColor="@color/colorPrimary" />
 
     </LinearLayout>

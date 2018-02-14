@@ -58,6 +58,7 @@ public class FarmerActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer);
         ButterKnife.bind(this);
+        findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
         listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerListingTableView,

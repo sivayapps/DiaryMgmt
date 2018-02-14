@@ -1,19 +1,7 @@
 <resources>
     <string name="app_name">DiaryMgmt</string>
-    <string name="title_activity_login2">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="title_activity_dairy_owner_profile_update">DairyOwnerProfileUpdate</string>
     <string name="dairy_owner_name">Dairy Owner Name</string>
 
@@ -22,7 +10,6 @@
     <string name="register">Register</string>
     <string name="owner_name">Owner Name</string>
     <string name="phone_number">Phone Number</string>
-    <string name="title_activity_second">@string/dairy_name</string>
     <string name="farmer_register">Former Register</string>
     <string name="rate_entry">Rate Entry</string>
     <string name="fat_entry">Fat Entry</string>
@@ -30,21 +17,17 @@
     <string name="collect_milk">Collect Milk</string>
     <string name="milk_volume">Volume</string>
     <string name="save">Save</string>
-    <string name="farmer_registraion">FarmerRegistration</string>
     <string name="farmer_name">Farmer Name</string>
-    <string name="autocompletetextview">AutoCompleteTextView</string>
     <string name="milk_type">Milk Type</string>
     <string name="dairy_registraion">Dairy Registration</string>
     <string name="farmer_id">Farmer No</string>
 
 
-    <string name="milk_prompt">Choose Milk Type</string>
     <string name="fat">Fat %</string>
     <string name="fat_rates_missing_for_selected_date">Fat Rates Missing For Selected Date</string>
     <string name="rate">Rate</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
-    <string name="shift_prompt">Select Shift</string>
     <string name="Next">Next</string>
     <string-array name="milk_type">
         <item>Buffalo</item>
@@ -65,11 +48,11 @@
     <string name="lr">LR</string>
     <string name="sample_no">SampleNo</string>
     <string name="snf">SNF</string>
-    <string name="per_ltr_Rate">Ltr Rate</string>
+    <string name="per_ltr_rate">Ltr Rate</string>
     <string name="user_input_blank_error_msg">please fill empty fields</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
-    <string name="title_activity_payment_reports_dates">PaymentReportsDatesActivity</string>
+    <string name="title_activity_payment_reports_dates">Reports Dates</string>
     <string name="farmer_reports">Farmer Reports</string>
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
