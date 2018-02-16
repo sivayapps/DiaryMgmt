@@ -32,30 +32,31 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:textSize="30sp"
                 android:textStyle="bold"
                 />
             <TextView
                 android:id="@+id/collect_milk_date"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="4"
                 android:gravity="end"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Date"
+                android:text="Date Value"
                 />
             <TextView
                 android:id="@+id/collect_milk_shift"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="4"
                 android:gravity="start"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Shift"
+                android:text="Shift Val"
                 />
             <TextView
                 android:id="@+id/collect_milk_filler_2"
@@ -64,7 +65,6 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:textSize="30sp"
                 android:textStyle="bold"
                 />
 

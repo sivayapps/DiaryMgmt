@@ -135,7 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.e(TAG, "get failed with ", e);
-                    Toast.makeText(LoginActivity.this, "Data Retrieval failed with " + e.getLocalizedMessage(), Toast.LENGTH_LONG);
+                    Toast.makeText(LoginActivity.this, "Data Retrieval failed with "
+                            + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         } else {

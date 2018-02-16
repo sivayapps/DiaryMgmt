@@ -272,6 +272,10 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         CollectedMilk collectedMilk = extractCollectedMilkData();
         if (validateInputData(collectedMilk)) {
             if (collectedMilk.isValid()) {
+                //Update cache to avoid missing snapshot events on save to auto refresh cache
+                collectedMilkByFarmerId.put(collectedMilk.getFarmerId(), collectedMilk);
+                collectedMilkBySampleNum.put("" + collectedMilk.getMilkSampleNumber(), collectedMilk);
+
                 errorMessageView.setText("");
                 errorMessageView.setVisibility(View.GONE);
                 FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {

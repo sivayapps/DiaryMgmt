@@ -1,6 +1,8 @@
 package in.boshanam.diarymgmt.domain;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Siva on 2/3/2018.
@@ -13,6 +15,7 @@ public class Dairy {
     private boolean active;
     private String address;
     private Date updateTime;
+    private Map<String, Role> roles;
 
     public Date getUpdateTime() {
         return updateTime;
@@ -52,5 +55,16 @@ public class Dairy {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Map<String, Role> getRoles() {
+        if(roles == null) {
+            this.roles = new HashMap<>();
+        }
+        return roles;
+    }
+
+    public void setRoles(Map<String, Role> roles) {
+        this.roles = roles;
     }
 }

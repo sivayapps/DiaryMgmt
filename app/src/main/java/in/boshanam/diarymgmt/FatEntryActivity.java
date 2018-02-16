@@ -87,7 +87,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
         initDateFormatters();
         setContentView(R.layout.activity_fat_entry);
         ButterKnife.bind(this);
-        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
+//        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
         Intent intent = getIntent();
         savedInstanceState = intent.getExtras();
         dateForDisplay = (String.valueOf(savedInstanceState.get("date")));
@@ -185,7 +185,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
     }
 
     private boolean validateLRField(CollectedMilk collectedMilk) {
-        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
+//        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
         String lrStr = lrField.getText().toString().trim();
         if (StringUtils.isNotBlank(lrStr)) {
             float lrVal = 0;
@@ -199,7 +199,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
             if (lrVal > 0) {
                 errorMessageView.setText("");
                 errorMessageView.setVisibility(View.GONE);
-                findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.VISIBLE);
+//                findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.VISIBLE);
                 if (collectedMilk != null) {
                     collectedMilk.setLr(lrVal);
                 }
@@ -256,7 +256,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
             if (val > 0) {
                 errorMessageView.setText("");
                 errorMessageView.setVisibility(View.GONE);
-                findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.VISIBLE);
+//                findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.VISIBLE);
                 if (collectedMilk != null) {
                     collectedMilk.setFat(val);
                 }
@@ -391,6 +391,6 @@ public class FatEntryActivity extends BaseAppCompatActivity {
 
         selectedFarmerDisplayView.setText("");
         findViewById(R.id.fat_entry_farmer_details_display_text_field_id).setVisibility(View.GONE);
-        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
+//        findViewById(R.id.fat_entry_ltr_rate_entry_field_layout).setVisibility(View.GONE);
     }
 }

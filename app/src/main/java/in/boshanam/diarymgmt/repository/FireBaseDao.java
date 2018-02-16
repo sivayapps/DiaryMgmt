@@ -25,7 +25,9 @@ import in.boshanam.diarymgmt.domain.CollectedMilk;
 import in.boshanam.diarymgmt.domain.Dairy;
 import in.boshanam.diarymgmt.domain.DairyOwner;
 import in.boshanam.diarymgmt.domain.Farmer;
+import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
+import in.boshanam.diarymgmt.domain.Role;
 import in.boshanam.diarymgmt.util.StringUtils;
 
 /**
@@ -109,6 +111,7 @@ public class FireBaseDao {
             dairyRef = db.collection("Dairy").document();
             dairyOwner.setDairyId(dairyRef.getId());
             Dairy dairy = new Dairy();
+            dairy.getRoles().put(userId, Role.OWNER);
             dairy.setActive(true);
             dairy.setDairyName(dairyOwner.getDairyName());
             dairy.setId(dairyRef.getId());
@@ -198,6 +201,18 @@ public class FireBaseDao {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection(DAIRY_COLLECTION).document(dairyId)
                 .collection(COLLECTED_MILK);
+    }
+
+    @NonNull
+    public static Query buildRateQuery(String dairyId, MilkType milkType, Date endDate) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(RATE_COLLECTION)
+                .whereEqualTo("dairyId", dairyId)
+                .whereEqualTo("milkType", milkType.name())
+                .whereEqualTo("active", true)
+                .whereLessThanOrEqualTo("effectiveDate", endDate)
+                .orderBy("effectiveDate", Query.Direction.DESCENDING);
     }
 
     private static Query buildRateEntryQuery(Rate rate) {
