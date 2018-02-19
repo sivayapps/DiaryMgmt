@@ -34,6 +34,8 @@ import in.boshanam.diarymgmt.domain.CollectedMilk;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.Shift;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
@@ -85,6 +87,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     private Map<String, Farmer> registeredFarmers;
     private Map<String, CollectedMilk> collectedMilkBySampleNum;
     private Map<String, CollectedMilk> collectedMilkByFarmerId;
+    private MilkRateCalculator milkRateCalculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,17 +108,31 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         try {
             collectionDate = dateFormatterDisplay.parse(dateForDisplay);
             dateForDbKey = dateFormatterDbKey.format(collectionDate);
-            Toast.makeText(this, "Selected date '" + dateForDisplay + "' invalid format", Toast.LENGTH_SHORT).show();
         } catch (ParseException e) {
+            Toast.makeText(this, "Selected date '" + dateForDisplay + "' invalid format", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Date parse error: " + e.getLocalizedMessage());
         }
         String dairyId = getDairyID();
         registerFarmersCacheLoader(dairyId);
-        Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
+        final Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
                 .whereEqualTo("shift", shift.name())
                 .whereEqualTo("date", collectionDate);
-        initMilkCollectionDetailsGrid(collectedMilkQuery);
-        registerMilkCollectedCacheLoader(collectedMilkQuery);
+        MilkRateCalculator.build(this, dairyId, collectionDate, collectionDate, new ListenerAdapter<MilkRateCalculator>() {
+            @Override
+            public void onSuccess(MilkRateCalculator milkRateCalculator) {
+                CollectMilkActivity.this.milkRateCalculator = milkRateCalculator;
+                initMilkCollectionDetailsGrid(collectedMilkQuery);
+                registerMilkCollectedCacheLoader(collectedMilkQuery);
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Exception while fetching rates: ", e);
+                Toast.makeText(CollectMilkActivity.this, "Exception while fetching rates: "
+                        + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+//        FireBaseDao.buildRateQuery(dairyId, )
     }
 
     private void registerMilkCollectedCacheLoader(Query collectedMilkQuery) {
@@ -131,6 +148,12 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                 Map<String, CollectedMilk> collectedMilkBySampleNumMap = new HashMap<>();
                 for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                     CollectedMilk collectedMilk = ds.toObject(CollectedMilk.class);
+                    float priceUsed = collectedMilk.getPerLtrPriceUsed();
+                    milkRateCalculator.computeAndSetMilkRate(collectedMilk);
+                    if(!MathUtil.equalsDefaultEPS(priceUsed, collectedMilk.getPerLtrPriceUsed())) {
+                        FireBaseDao.saveCollectedMilkDetails(CollectMilkActivity.this, collectedMilk, new ListenerAdapter() {
+                        });
+                    }
                     collectedMilkByFarmerIdMap.put(collectedMilk.getFarmerId(), collectedMilk);
                     collectedMilkBySampleNumMap.put("" + collectedMilk.getMilkSampleNumber(), collectedMilk);
                 }
@@ -208,7 +231,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
             Farmer registeredFarmer = registeredFarmers.get(farmerID);
             updateFarmerDetailsView(registeredFarmer);
             CollectedMilk collectedMilk = collectedMilkByFarmerId.get(farmerID);
-            if(collectedMilk == null) {
+            if (collectedMilk == null) {
                 collectedMilk = new CollectedMilk();
                 collectedMilk.setFarmerId(farmerID);
             }
@@ -240,7 +263,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         int milkSampleNumber = collectedMilk.getMilkSampleNumber();
         if (byFarmerId && milkSampleNumber > 0) {
             farmerSampleId.setText("" + milkSampleNumber);
-        } else if(byFarmerId) {
+        } else if (byFarmerId) {
             farmerSampleId.setText("");
         } else {
             registeredFarmerId.setText(collectedMilk.getFarmerId());

@@ -98,8 +98,8 @@ public class FatEntryActivity extends BaseAppCompatActivity {
         try {
             collectionDate = dateFormatterDisplay.parse(dateForDisplay);
             dateForDbKey = dateFormatterDbKey.format(collectionDate);
-            Toast.makeText(this, "Selected date '" + dateForDisplay + "' invalid format", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
+            Toast.makeText(this, "Selected date '" + dateForDisplay + "' invalid format", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Date parse error: " + e.getLocalizedMessage());
         }
         String dairyId = getDairyID();

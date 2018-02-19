@@ -18,7 +18,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.CollectedMilk;
@@ -28,6 +30,7 @@ import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
 import in.boshanam.diarymgmt.domain.Role;
+import in.boshanam.diarymgmt.service.FirestoreQueryPaginator;
 import in.boshanam.diarymgmt.util.StringUtils;
 
 /**
@@ -203,7 +206,46 @@ public class FireBaseDao {
                 .collection(COLLECTED_MILK);
     }
 
-    @NonNull
+    public static void fetchRates(final Activity activity, String dairyId, MilkType milkType,
+                                  final Date from, final Date to,
+                                  final ListenerAdapter<List<Rate>> callerListener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection(DAIRY_COLLECTION).document(dairyId)
+                .collection(RATE_COLLECTION)
+                .whereEqualTo("dairyId", dairyId)
+                .whereEqualTo("milkType", milkType.name())
+                .whereEqualTo("active", true)
+                .whereLessThanOrEqualTo("effectiveDate", to)
+                .orderBy("effectiveDate", Query.Direction.DESCENDING);
+        final List<Rate> milkRates = new ArrayList<>();
+        final FirestoreQueryPaginator<Rate> queryPaginator = new FirestoreQueryPaginator<>(query, 10, Rate.class);
+
+        queryPaginator.readNextPage(activity, new ListenerAdapter<List<Rate>>() {
+            @Override
+            public void onSuccess(List<Rate> rates) {
+                boolean enoughRatesRead = rates.size() <= 0;
+                for (Rate rate : rates) {
+                    milkRates.add(rate);
+                    if(from.after(rate.getEffectiveDate())) {
+                        enoughRatesRead = true;
+                        break;
+                    }
+                }
+                if(enoughRatesRead) {
+                    callerListener.onSuccess(milkRates);
+                } else {
+                    queryPaginator.readNextPage(activity,this);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                callerListener.onFailure(e);
+            }
+        });
+    }
+
+   /* @NonNull
     public static Query buildRateQuery(String dairyId, MilkType milkType, Date endDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection(DAIRY_COLLECTION).document(dairyId)
@@ -226,10 +268,10 @@ public class FireBaseDao {
 
     }
 
-    /**
+    *//**
      * TODO READ https://firebase.google.com/docs/firestore/query-data/listen
      * Use snapshot listener to refresh the grid on every update on data in event handler
-     */
+     *//*
     private static Query buildRateEntriesQuery(String dairyId, String milkType, Date effectiveDate) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection(RATE_COLLECTION)
@@ -238,6 +280,7 @@ public class FireBaseDao {
                 .whereEqualTo("effectiveDate", effectiveDate)
                 .orderBy("fat");
     }
+*/
 
     public static void loadFarmerById(Activity activity, String dairyId, String farmerId, ListenerAdapter<DocumentSnapshot> listenerAdapter) {
 

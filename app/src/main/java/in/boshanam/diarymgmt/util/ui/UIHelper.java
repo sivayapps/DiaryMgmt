@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.codecrafters.tableview.SortableTableView;
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.model.TableColumnModel;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
@@ -30,9 +31,13 @@ import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.GridBaseEnum;
 import in.boshanam.diarymgmt.app.constants.GridColumnType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.util.DateComparator;
+import in.boshanam.diarymgmt.util.NumberComparator;
+import in.boshanam.diarymgmt.util.StringComparator;
 import in.boshanam.diarymgmt.util.StringUtils;
 
 import static in.boshanam.diarymgmt.FarmerActivity.TAG;
+import static in.boshanam.diarymgmt.app.constants.GridColumnType.DATE;
 
 /**
  * Created by Siva on 2/9/2018.
@@ -62,17 +67,28 @@ public class UIHelper {
         spin.setSelection(index);
     }
 
-    public static <E extends Enum<E> & GridBaseEnum> ListenerRegistration initGridWithQuerySnapshot(final Activity context,
-                                                                                                    final TableView<String[]> tableView,
-                                                                                                    final Class<E> gridConfigEnumClass,
-                                                                                                    final Query dataQuery) {
+    public static <E extends Enum<E> & GridBaseEnum>
+    ListenerRegistration initGridWithQuerySnapshot(final Activity context,
+                                                   final TableView<String[]> tableView,
+                                                   final Class<E> gridConfigEnumClass,
+                                                   final Query dataQuery) {
         return initGridWithQuerySnapshot(context, tableView, gridConfigEnumClass, dataQuery, null);
     }
 
-    public static <E extends Enum<E> & GridBaseEnum> ListenerRegistration initGridWithQuerySnapshot(final Activity context,
-                                                                                                    final TableView<String[]> tableView,
-                                                                                                    final Class<E> gridConfigEnumClass,
-                                                                                                    final Query dataQuery, final TableColumnModel columnModel) {
+    public static <E extends Enum<E> & GridBaseEnum>
+    ListenerRegistration initGridWithQuerySnapshot(final Activity context,
+                                                   final TableView<String[]> tableView,
+                                                   final Class<E> gridConfigEnumClass,
+                                                   final Query dataQuery, final TableColumnModel columnModel) {
+        return initGridWithQuerySnapshot(context, tableView, gridConfigEnumClass, dataQuery, null, false);
+
+    }
+
+    public static <E extends Enum<E> & GridBaseEnum>
+    ListenerRegistration initGridWithQuerySnapshot(final Activity context,
+                                                   final TableView<String[]> tableView,
+                                                   final Class<E> gridConfigEnumClass,
+                                                   final Query dataQuery, final TableColumnModel columnModel, final boolean enableSorting) {
 
         //Get Grid header definition enums
         final E[] enumConstants = gridConfigEnumClass.getEnumConstants();
@@ -86,6 +102,7 @@ public class UIHelper {
         }
         SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(context, getHeaders(enumConstants));
         headerAdapter.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+        headerAdapter.setTextSize(12);
         tableView.setHeaderAdapter(headerAdapter);
 
         //Init Table DataModel
@@ -106,21 +123,24 @@ public class UIHelper {
                     for (E columnDef : enumConstants) {
                         Object value = dc.get(columnDef.getFieldName());
                         if (value != null) {
+                            if (enableSorting) {
+                                setComparator(tableView, columnDef);
+                            }
                             String formattedValue = null;
-                            if (columnDef.getColumnType() == GridColumnType.DATE && value instanceof Date) {
+                            if (columnDef.getColumnType() == DATE && value instanceof Date) {
                                 if (displayDateFormat == null) {
                                     displayDateFormat = new SimpleDateFormat(AppConstants.DISPLAY_GRID_DATE_FORMAT, Locale.getDefault());
                                 }
                                 formattedValue = displayDateFormat.format(value);
                             } else if (columnDef.getColumnType() == GridColumnType.ENUM) {
                                 int resourceIdForValue = columnDef.getResourceIdForValue(value.toString());
-                                if(resourceIdForValue != -1) {
+                                if (resourceIdForValue != -1) {
                                     formattedValue = context.getString(resourceIdForValue);
                                 }
                             } else if (StringUtils.isNotBlank(columnDef.getFormatString())) {
                                 formattedValue = String.format(columnDef.getFormatString(), value);
                             }
-                            if(StringUtils.isBlank(formattedValue)){
+                            if (StringUtils.isBlank(formattedValue)) {
                                 formattedValue = String.valueOf(value);
                             }
                             row[columnDef.ordinal()] = formattedValue;
@@ -131,9 +151,27 @@ public class UIHelper {
                 }
                 SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(context, rows);
                 dataAdapter.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+                dataAdapter.setTextSize(10);
                 tableView.setDataAdapter(dataAdapter);
             }
         });
+    }
+
+    private static <E extends Enum<E> & GridBaseEnum> void setComparator(TableView<String[]> tableView, E columnDef) {
+        if (tableView instanceof SortableTableView) {
+            SortableTableView sortableTable = (SortableTableView) tableView;
+            switch (columnDef.getColumnType()) {
+                case STRING:
+                    sortableTable.setColumnComparator(columnDef.ordinal(), new StringComparator(columnDef.ordinal()));
+                    break;
+                case DATE:
+                    sortableTable.setColumnComparator(columnDef.ordinal(), new DateComparator(columnDef.ordinal(), AppConstants.DISPLAY_GRID_DATE_FORMAT));
+                    break;
+                case NUMBER:
+                    sortableTable.setColumnComparator(columnDef.ordinal(), new NumberComparator(columnDef.ordinal()));
+                    break;
+            }
+        }
     }
 
     public static <E extends Enum<E> & GridBaseEnum> int[] getHeaders(E[] enumConstants) {

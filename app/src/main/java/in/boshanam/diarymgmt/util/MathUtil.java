@@ -10,7 +10,7 @@ public class MathUtil {
     /**
      * We are okay with below precision for this project use case
      */
-    public static final double EPS = 0.0000001;
+    public static final double EPS = 0.001;
 
     /**
      * Returns true iff both arguments are NaN or neither is NaN and they are

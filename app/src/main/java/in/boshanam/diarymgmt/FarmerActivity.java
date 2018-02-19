@@ -3,7 +3,6 @@ package in.boshanam.diarymgmt;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -62,7 +61,7 @@ public class FarmerActivity extends BaseAppCompatActivity {
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
         listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerListingTableView,
-                FarmerConstants.FarmerDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId));
+                FarmerConstants.FarmerDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId), null, true);
     }
 
     @OnClick(R.id.register)

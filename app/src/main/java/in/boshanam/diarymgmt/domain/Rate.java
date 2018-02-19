@@ -83,5 +83,17 @@ public class Rate {
         this.price = price;
     }
 
-
+    @Override
+    public String toString() {
+        return "Rate{" +
+                "id='" + id + '\'' +
+                ", dairyId='" + dairyId + '\'' +
+                ", milkType=" + milkType +
+                ", fat=" + fat +
+                ", price=" + price +
+                ", effectiveDate=" + effectiveDate +
+                ", updateTime=" + updateTime +
+                ", active=" + active +
+                '}';
+    }
 }
