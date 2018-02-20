@@ -84,10 +84,10 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     private volatile boolean collectedMilkDetailsLoaded = false;
     private boolean progressBarVisible = true;
 
-    private Map<String, Farmer> registeredFarmers;
-    private Map<String, CollectedMilk> collectedMilkBySampleNum;
-    private Map<String, CollectedMilk> collectedMilkByFarmerId;
-    private MilkRateCalculator milkRateCalculator;
+    private Map<String, Farmer> registeredFarmers = new HashMap<>();
+    private Map<String, CollectedMilk> collectedMilkBySampleNum = new HashMap<>();
+    private Map<String, CollectedMilk> collectedMilkByFarmerId = new HashMap<>();
+    private volatile MilkRateCalculator milkRateCalculator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +149,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                 for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                     CollectedMilk collectedMilk = ds.toObject(CollectedMilk.class);
                     float priceUsed = collectedMilk.getPerLtrPriceUsed();
-                    milkRateCalculator.computeAndSetMilkRate(collectedMilk);
+                    milkRateCalculator.computeAndSetMilkRate(collectedMilk, CollectMilkActivity.this);
                     if(!MathUtil.equalsDefaultEPS(priceUsed, collectedMilk.getPerLtrPriceUsed())) {
                         FireBaseDao.saveCollectedMilkDetails(CollectMilkActivity.this, collectedMilk, new ListenerAdapter() {
                         });
@@ -301,6 +301,8 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
 
                 errorMessageView.setText("");
                 errorMessageView.setVisibility(View.GONE);
+
+                milkRateCalculator.computeAndSetMilkRate(collectedMilk, CollectMilkActivity.this);
                 FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {
                     @Override
                     public void onSuccess(Object o) {
@@ -346,7 +348,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         String farmerID = registeredFarmerId.getText().toString().trim();
         String dairyId = getDairyID();
         if (StringUtils.isNotBlank(dateForDbKey) && shift != null && StringUtils.isNotBlank(farmerID)) {
-            collectedMilk.setId(farmerID + "_" + dateForDbKey + "_" + dateForDbKey + shift);
+            collectedMilk.setId(farmerID + "_" + dateForDbKey +  "_" + shift);
         }
         collectedMilk.setDairyId(dairyId);
         collectedMilk.setFarmerId(farmerID);

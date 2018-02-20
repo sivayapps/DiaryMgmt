@@ -33,9 +33,6 @@
             android:name=".MainMenuActivity"
             android:label="@string/dairy_registraion"
             android:parentActivityName=".DairyOwnerProfileSetupActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DairyOwnerProfileSetupActivity" />
         </activity>
         <activity
             android:name=".FarmerActivity"
