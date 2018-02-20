@@ -16,8 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainMenuActivity extends AppCompatActivity {
-    private static int MAXIMUM = 50;
-    public final String COLLECT_MILK="milk";
+
+    public final String COLLECT_MILK = "milk";
     @BindView(R.id.farmerRegister)
     Button farmerRegister;
     @BindView(R.id.milkCollect)
@@ -31,14 +31,9 @@ public class MainMenuActivity extends AppCompatActivity {
     @BindView(R.id.farmerReport)
     Button farmerReport;
 
-    private Random random;
-    private HashSet<Integer> id;
-    private int genNextId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        random = new Random();
-        id = new HashSet<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
@@ -46,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -63,7 +58,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.farmerRegister)
     public void farmerRegister() {
-        generateID();
+      farmerRegistration();
 
     }
 
@@ -74,7 +69,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.fatEntry)
-    public void setratEntry() {
+    public void setRatEntry() {
         fatEntry();
     }
 
@@ -90,23 +85,14 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.farmerReport)
-    public void getFarmerReports(){ farmerReport();}
+    public void getFarmerReports() {
+        farmerReport();
+    }
 
-    private void generateID() {
-        genNextId = random.nextInt(MAXIMUM);
-        int count = 0;
-        if (!id.contains(genNextId)) {
-            id.add(genNextId);
-            Intent famarActivity = new Intent(this, FarmerActivity.class);
-            famarActivity.putExtra("generateId", genNextId);
-            startActivity(famarActivity);
-        } else {
-            generateID();
-            count++;
-            if (count == MAXIMUM) {
-                Toast.makeText(this, "Samples Is Full ", Toast.LENGTH_SHORT).show();
-            }
-        }
+    private void farmerRegistration() {
+        Intent famarActivity = new Intent(this, FarmerActivity.class);
+        startActivity(famarActivity);
+
     }
 
     private void rateEntry() {
@@ -116,7 +102,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void collectMilk() {
 
-        startActivity(new Intent(this, DateShiftSelectActivity.class).putExtra("milkType",COLLECT_MILK));
+        startActivity(new Intent(this, DateShiftSelectActivity.class).putExtra("milkType", COLLECT_MILK));
     }
 
     private void fatEntry() {
@@ -124,10 +110,11 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void paymentReport() {
-
+        startActivity(new Intent(this, PaymentReportActivity.class));
     }
-    private void farmerReport() {
 
+    private void farmerReport() {
+        startActivity(new Intent(this, FarmerReportActivity.class));
     }
 }
 

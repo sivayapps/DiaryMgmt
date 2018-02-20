@@ -28,8 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:inputType="date"
-                android:hint="@string/from_date"
-                android:textSize="20sp"
+                android:textSize="12sp"
                 android:layout_weight="1"/>
         <EditText
             android:id="@+id/payment_to_date"
@@ -38,11 +37,10 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:inputType="date"
-            android:hint="@string/to_date"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:layout_weight="1"/>
         <Button
-            android:id="@+id/farmer_payment_retrive"
+            android:id="@+id/payment_retrive"
             style="@style/formButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,7 +55,7 @@
     </LinearLayout>
         <de.codecrafters.tableview.SortableTableView
             xmlns:table="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/milkListingTableView"
+            android:id="@+id/paymentsListingTableView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             table:tableView_headerColor="@color/colorPrimary" />

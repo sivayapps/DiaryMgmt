@@ -93,6 +93,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainMenuActivity" />
         </activity>
+
     </application>
 
 </manifest>

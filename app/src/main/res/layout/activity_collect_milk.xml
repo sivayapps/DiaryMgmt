@@ -18,12 +18,12 @@
         android:visibility="visible">
 
         <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/collect_milk_filler_1"
@@ -32,32 +32,32 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/collect_milk_date"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
                 android:layout_weight="4"
                 android:gravity="end"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:text="Date Value"
-                />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/collect_milk_shift"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="4"
                 android:gravity="start"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:text="Shift Val"
-                />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/collect_milk_filler_2"
                 style="@style/formFieldsHorizontalFlowStyle"
@@ -65,19 +65,18 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/fat_rates_missing_error_message_view"
             style="@style/formFieldsVerticalFlowStyle"
-            android:gravity="center"
-            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
             android:text="@string/fat_rates_missing_for_selected_date"
             android:textColor="@color/colorAccent"
             android:textSize="15sp"
@@ -91,17 +90,18 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
+            android:baselineAligned="true"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal" android:baselineAligned="true">
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_farmer_id_entry"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                >
+                android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/registered_farmer_id"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -118,6 +118,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/farmer_milk_sample_id"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -131,11 +132,12 @@
                 android:id="@+id/find_farmer_milk_collection_loadingProgressPanel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:visibility="visible">
+
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,23 +146,22 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            >
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_collect_milk_entry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="5dp"
-                >
+                android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/collect_milk_quantity_field_id"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -174,9 +175,9 @@
                 android:id="@+id/input_layout_collect_milk_fat_entry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="5dp"
-                >
+                android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/collect_milk_fat_field_id"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -192,8 +193,8 @@
                 android:layout_width="0dp"
                 android:layout_gravity="center_horizontal|center_vertical|center"
                 android:layout_marginBottom="10dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:text="@string/save" />
         </LinearLayout>
@@ -203,8 +204,8 @@
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal"
@@ -225,8 +226,8 @@
             android:id="@+id/collected_milk_listing_table_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:paddingStart="5dp"
             table:tableView_headerColor="@color/colorPrimary" />
     </LinearLayout>
 

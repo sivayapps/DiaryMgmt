@@ -63,4 +63,7 @@
     </string-array>
     <string name="shift_type_morning">ఉదయం</string>
     <string name="shift_type_evening">సాయంత్రం</string>
+    <string name="payments_amount_col_header_key">Amount</string>
+    <string name="Report">Report</string>
+    <string name="total">Total</string>
 </resources>

@@ -41,14 +41,14 @@
             android:id="@+id/paymentReport"
             style="@style/mainMenuButtonStyle"
             android:text="@string/payment_reports"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <Button
             android:id="@+id/farmerReport"
             style="@style/mainMenuButtonStyle"
             android:text="@string/farmer_reports"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
     </LinearLayout>

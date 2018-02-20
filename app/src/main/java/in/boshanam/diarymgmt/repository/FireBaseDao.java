@@ -1,6 +1,7 @@
 package in.boshanam.diarymgmt.repository;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -226,15 +227,15 @@ public class FireBaseDao {
                 boolean enoughRatesRead = rates.size() <= 0;
                 for (Rate rate : rates) {
                     milkRates.add(rate);
-                    if(from.after(rate.getEffectiveDate())) {
+                    if (from.after(rate.getEffectiveDate())) {
                         enoughRatesRead = true;
                         break;
                     }
                 }
-                if(enoughRatesRead) {
+                if (enoughRatesRead) {
                     callerListener.onSuccess(milkRates);
                 } else {
-                    queryPaginator.readNextPage(activity,this);
+                    queryPaginator.readNextPage(activity, this);
                 }
             }
 
@@ -268,7 +269,9 @@ public class FireBaseDao {
 
     }
 
-    *//**
+    */
+
+    /**
      * TODO READ https://firebase.google.com/docs/firestore/query-data/listen
      * Use snapshot listener to refresh the grid on every update on data in event handler
      *//*
@@ -281,7 +284,6 @@ public class FireBaseDao {
                 .orderBy("fat");
     }
 */
-
     public static void loadFarmerById(Activity activity, String dairyId, String farmerId, ListenerAdapter<DocumentSnapshot> listenerAdapter) {
 
         if (StringUtils.isBlank(dairyId) || StringUtils.isBlank(farmerId)) {
@@ -294,4 +296,5 @@ public class FireBaseDao {
         farmerRegistrationRef.get().addOnSuccessListener(activity, listenerAdapter)
                 .addOnFailureListener(activity, listenerAdapter);
     }
+
 }

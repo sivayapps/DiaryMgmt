@@ -52,7 +52,7 @@
     <string name="user_input_blank_error_msg">please fill empty fields</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
-    <string name="title_activity_payment_reports_dates">Reports Dates</string>
+    <string name="title_activity_payment_reports_dates">Farmer Report</string>
     <string name="farmer_reports">Farmer Reports</string>
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
@@ -65,5 +65,8 @@
     <string name="error_msg_sample_number_already_used_for_other_farmer">Sample Number Already used for other Farmer</string>
     <string name="error_msg_invalid_farmer_id">Farmer Number Invalid</string>
     <string name="error_msg_verify_all_fields">Verify Collected Milk Information</string>
+    <string name="payments_amount_col_header_key">Amount</string>
+    <string name="Report">Report</string>
+    <string name="total">TotalAmount</string>
 
 </resources>
