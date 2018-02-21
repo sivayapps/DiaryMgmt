@@ -1,7 +1,10 @@
 package in.boshanam.diarymgmt.service;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +21,7 @@ import in.boshanam.diarymgmt.repository.FireBaseDao;
  */
 
 public class MilkRateCalculator {
+    private static final String TAG = "MilkRateCalculator";
     private List<Rate> cowMilkRates;
     private List<Rate> buffaloMilkRates;
 
@@ -27,7 +31,7 @@ public class MilkRateCalculator {
     }
 
     public static void build(final Activity activity, final String dairyId, final Date from, final Date to,
-                      final ListenerAdapter<MilkRateCalculator> listenerAdapter) {
+                             final ListenerAdapter<MilkRateCalculator> listenerAdapter) {
 
         final MilkRateCalculator milkRateCalculator = new MilkRateCalculator();
         FireBaseDao.fetchRates(activity, dairyId, MilkType.BUFFALO, from, to, new ListenerAdapter<List<Rate>>() {
@@ -72,7 +76,7 @@ public class MilkRateCalculator {
         return null;
     }
 
-    public void computeAndSetMilkRate(CollectedMilk collectedMilk) {
+    public void computeAndSetMilkRate(CollectedMilk collectedMilk, Context context) {
         Rate rate = findRateForDate(collectedMilk.getDate(), collectedMilk.getMilkType());
         if (rate != null) {
             if (rate.getFat() <= 0) {
@@ -84,7 +88,11 @@ public class MilkRateCalculator {
             collectedMilk.setPerLtrPriceUsed(collectedMilkFatPrice);
             collectedMilk.setMilkPriceComputed(collectedMilkFatPrice * collectedMilk.getMilkQuantity());
         } else {
-            throw new RuntimeException("Rate missing for MilkType: " + collectedMilk.getMilkType() + "date " + collectedMilk.getDate());
+            String msg = "Rate missing for MilkType: " + collectedMilk.getMilkType() + "date " + collectedMilk.getDate();
+            Log.e(TAG, msg);
+            if (context != null) {
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

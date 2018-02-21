@@ -32,6 +32,8 @@ import in.boshanam.diarymgmt.domain.CollectedMilk;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.Shift;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
@@ -76,6 +78,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
     private Map<String, Farmer> registeredFarmers;
     private Map<String, CollectedMilk> collectedMilkBySampleNum;
     private Map<String, CollectedMilk> collectedMilkByFarmerId;
+    private volatile MilkRateCalculator milkRateCalculator;
 
     private volatile boolean farmerListLoaded = false;
     private volatile boolean collectedMilkDetailsLoaded = false;
@@ -104,15 +107,30 @@ public class FatEntryActivity extends BaseAppCompatActivity {
         }
         String dairyId = getDairyID();
         registerFarmersCacheLoader(dairyId);
-        Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
+        final Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
                 .whereEqualTo("shift", shift.name())
                 .whereEqualTo("date", collectionDate);
-        initMilkCollectionDetailsGrid(collectedMilkQuery);
-        registerMilkCollectedCacheLoader(collectedMilkQuery);
+        MilkRateCalculator.build(this, dairyId, collectionDate, collectionDate, new ListenerAdapter<MilkRateCalculator>() {
+            @Override
+            public void onSuccess(MilkRateCalculator milkRateCalculator) {
+                FatEntryActivity.this.milkRateCalculator = milkRateCalculator;
+//                initMilkCollectionDetailsGrid(collectedMilkQuery);
+
+                UIHelper.initGridWithQuerySnapshot(FatEntryActivity.this, collectedMilkListingTableView,
+                        MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+                registerMilkCollectedCacheLoader(collectedMilkQuery);
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Exception while fetching rates: ", e);
+                Toast.makeText(FatEntryActivity.this, "Exception while fetching rates: "
+                        + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-
-    private void registerMilkCollectedCacheLoader(Query collectedMilkQuery) {
+    protected void registerMilkCollectedCacheLoader(Query collectedMilkQuery) {
         collectedMilkQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -125,6 +143,12 @@ public class FatEntryActivity extends BaseAppCompatActivity {
                 Map<String, CollectedMilk> collectedMilkBySampleNumMap = new HashMap<>();
                 for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                     CollectedMilk collectedMilk = ds.toObject(CollectedMilk.class);
+                    float priceUsed = collectedMilk.getPerLtrPriceUsed();
+                    milkRateCalculator.computeAndSetMilkRate(collectedMilk, FatEntryActivity.this);
+                    if (!MathUtil.equalsDefaultEPS(priceUsed, collectedMilk.getPerLtrPriceUsed())) {
+                        FireBaseDao.saveCollectedMilkDetails(FatEntryActivity.this, collectedMilk, new ListenerAdapter() {
+                        });
+                    }
                     collectedMilkByFarmerIdMap.put(collectedMilk.getFarmerId(), collectedMilk);
                     collectedMilkBySampleNumMap.put("" + collectedMilk.getMilkSampleNumber(), collectedMilk);
                 }
@@ -136,7 +160,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
         });
     }
 
-    private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
+//    private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
     /*    TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
         columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
         columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
@@ -149,9 +173,9 @@ public class FatEntryActivity extends BaseAppCompatActivity {
         columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.PRICE.ordinal(), 2);
         UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
                 MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);*/
-        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
-    }
+//        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
+//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+//    }
 
     protected void registerFarmersCacheLoader(String dairyId) {
         FireBaseDao.buildAllFarmersQuery(dairyId).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
@@ -336,6 +360,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
                     return;
                 }
 
+                milkRateCalculator.computeAndSetMilkRate(collectedMilk, FatEntryActivity.this);
                 FireBaseDao.saveCollectedMilkDetails(this, collectedMilk, new ListenerAdapter() {
                     @Override
                     public void onSuccess(Object o) {
