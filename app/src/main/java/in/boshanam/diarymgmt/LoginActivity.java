@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             sharedPreferencesEditor.commit();
                             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                             startActivity(intent);
+                            finish();
                             return;
                         }
                         Log.d(TAG, "Owner Profile Not Complete - DocumentSnapshot data: " + dairyOwner);
@@ -130,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     Intent intent = new Intent(LoginActivity.this, DairyOwnerProfileSetupActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 @Override
