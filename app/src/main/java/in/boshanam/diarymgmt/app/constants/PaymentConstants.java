@@ -1,7 +1,6 @@
 package in.boshanam.diarymgmt.app.constants;
 
 import in.boshanam.diarymgmt.R;
-import in.boshanam.diarymgmt.domain.MilkType;
 
 /**
  * Created by ShivaKumar on 2/19/2018.
@@ -14,19 +13,20 @@ public interface PaymentConstants {
 
     enum PaymentsDataGrid implements GridBaseEnum {
 
-        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER),
-        NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING),
-        AMOUNT(FARMER_AMOUNT_HEADER_KEY, "amount", GridColumnType.STRING);
+        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER, null),
+        NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING, null),
+        AMOUNT(FARMER_AMOUNT_HEADER_KEY, "amount", GridColumnType.NUMBER, "%.2f");
 
         private int columnHeader;
         private String fieldName;
         private GridColumnType columnType;
-        private DisplayValueProvider displayValueProvider;
+        private String formatString;
 
-        PaymentsDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
+        PaymentsDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
+            this.formatString = formatString;
         }
 
         public int getColumnHeader() {
@@ -43,14 +43,11 @@ public interface PaymentConstants {
 
         @Override
         public String getFormatString() {
-            return null;
+            return formatString;
         }
 
         @Override
         public int getResourceIdForValue(String value) {
-            if (displayValueProvider != null) {
-                return displayValueProvider.getResourceIdForValue(value);
-            }
             return -1;
         }
     }

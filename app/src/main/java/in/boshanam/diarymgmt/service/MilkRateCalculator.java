@@ -80,7 +80,7 @@ public class MilkRateCalculator {
         Rate rate = findRateForDate(collectedMilk.getDate(), collectedMilk.getMilkType());
         if (rate != null) {
             if (rate.getFat() <= 0) {
-                throw new RuntimeException("Invalid Rate, Fat% is zero." + rate);
+                throw new RuntimeException("Invalid Rate, Fat% is invalid." + rate);
             }
             float fat = collectedMilk.getFat();
             float oneUnitFatPrice = rate.getPrice() / rate.getFat();
