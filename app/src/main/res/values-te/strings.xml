@@ -39,7 +39,7 @@
     <string name="user_input_blank_error_msg">దయచేసి ఖాళీని పూరించండి</string>
     <string name="total_farmer_report">Total Farmer Reports</string>
     <string name="selected_farmer_report">Selected Farmer Report</string>
-    <string name="farmer_reports">Farmer Reports</string>
+    <string name="farmer_reports">రైతు చెల్లింపు నివేదిక </string>
     <string name="from_date">ప్రారంబపు తేది</string>
     <string name="to_date">తేదీ వరకు</string>
     <string name="Retrive">farmer_report_retrive</string>
@@ -63,7 +63,7 @@
     </string-array>
     <string name="shift_type_morning">ఉదయం</string>
     <string name="shift_type_evening">సాయంత్రం</string>
-    <string name="payments_amount_col_header_key">Amount</string>
-    <string name="Report">Report</string>
-    <string name="total">Total</string>
+    <string name="payments_amount_col_header_key">మొత్తం</string>
+    <string name="Report">నివేదిక</string>
+    <string name="total">మొత్తం</string>
 </resources>

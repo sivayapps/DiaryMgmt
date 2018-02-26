@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="selected_background_color">@color/colorAccent</color>
+    <color name="unselected_background_color">@color/background_material_light</color>
+    <color name="shadow_background_color">#28415f</color>
+    <color name="unselected_header_background_color">@color/colorPrimary</color>
+
+    <color name="unselected_text_color">@color/textColorPrimary</color>
+    <color name="selected_text_color">@color/textColorPrimary</color>
+    <color name="separator_color">#4a4b4d</color>
+
+    <color name="popup_menu_item_text_color">#d192d1</color>
+</resources>

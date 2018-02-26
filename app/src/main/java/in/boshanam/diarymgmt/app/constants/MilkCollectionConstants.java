@@ -22,15 +22,26 @@ public interface MilkCollectionConstants {
 
     enum CollectedMilkDataGrid implements GridBaseEnum {
 
-        FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER),
+        FARMER_ID(FARMER_ID_COL_HEADER_KEY, "farmerId", GridColumnType.NUMBER) {
+            @Override
+            public Object transformValue(Object rawValue) {
+                if(rawValue != null) {
+                    try {
+                        Integer farmerId = Integer.parseInt(rawValue.toString());
+                        return farmerId;
+                    } catch (NumberFormatException e) {}
+                }
+                return rawValue;
+            }
+        },
         DATE(MILK_COLLECTED_DATE_COL_HEADER_KEY, "date", GridColumnType.DATE),
         SHIFT(MILK_COLLECTED_SHIFT_COL_HEADER_KEY, "shift", GridColumnType.ENUM, null, new DisplayValueProvider(Shift.class)),
 //        MILK_TYPE(AppConstants.MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, null, new DisplayValueProvider(MilkType.class)),
         SAMPLE_NUM(MILK_COLLECTED_SAMPLE_NUM_COL_HEADER_KEY, "milkSampleNumber", GridColumnType.NUMBER),
         QUANTITY(MILK_COLLECTED_QUANTITY_COL_HEADER_KEY, "milkQuantity", GridColumnType.NUMBER, "%.2f"),
         FAT(MILK_COLLECTED_FAT_COL_HEADER_KEY, "fat", GridColumnType.NUMBER, "%.1f"),
-        LTR_PRICE(MILK_COLLECTED_LTR_PRICE_COL_HEADER_KEY, "perLtrPriceUsed", GridColumnType.NUMBER, "%.2f"),
-        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkPriceComputed", GridColumnType.NUMBER, "%.2f");
+        LTR_PRICE(MILK_COLLECTED_LTR_PRICE_COL_HEADER_KEY, "perLtrPriceUsed", GridColumnType.MONEY, "%.2f"),
+        PRICE(MILK_COLLECTED_PRICE_COL_HEADER_KEY, "milkPriceComputed", GridColumnType.MONEY, "%.2f");
 
         private DisplayValueProvider displayValueProvider;
         private int columnHeader;

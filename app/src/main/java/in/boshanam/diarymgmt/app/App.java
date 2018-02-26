@@ -13,18 +13,13 @@ public class App {
     private App() {
     }
 
-    private Executor executor;
     private static App instance;
 
     public synchronized static App getInstance() {
         if (instance == null) {
             instance = new App();
-            instance.executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         }
         return instance;
     }
 
-    public Executor getExecutor() {
-        return executor;
-    }
 }

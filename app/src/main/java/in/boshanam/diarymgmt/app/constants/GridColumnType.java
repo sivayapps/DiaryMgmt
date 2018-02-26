@@ -5,5 +5,5 @@ package in.boshanam.diarymgmt.app.constants;
  */
 
 public enum GridColumnType {
-    STRING, NUMBER, DATE, ENUM
+    STRING, NUMBER, DATE, ENUM, MONEY
 }

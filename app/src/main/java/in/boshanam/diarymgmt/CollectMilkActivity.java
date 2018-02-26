@@ -17,8 +17,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -26,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import de.codecrafters.tableview.SortableTableView;
-import de.codecrafters.tableview.model.TableColumnWeightModel;
 import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
@@ -35,9 +36,17 @@ import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.Shift;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.tableview.TableAdapter;
+import in.boshanam.diarymgmt.tableview.TableViewListener;
+import in.boshanam.diarymgmt.tableview.model.CellModel;
+import in.boshanam.diarymgmt.tableview.model.ColumnHeaderModel;
+import in.boshanam.diarymgmt.tableview.model.RowHeaderModel;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
+import in.boshanam.diarymgmt.util.ui.TableViewHelper;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
+import com.evrencoskun.tableview.TableView;
 
 public class CollectMilkActivity extends BaseAppCompatActivity {
 
@@ -65,8 +74,18 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     @BindView(R.id.collect_milk_farmer_details_display_text_field_id)
     TextView selectedFarmerDisplayView;
 
-    @BindView(R.id.collected_milk_listing_table_view)
-    SortableTableView<String[]> collectedMilkListingTableView;
+//    @BindView(R.id.collected_milk_listing_table_view)
+//    SortableTableView<String[]> collectedMilkListingTableView;
+
+    // For TableView
+    @BindView(R.id.farmer_recent_milk_collection_details_table_view)
+    TableView farmerRecentCollectedMilkDetailsTableView;
+
+    // For TableView
+    private TableAdapter mTableAdapter;
+    private List<List<CellModel>> mCellList;
+    private List<ColumnHeaderModel> mColumnHeaderList;
+    private List<RowHeaderModel> mRowHeaderList;
 
 //    @BindView(R.id.find_farmer_button_id)
 //    Button findFarmerMilk;
@@ -121,8 +140,8 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
             @Override
             public void onSuccess(MilkRateCalculator milkRateCalculator) {
                 CollectMilkActivity.this.milkRateCalculator = milkRateCalculator;
-                initMilkCollectionDetailsGrid(collectedMilkQuery);
                 registerMilkCollectedCacheLoader(collectedMilkQuery);
+                initMilkCollectionDetailsGrid(collectedMilkQuery);
             }
 
             @Override
@@ -166,20 +185,14 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     }
 
     private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
-        TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SHIFT.ordinal(), 2);
-//        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.MILK_TYPE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SAMPLE_NUM.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.QUANTITY.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FAT.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.LTR_PRICE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.PRICE.ordinal(), 2);
+        TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
+                farmerRecentCollectedMilkDetailsTableView,
+                new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class));
+        tableViewHelper.initGridWithQuerySnapshot(this, collectedMilkQuery);
+////        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
+////                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
 //        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
-        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
+//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
     }
 
     protected void registerFarmersCacheLoader(String dairyId) {
@@ -389,6 +402,74 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         fatField.setText("");
         selectedFarmerDisplayView.setText("");
         findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.GONE);
+    }
+
+
+
+
+
+
+
+
+    public void populatedTableView(List<Object[]> userInfoList) {
+        // create Models
+        mColumnHeaderList = createColumnHeaderModelList();
+        mCellList = loadCellModelList(userInfoList);
+        mRowHeaderList = createRowHeaderList();
+
+        // Set all items to the TableView
+        mTableAdapter.setAllItems(mColumnHeaderList, mRowHeaderList, mCellList);
+    }
+
+    private List<ColumnHeaderModel> createColumnHeaderModelList() {
+        List<ColumnHeaderModel> list = new ArrayList<>();
+
+        // Create Column Headers
+        list.add(new ColumnHeaderModel("Id"));
+        list.add(new ColumnHeaderModel("Name"));
+        list.add(new ColumnHeaderModel("Amount1"));
+        list.add(new ColumnHeaderModel("Amount2"));
+        list.add(new ColumnHeaderModel("Amount3"));
+        list.add(new ColumnHeaderModel("Amount4"));
+        list.add(new ColumnHeaderModel("Amount5"));
+        list.add(new ColumnHeaderModel("Amount6"));
+        list.add(new ColumnHeaderModel("Amount7"));
+
+        return list;
+    }
+
+    private List<List<CellModel>> loadCellModelList(List<Object[]> data) {
+        List<List<CellModel>> lists = new ArrayList<>();
+
+        // Creating cell model list from UserInfo list for Cell Items
+        // In this example, UserInfo list is populated from web service
+
+        for (int i = 0; i < 40; i++) {
+//            Object[] row = userInfoList.get(i);
+
+            List<CellModel> list = new ArrayList<>();
+
+            // The order should be same with column header list;
+            list.add(new CellModel("id-" + i , new Integer(i)));       // "Id"
+            list.add(new CellModel("name-" + i , new String("Name-"+i)));       // "Id"
+            for(int j=1;j<=7;j++) {
+                list.add(new CellModel("amnt-" + i , new Float(i + i * 2)));       // "Id"
+            }
+
+            // Add
+            lists.add(list);
+        }
+
+        return lists;
+    }
+
+    private List<RowHeaderModel> createRowHeaderList() {
+        List<RowHeaderModel> list = new ArrayList<>();
+        for (int i = 0; i < mCellList.size(); i++) {
+            // In this example, Row headers just shows the index of the TableView List.
+            list.add(new RowHeaderModel(String.valueOf(i + 1)));
+        }
+        return list;
     }
 
 }

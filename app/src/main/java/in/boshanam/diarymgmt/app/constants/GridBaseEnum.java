@@ -11,4 +11,7 @@ public interface GridBaseEnum {
     GridColumnType getColumnType();
     String getFormatString();
     int getResourceIdForValue(String value);
+    default Object transformValue(Object rawValue) {
+        return rawValue;
+    }
 }
