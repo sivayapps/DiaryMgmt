@@ -39,6 +39,7 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
     private final TableAdapter tableAdapter;
     private List<T> rowsData;
     private Activity context;
+    private ListenerRegistration listenerRegistration;
 
     private TableViewHelper(Activity context, TableView tableView, TableViewModelDef<T, E> tableViewModelDef) {
         this.tableView = tableView;
@@ -61,9 +62,11 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
     }
 
     public ListenerRegistration initGridWithQuerySnapshot(final Activity context, final Query dataQuery) {
-
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
         //Init Table DataModel
-        return FireBaseDao.registerQuerySnapshotListener(context, dataQuery, new EventListener<QuerySnapshot>() {
+        listenerRegistration = FireBaseDao.registerQuerySnapshotListener(context, dataQuery, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshot, FirebaseFirestoreException e) {
                 rowsData = null;
@@ -75,9 +78,11 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
                     return;
                 }
 //                List<T> rowsDataListObj = (List<T>) extractRowData(documentSnapshot.getDocuments(), tableViewModelDef.getColumnsDef());
-                initTableWithData(context, (List<T>) documentSnapshot.getDocuments());
+                List<DocumentSnapshot> documents = documentSnapshot.getDocuments();
+                initTableWithData(context, (List<T>) documents);
             }
         });
+        return listenerRegistration;
     }
 
     public void initTableWithData(final Activity context, final List<T> rowsData) {
