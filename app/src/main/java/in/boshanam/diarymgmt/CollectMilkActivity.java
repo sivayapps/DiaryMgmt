@@ -187,7 +187,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
         TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
                 farmerRecentCollectedMilkDetailsTableView,
-                new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class));
+                new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class), true);
         tableViewHelper.initGridWithQuerySnapshot(this, collectedMilkQuery);
 ////        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
 ////                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
@@ -403,73 +403,4 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         selectedFarmerDisplayView.setText("");
         findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.GONE);
     }
-
-
-
-
-
-
-
-
-    public void populatedTableView(List<Object[]> userInfoList) {
-        // create Models
-        mColumnHeaderList = createColumnHeaderModelList();
-        mCellList = loadCellModelList(userInfoList);
-        mRowHeaderList = createRowHeaderList();
-
-        // Set all items to the TableView
-        mTableAdapter.setAllItems(mColumnHeaderList, mRowHeaderList, mCellList);
-    }
-
-    private List<ColumnHeaderModel> createColumnHeaderModelList() {
-        List<ColumnHeaderModel> list = new ArrayList<>();
-
-        // Create Column Headers
-        list.add(new ColumnHeaderModel("Id"));
-        list.add(new ColumnHeaderModel("Name"));
-        list.add(new ColumnHeaderModel("Amount1"));
-        list.add(new ColumnHeaderModel("Amount2"));
-        list.add(new ColumnHeaderModel("Amount3"));
-        list.add(new ColumnHeaderModel("Amount4"));
-        list.add(new ColumnHeaderModel("Amount5"));
-        list.add(new ColumnHeaderModel("Amount6"));
-        list.add(new ColumnHeaderModel("Amount7"));
-
-        return list;
-    }
-
-    private List<List<CellModel>> loadCellModelList(List<Object[]> data) {
-        List<List<CellModel>> lists = new ArrayList<>();
-
-        // Creating cell model list from UserInfo list for Cell Items
-        // In this example, UserInfo list is populated from web service
-
-        for (int i = 0; i < 40; i++) {
-//            Object[] row = userInfoList.get(i);
-
-            List<CellModel> list = new ArrayList<>();
-
-            // The order should be same with column header list;
-            list.add(new CellModel("id-" + i , new Integer(i)));       // "Id"
-            list.add(new CellModel("name-" + i , new String("Name-"+i)));       // "Id"
-            for(int j=1;j<=7;j++) {
-                list.add(new CellModel("amnt-" + i , new Float(i + i * 2)));       // "Id"
-            }
-
-            // Add
-            lists.add(list);
-        }
-
-        return lists;
-    }
-
-    private List<RowHeaderModel> createRowHeaderList() {
-        List<RowHeaderModel> list = new ArrayList<>();
-        for (int i = 0; i < mCellList.size(); i++) {
-            // In this example, Row headers just shows the index of the TableView List.
-            list.add(new RowHeaderModel(String.valueOf(i + 1)));
-        }
-        return list;
-    }
-
 }

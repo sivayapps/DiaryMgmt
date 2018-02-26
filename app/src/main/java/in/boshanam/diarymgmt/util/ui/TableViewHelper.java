@@ -53,9 +53,11 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
     }
 
     public static <T, E extends Enum<E> & GridBaseEnum>
-    TableViewHelper buildTableViewHelper(Activity context, TableView tableView, TableViewModelDef<T, E> tableViewModelDef) {
+    TableViewHelper buildTableViewHelper(Activity context, TableView tableView,
+                                         TableViewModelDef<T, E> tableViewModelDef,
+                                         boolean enableDelete) {
         TableViewHelper tableViewHelper = new TableViewHelper(context, tableView, tableViewModelDef);
-        tableView.setTableViewListener(new TableViewListener(tableView, tableViewHelper));
+        tableView.setTableViewListener(new TableViewListener(tableView, tableViewHelper, enableDelete));
         tableView.setFocusable(false);
         return tableViewHelper;
     }

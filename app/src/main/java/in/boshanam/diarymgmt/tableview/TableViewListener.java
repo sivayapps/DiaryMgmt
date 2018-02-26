@@ -21,10 +21,12 @@ public class TableViewListener implements ITableViewListener {
 
     private final TableView tableView;
     private final TableViewHelper tableViewHelper;
+    private final boolean enableDelete;
 
-    public TableViewListener(TableView pTableView, TableViewHelper tableViewHelper) {
+    public TableViewListener(TableView pTableView, TableViewHelper tableViewHelper, boolean enableDelete) {
         this.tableView = pTableView;
         this.tableViewHelper = tableViewHelper;
+        this.enableDelete = enableDelete;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class TableViewListener implements ITableViewListener {
             // Create Long Press Popup
             CellViewHolder cellViewHolder = (CellViewHolder) cellView;
             CellLongPressPopup popup = new CellLongPressPopup(
-                    cellViewHolder, tableView, tableViewHelper, row, column);
+                    cellViewHolder, tableView, tableViewHelper, row, column, enableDelete);
 
             // Show
             popup.show();

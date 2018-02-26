@@ -38,13 +38,15 @@ public class CellLongPressPopup extends PopupMenu implements PopupMenu
     private final int rowNum;
     private final int colNum;
     private final TableViewHelper tableViewHelper;
+    private final boolean enableDeleteOption;
 
     public CellLongPressPopup(CellViewHolder cellViewHolder, TableView tableView,
                               TableViewHelper tableViewHelper,
-                              int rowNum, int colNum) {
+                              int rowNum, int colNum, boolean enableDeleteOption) {
         super(cellViewHolder.itemView.getContext(), cellViewHolder.itemView);
         this.tableView = tableView;
         this.tableViewHelper = tableViewHelper;
+        this.enableDeleteOption = enableDeleteOption;
         this.context = cellViewHolder.itemView.getContext();
         this.rowNum = rowNum;
         this.colNum = colNum;
@@ -59,7 +61,10 @@ public class CellLongPressPopup extends PopupMenu implements PopupMenu
     }
 
     private void createMenuItem() {
-        this.getMenu().add(Menu.NONE, DELETE_ROW.ordinal(), 0, context.getString(R.string.table_menu_delete_row));
+        int menuOrder = 0;
+        if(enableDeleteOption) {
+            this.getMenu().add(Menu.NONE, DELETE_ROW.ordinal(), menuOrder++, context.getString(R.string.table_menu_delete_row));
+        }
         // add new one ...
 
     }
