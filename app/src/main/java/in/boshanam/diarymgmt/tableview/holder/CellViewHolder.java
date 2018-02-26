@@ -52,7 +52,7 @@ public class CellViewHolder<E extends Enum<E> & GridBaseEnum> extends AbstractVi
         String formattedValue = null;
         if (tableColDef.getColumnType() == DATE && data instanceof Date) {
             formattedValue = displayDateFormat.format(data);
-        } else if (tableColDef.getColumnType() == GridColumnType.ENUM) {
+        } else if (data != null && tableColDef.getColumnType() == GridColumnType.ENUM) {
             int resourceIdForValue = tableColDef.getResourceIdForValue(data.toString());
             if (resourceIdForValue != -1) {
                 formattedValue = context.getString(resourceIdForValue);

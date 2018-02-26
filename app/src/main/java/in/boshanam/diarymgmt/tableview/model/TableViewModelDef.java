@@ -33,8 +33,12 @@ public class TableViewModelDef<T, E extends Enum<E> & GridBaseEnum> {
     public Object getFieldValue(T row, E colDef) {
         if (row instanceof DocumentSnapshot) {
             return ((DocumentSnapshot) row).get(colDef.getFieldName());
+        } else if(row instanceof List) {
+            return ((List<Object>) row).get(colDef.ordinal());
+        } else if(row.getClass().isArray()) {
+           return ((Object[]) row)[colDef.ordinal()];
         }
-        return ((List<Object>) row).get(colDef.ordinal());
+        return null;
     }
 
     public E[] getColumnsDef() {

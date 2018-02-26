@@ -28,7 +28,14 @@ public class MoneyCellViewHolder extends AbstractViewHolder {
     public void setCellModel(CellModel p_jModel) {
 
         // Set text
-        cell_textview.setAmount((float)((double) p_jModel.getData()));
+        Object data = p_jModel.getData();
+        if(data != null) {
+            if(data instanceof Double) {
+                cell_textview.setAmount((float)((double) data));
+            } else if(data instanceof Float) {
+                cell_textview.setAmount((float) data);
+            }
+        }
 
         // It is necessary to remeasure itself.
         cell_container.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
