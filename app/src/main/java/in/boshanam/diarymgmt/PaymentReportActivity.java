@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,13 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.codecrafters.tableview.SortableTableView;
+import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.app.constants.PaymentConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
@@ -40,8 +40,9 @@ import in.boshanam.diarymgmt.domain.CollectedMilk;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.StringAsNumberComparator;
-import in.boshanam.diarymgmt.util.ui.UIHelper;
 
 public class PaymentReportActivity extends BaseAppCompatActivity {
 
@@ -56,7 +57,7 @@ public class PaymentReportActivity extends BaseAppCompatActivity {
     private int dayOfMonth;
     private Calendar calendar;
     @BindView(R.id.paymentsListingTableView)
-    SortableTableView<String[]> paymentsListingTableView;
+    TableView paymentsListingTableView;
 
     private volatile boolean farmerListLoaded = false;
     private Map<String, Farmer> registeredFarmers = new HashMap<>();
@@ -159,18 +160,27 @@ public class PaymentReportActivity extends BaseAppCompatActivity {
                                 farmerIds.addAll(farmerPaymentAmntMap.keySet());
                                 farmerIds.addAll(registeredFarmers.keySet());
 
-                                List<Object[]> rowsData = new ArrayList<>();
+                                List<List<Object>> rowsData = new ArrayList<>();
                                 for (String farmerId : farmerIds) {
-                                    Object[] row = new Object[3];
-                                    row[0] = farmerId;
+                                    List<Object> row = new ArrayList<>();
+                                    row.add(farmerId);
                                     Farmer farmer = registeredFarmers.get(farmerId);
-                                    row[1] = farmer != null ? farmer.getName() : "";
+                                    String name = farmer != null ? farmer.getName() : "";
+                                    row.add(name);
                                     Float amount = farmerPaymentAmntMap.get(farmerId);
-                                    row[2] = amount != null ? amount : 0.0f;
+                                    amount = amount != null ? amount : 0.0f;
+                                    row.add(amount);
+
                                     rowsData.add(row);
                                 }
-                                UIHelper.initGridWithData(PaymentReportActivity.this, paymentsListingTableView,
-                                        PaymentConstants.PaymentsDataGrid.class, rowsData, null, true);
+
+                                TableViewHelper<List<Object>, PaymentConstants.PaymentsDataGrid>
+                                        tableViewHelper = TableViewHelper.<List<Object>, MilkCollectionConstants.CollectedMilkDataGrid>
+                                        buildTableViewHelper(PaymentReportActivity.this,
+                                        paymentsListingTableView,
+                                        new TableViewModelDef(PaymentConstants.PaymentsDataGrid.class), false);
+                                tableViewHelper.initTableWithData(PaymentReportActivity.this, rowsData);
+
                             } catch (Exception e) {
                                 Log.e(TAG, "Exception while calculating farmer payments: ", e);
                                 Toast.makeText(PaymentReportActivity.this, "Exception while calculating farmer payments"

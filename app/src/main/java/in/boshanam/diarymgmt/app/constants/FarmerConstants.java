@@ -13,7 +13,18 @@ public interface FarmerConstants {
 
     enum FarmerDataGrid implements GridBaseEnum {
 
-        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER),
+        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER) {
+            @Override
+            public Object transformValue(Object rawValue) {
+                if(rawValue != null) {
+                    try {
+                        Integer farmerId = Integer.parseInt(rawValue.toString());
+                        return farmerId;
+                    } catch (NumberFormatException e) {}
+                }
+                return rawValue;
+            }
+        },
         NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING),
         MILK_TYPE(FARMER_MILK_TYPE_COL_HEADER_KEY, "milkType", GridColumnType.ENUM, new DisplayValueProvider(MilkType.class));
 

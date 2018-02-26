@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -22,11 +23,14 @@ import butterknife.OnFocusChange;
 import de.codecrafters.tableview.SortableTableView;
 import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.FarmerConstants;
+import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
@@ -46,7 +50,7 @@ public class FarmerActivity extends BaseAppCompatActivity {
     Button register;
 
     @BindView(R.id.farmerListingTableView)
-    SortableTableView<String[]> farmerListingTableView;
+    TableView farmerListingTableView;
 
     private String id;
 
@@ -60,8 +64,11 @@ public class FarmerActivity extends BaseAppCompatActivity {
         findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
-        listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerListingTableView,
-                FarmerConstants.FarmerDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId), null, true);
+
+        TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
+                farmerListingTableView,
+                new TableViewModelDef(FarmerConstants.FarmerDataGrid.class), true);
+        listenerRegistration = tableViewHelper.initGridWithQuerySnapshot(this, FireBaseDao.buildAllFarmersQuery(dairyId));
     }
 
     @OnClick(R.id.register)

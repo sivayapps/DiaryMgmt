@@ -13,20 +13,29 @@ public interface PaymentConstants {
 
     enum PaymentsDataGrid implements GridBaseEnum {
 
-        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER, null),
-        NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING, null),
-        AMOUNT(FARMER_AMOUNT_HEADER_KEY, "amount", GridColumnType.NUMBER, "%.2f");
+        NO(FARMER_ID_COL_HEADER_KEY, "id", GridColumnType.NUMBER) {
+            @Override
+            public Object transformValue(Object rawValue) {
+                if(rawValue != null) {
+                    try {
+                        Integer farmerId = Integer.parseInt(rawValue.toString());
+                        return farmerId;
+                    } catch (NumberFormatException e) {}
+                }
+                return rawValue;
+            }
+        },
+        NAME(FARMER_NAME_COL_HEADER_KEY, "name", GridColumnType.STRING),
+        AMOUNT(FARMER_AMOUNT_HEADER_KEY, "amount", GridColumnType.MONEY);
 
         private int columnHeader;
         private String fieldName;
         private GridColumnType columnType;
-        private String formatString;
 
-        PaymentsDataGrid(int columnHeader, String fieldName, GridColumnType columnType, String formatString) {
+        PaymentsDataGrid(int columnHeader, String fieldName, GridColumnType columnType) {
             this.columnHeader = columnHeader;
             this.fieldName = fieldName;
             this.columnType = columnType;
-            this.formatString = formatString;
         }
 
         public int getColumnHeader() {
@@ -39,11 +48,6 @@ public interface PaymentConstants {
 
         public GridColumnType getColumnType() {
             return columnType;
-        }
-
-        @Override
-        public String getFormatString() {
-            return formatString;
         }
 
         @Override

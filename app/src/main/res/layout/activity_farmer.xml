@@ -83,14 +83,15 @@
             android:layout_marginBottom="10dp"
             android:text="@string/register" />
 
-        <de.codecrafters.tableview.SortableTableView
-            xmlns:table="http://schemas.android.com/apk/res-auto"
+        <com.evrencoskun.tableview.TableView
             android:id="@+id/farmerListingTableView"
-
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            table:tableView_headerColor="@color/colorPrimary"
-            />
+            app:column_header_height="@dimen/table_view_cell_height"
+            app:row_header_width="@dimen/table_view_row_header_width"
+            app:selected_color="@color/selected_background_color"
+            app:shadow_color="@color/shadow_background_color"
+            app:unselected_color="@color/unselected_background_color" />
 
     </LinearLayout>
 
