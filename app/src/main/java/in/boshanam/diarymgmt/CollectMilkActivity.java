@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -17,7 +18,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import de.codecrafters.tableview.SortableTableView;
 import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
@@ -37,16 +36,14 @@ import in.boshanam.diarymgmt.domain.Shift;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.service.MilkRateCalculator;
 import in.boshanam.diarymgmt.tableview.TableAdapter;
-import in.boshanam.diarymgmt.tableview.TableViewListener;
 import in.boshanam.diarymgmt.tableview.model.CellModel;
 import in.boshanam.diarymgmt.tableview.model.ColumnHeaderModel;
 import in.boshanam.diarymgmt.tableview.model.RowHeaderModel;
 import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
-import in.boshanam.diarymgmt.util.ui.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
-import com.evrencoskun.tableview.TableView;
 
 public class CollectMilkActivity extends BaseAppCompatActivity {
 
@@ -74,8 +71,8 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
     @BindView(R.id.collect_milk_farmer_details_display_text_field_id)
     TextView selectedFarmerDisplayView;
 
-//    @BindView(R.id.collected_milk_listing_table_view)
-//    SortableTableView<String[]> collectedMilkListingTableView;
+    @BindView(R.id.collected_milk_listing_table_view)
+    TableView collectedMilkListingTableView;
 
     // For TableView
     @BindView(R.id.farmer_recent_milk_collection_details_table_view)
@@ -169,7 +166,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                     CollectedMilk collectedMilk = ds.toObject(CollectedMilk.class);
                     float priceUsed = collectedMilk.getPerLtrPriceUsed();
                     milkRateCalculator.computeAndSetMilkRate(collectedMilk, CollectMilkActivity.this);
-                    if(!MathUtil.equalsDefaultEPS(priceUsed, collectedMilk.getPerLtrPriceUsed())) {
+                    if (!MathUtil.equalsDefaultEPS(priceUsed, collectedMilk.getPerLtrPriceUsed())) {
                         FireBaseDao.saveCollectedMilkDetails(CollectMilkActivity.this, collectedMilk, new ListenerAdapter() {
                         });
                     }
@@ -186,13 +183,9 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
 
     private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
         TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
-                farmerRecentCollectedMilkDetailsTableView,
+                collectedMilkListingTableView,
                 new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class), true);
         tableViewHelper.initGridWithQuerySnapshot(this, collectedMilkQuery);
-////        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-////                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);
-//        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
     }
 
     protected void registerFarmersCacheLoader(String dairyId) {
@@ -361,7 +354,7 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         String farmerID = registeredFarmerId.getText().toString().trim();
         String dairyId = getDairyID();
         if (StringUtils.isNotBlank(dateForDbKey) && shift != null && StringUtils.isNotBlank(farmerID)) {
-            collectedMilk.setId(farmerID + "_" + dateForDbKey +  "_" + shift);
+            collectedMilk.setId(farmerID + "_" + dateForDbKey + "_" + shift);
         }
         collectedMilk.setDairyId(dairyId);
         collectedMilk.setFarmerId(farmerID);

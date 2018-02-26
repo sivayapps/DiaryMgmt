@@ -10,7 +10,6 @@ import com.evrencoskun.tableview.sort.SortState;
 import in.boshanam.diarymgmt.tableview.holder.CellViewHolder;
 import in.boshanam.diarymgmt.tableview.holder.ColumnHeaderViewHolder;
 import in.boshanam.diarymgmt.tableview.popup.CellLongPressPopup;
-import in.boshanam.diarymgmt.util.ui.TableViewHelper;
 
 
 /**

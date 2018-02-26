@@ -9,7 +9,7 @@ import com.evrencoskun.tableview.TableView;
 
 import in.boshanam.diarymgmt.R;
 import in.boshanam.diarymgmt.tableview.holder.CellViewHolder;
-import in.boshanam.diarymgmt.util.ui.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
 
 import static in.boshanam.diarymgmt.tableview.popup.CellLongPressPopup.MenuOption.DELETE_ROW;
 

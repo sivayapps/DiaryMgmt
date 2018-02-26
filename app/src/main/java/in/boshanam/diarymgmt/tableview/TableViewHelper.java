@@ -1,4 +1,4 @@
-package in.boshanam.diarymgmt.util.ui;
+package in.boshanam.diarymgmt.tableview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,8 +21,6 @@ import java.util.List;
 import in.boshanam.diarymgmt.app.constants.GridBaseEnum;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
-import in.boshanam.diarymgmt.tableview.TableAdapter;
-import in.boshanam.diarymgmt.tableview.TableViewListener;
 import in.boshanam.diarymgmt.tableview.model.CellModel;
 import in.boshanam.diarymgmt.tableview.model.ColumnHeaderModel;
 import in.boshanam.diarymgmt.tableview.model.RowHeaderModel;
