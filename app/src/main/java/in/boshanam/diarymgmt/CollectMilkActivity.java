@@ -19,7 +19,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -246,6 +245,8 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                 collectedMilk.setDairyId(dairyId);
             }
             updateCollectedMilkFields(collectedMilk, true);
+        } else {
+            resetFields();
         }
     }
 
@@ -263,6 +264,11 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
                 updateFarmerDetailsView(registeredFarmer);
                 updateCollectedMilkFields(collectedMilk, false);
             }
+        } else {
+            String farmerID = registeredFarmerId.getText().toString().trim();
+            if (StringUtils.isBlank(farmerID)) {
+                resetFields();
+            }
         }
     }
 
@@ -273,15 +279,9 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         if (recentFarmersQuerySnapshotListener != null) {
             recentFarmersQuerySnapshotListener.remove();
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(collectionDate);
-        cal.add(Calendar.DAY_OF_MONTH, -4);
-        Date fromDate = cal.getTime();
         final Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(collectedMilk.getDairyId())
                 .whereEqualTo("farmerId", collectedMilk.getFarmerId())
-                .whereGreaterThanOrEqualTo("date", fromDate)
-                .whereLessThanOrEqualTo("date", collectionDate)
-                .orderBy("date", Query.Direction.DESCENDING);
+                .orderBy("date", Query.Direction.DESCENDING).limit(8);
 
         TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
                 farmerRecentCollectedMilkDetailsTableView,
