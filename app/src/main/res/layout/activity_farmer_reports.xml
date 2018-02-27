@@ -15,17 +15,17 @@
         android:paddingTop="5dp"
         android:theme="@style/AppTheme"
         android:visibility="visible"
-       tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints">
 
 
         <LinearLayout
 
-        style="@style/formFieldsVerticalFlowStyle"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center_horizontal|center"
-        android:orientation="horizontal">
+            style="@style/formFieldsVerticalFlowStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_collect_milk_entry"
@@ -98,6 +98,7 @@
                 android:text="@string/farmer_payment_retrive"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
@@ -110,10 +111,11 @@
                 android:id="@+id/farmerPaymentsFarmerId"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="4"
-                android:text="@string/farmer_id"
                 android:gravity="start"
+                android:text="@string/farmer_id"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -121,10 +123,11 @@
                 android:id="@+id/farmerPaymentsFarmerName"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="4"
-                android:text="@string/farmer_name"
                 android:gravity="start"
+                android:text="@string/farmer_name"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -132,10 +135,11 @@
                 android:id="@+id/farmerPaymentsPrice"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="4"
-                android:text="@string/total"
                 android:gravity="start"
+                android:text="@string/total"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -154,36 +158,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="4"
+                android:layout_marginTop="5dp"
                 android:gravity="start"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/farmerPaymentsReportsFarmerName"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="4"
                 android:gravity="start"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/farmerPaymentsReportsPrice"
                 style="@style/formFieldsHorizontalFlowStyle"
+                android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="4"
                 android:gravity="start"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <de.codecrafters.tableview.SortableTableView xmlns:table="http://schemas.android.com/apk/res-auto"
+        <com.evrencoskun.tableview.TableView
             android:id="@+id/farmerPaymentsListingTableView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            table:tableView_headerColor="@color/colorPrimary" />
+            app:column_header_height="@dimen/table_view_cell_height"
+            app:row_header_width="@dimen/table_view_row_header_width"
+            app:selected_color="@color/selected_background_color"
+            app:shadow_color="@color/shadow_background_color"
+            app:unselected_color="@color/unselected_background_color" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

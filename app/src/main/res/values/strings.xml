@@ -39,8 +39,9 @@
         <item>Morning</item>
         <item>Evening</item>
     </string-array>
-    <string name="shift_type_morning">Morning</string>
-    <string name="shift_type_evening">Evening</string>
+
+    <string name="shift_type_morning">M</string>
+    <string name="shift_type_evening">E</string>
     <string name="title_activity_collect_milk_init">Collect Milk</string>
     <string name="search">Search</string>
     <string name="sample_id">Sample Number</string>

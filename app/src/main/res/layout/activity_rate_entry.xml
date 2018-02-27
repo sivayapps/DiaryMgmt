@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="in.boshanam.diarymgmt.RateEntryActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,44 +16,45 @@
         android:theme="@style/AppTheme"
         android:visibility="visible">
 
-    <LinearLayout
-        style="@style/formFieldsVerticalFlowStyle"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal|center"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/effective_date"
-            style="@style/formFieldsHorizontalFlowStyle"
-            android:layout_marginTop="0dp"
-            android:layout_weight="3"
-            android:focusable="false"
-            android:inputType="text"
-            android:textSize="30sp" />
-
-        <RelativeLayout
-            android:id="@+id/rate_loadingProgressPanel"
-            android:layout_width="0dp"
+        <LinearLayout
+            style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:visibility="visible">
-            <ProgressBar
-                android:layout_width="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/effective_date"
+                style="@style/formFieldsHorizontalFlowStyle"
+                android:layout_marginTop="0dp"
+                android:layout_weight="3"
+                android:focusable="false"
+                android:inputType="text"
+                android:textSize="30sp" />
+
+            <RelativeLayout
+                android:id="@+id/rate_loadingProgressPanel"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:indeterminate="true" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/rate_milk_type"
             style="@style/formFieldsVerticalFlowStyle"
-            android:layout_marginTop="30dp"
             android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
             android:entries="@array/milk_type"
             android:gravity="top" />
 
@@ -120,14 +120,14 @@
             android:layout_marginBottom="10dp"
             android:text="@string/finish" />
         <!--above Property: "layout_height"  adding visibility for my mobile-->
-
-        <de.codecrafters.tableview.SortableTableView xmlns:table="http://schemas.android.com/apk/res-auto"
+        <com.evrencoskun.tableview.TableView
             android:id="@+id/rateListingTableView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            table:tableView_headerColor="@color/colorPrimary" />
+            app:column_header_height="@dimen/table_view_cell_height"
+            app:row_header_width="@dimen/table_view_row_header_width"
+            app:selected_color="@color/selected_background_color"
+            app:shadow_color="@color/shadow_background_color"
+            app:unselected_color="@color/unselected_background_color" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

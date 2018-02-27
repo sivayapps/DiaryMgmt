@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.evrencoskun.tableview.TableView;
@@ -88,6 +89,12 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
     public void initTableWithData(final Activity context, final List<T> rowsData) {
         //Get Grid header definition enums
         this.rowsData = rowsData;
+        if (rowsData == null || rowsData.size() == 0) {
+            tableView.setVisibility(View.GONE);
+        } else {
+            tableView.setVisibility(View.VISIBLE);
+        }
+
         final E[] enumConstants = tableViewModelDef.getColumnsDef();
         List<ColumnHeaderModel> headers = getHeaders(context, enumConstants);
         List<RowHeaderModel> rowHeaders = createRowHeaderList(rowsData);

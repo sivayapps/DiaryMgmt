@@ -61,8 +61,8 @@
         <item>ఉదయం</item>
         <item>సాయంత్రం</item>
     </string-array>
-    <string name="shift_type_morning">ఉదయం</string>
-    <string name="shift_type_evening">సాయంత్రం</string>
+       <string name="shift_type_morning">ఉ</string>
+    <string name="shift_type_evening">సా</string>
     <string name="payments_amount_col_header_key">మొత్తం</string>
     <string name="Report">నివేదిక</string>
     <string name="total">మొత్తం</string>

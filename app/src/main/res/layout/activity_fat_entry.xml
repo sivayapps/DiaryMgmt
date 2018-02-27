@@ -16,21 +16,22 @@
         android:visibility="visible">
 
         <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/fat_entry_filler_1"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
                 android:gravity="center"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/fat_entry_milk_collection_date"
                 style="@style/formFieldsHorizontalFlowStyle"
@@ -38,10 +39,10 @@
                 android:layout_marginEnd="0dp"
                 android:layout_weight="4"
                 android:gravity="end"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:text="Date"
-                />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/fat_entry_milk_collection_shift"
                 style="@style/formFieldsHorizontalFlowStyle"
@@ -49,10 +50,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="4"
                 android:gravity="start"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:text="Shift"
-                />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/fat_entry_filler_2"
                 style="@style/formFieldsHorizontalFlowStyle"
@@ -68,24 +69,25 @@
         <TextView
             android:id="@+id/fat_entry_view_error_message_view"
             style="@style/formFieldsVerticalFlowStyle"
-            android:gravity="center"
-            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
             android:text="@string/fat_rates_missing_for_selected_date"
             android:textColor="@color/colorAccent"
             android:textSize="15sp"
             android:textStyle="normal"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
+
         <LinearLayout
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="5dp"
+            android:baselineAligned="false"
             android:gravity="center_horizontal|center"
-            android:orientation="horizontal" android:baselineAligned="false">
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_sample_id_find"
@@ -93,8 +95,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
-                android:layout_weight="3"
-                >
+                android:layout_weight="3">
+
                 <EditText
                     android:id="@+id/fat_entry_milk_sample_id"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -112,6 +114,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
                 android:layout_weight="2">
+
                 <EditText
                     android:id="@+id/fat_entry_fat_field"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -125,9 +128,9 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_lr"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="2">
 
                 <EditText
@@ -144,11 +147,12 @@
                 android:id="@+id/fat_entry_view_loading_progress_panel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:visibility="visible">
+
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,6 +173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/fat_entry_ltr_rate_entry_field"
                     style="@style/formFieldsHorizontalFlowStyle"
@@ -196,8 +201,8 @@
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal|center"
             android:orientation="horizontal"
@@ -211,17 +216,17 @@
                 android:layout_marginRight="0dp"
                 android:gravity="start"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
-        <de.codecrafters.tableview.SortableTableView
-            xmlns:table="http://schemas.android.com/apk/res-auto"
+        <com.evrencoskun.tableview.TableView
             android:id="@+id/fat_entry_view_collected_milk_listing_table_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            table:tableView_headerColor="@color/colorPrimary" />
+            app:column_header_height="@dimen/table_view_cell_height"
+            app:row_header_width="@dimen/table_view_row_header_width"
+            app:selected_color="@color/selected_background_color"
+            app:shadow_color="@color/shadow_background_color"
+            app:unselected_color="@color/unselected_background_color" />
 
     </LinearLayout>
 

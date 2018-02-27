@@ -42,8 +42,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    compile 'de.codecrafters.tableview:tableview:2.8.0'
-
 //Architecture Components
     // Java8 support for Lifecycles
     implementation "android.arch.lifecycle:common-java8:1.1.0"

@@ -1,9 +1,10 @@
 package in.boshanam.diarymgmt;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,23 +12,44 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.codecrafters.tableview.SortableTableView;
+
 import in.boshanam.diarymgmt.app.constants.FarmerPaymentReportsConstants;
+import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
+import in.boshanam.diarymgmt.domain.CollectedMilk;
+import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
+import in.boshanam.diarymgmt.util.StringAsNumberComparator;
 import in.boshanam.diarymgmt.util.StringUtils;
-import in.boshanam.diarymgmt.util.ui.UIHelper;
+
 
 public class FarmerReportActivity extends BaseAppCompatActivity {
     @BindView(R.id.farmerPaymentFarmerId)
-    EditText getFarmerId;
+    EditText registerFarmerId;
+    @BindView(R.id.farmerPaymentReport)
+    Button report;
     @BindView(R.id.farmer_payment_from_date)
     EditText fromDate;
     @BindView(R.id.farmer_payment_to_date)
@@ -40,65 +62,150 @@ public class FarmerReportActivity extends BaseAppCompatActivity {
     TextView farmerName;
     @BindView(R.id.farmerPaymentsReportsPrice)
     TextView price;
-    @BindView(R.id.farmerPaymentReport)
-    Button search;
     private int year;
     private int month;
     private int dayOfMonth;
     private Calendar calendar;
     @BindView(R.id.farmerPaymentsListingTableView)
-    SortableTableView<String[]> farmerPaymentsListingTableView;
+    TableView farmerPaymentsListingTableView;
 
-
+    private volatile boolean farmerListLoaded = false;
+    private Map<String, Farmer> registeredFarmers = new HashMap<>();
+    private MilkRateCalculator milkRateCalculator;
     private ListenerRegistration listenerRegistration;
+    private Float farmerPaymentAmnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_reports);
         ButterKnife.bind(this);
+        String dairyId = getDairyID();
+        registerFarmersCacheLoader(dairyId);
         calendar = Calendar.getInstance();
         initDateFormatters();
         int getDay = calendar.get(Calendar.DAY_OF_MONTH);
         if (getDay > 15) {
-            calendar.set(calendar.get(Calendar.YEAR), Calendar.MONTH - 1, 1);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
             fromDate.setText(dateFormatterDisplay.format(calendar.getTime()));
-            calendar.set(calendar.get(Calendar.YEAR), Calendar.MONTH - 1, 15);
+            calendar.set(Calendar.DAY_OF_MONTH, 15);
             toDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         } else {
-            calendar.set(calendar.get(Calendar.YEAR), Calendar.MONTH - 1, 16);
+            calendar.add(Calendar.MONTH, -1);
+            calendar.set(Calendar.DAY_OF_MONTH, 16);
             fromDate.setText(dateFormatterDisplay.format(calendar.getTime()));
-
-            calendar.add(Calendar.MONTH, 1);
-            calendar.set(Calendar.DAY_OF_MONTH, 1);
-            calendar.add(Calendar.DATE, -1);
+            int lastDate = calendar.getActualMaximum(Calendar.DATE);
+            calendar.set(Calendar.DAY_OF_MONTH, lastDate);
             toDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         }
-        String dairyId = getDairyID();
-        listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerPaymentsListingTableView,
-                FarmerPaymentReportsConstants.FarmerPaymentReportDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId), null, true);
     }
 
-    @OnClick(R.id.farmerPaymentReport)
-    public void searchFarmer() {
+    protected void registerFarmersCacheLoader(String dairyId) {
+        FireBaseDao.buildAllFarmersQuery(dairyId).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e);
+                    Toast.makeText(FarmerReportActivity.this, "Failed loading Data-" + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Map<String, Farmer> idFarmerMap = new HashMap<>();
+                for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
+                    Farmer farmer = ds.toObject(Farmer.class);
+                    idFarmerMap.put(farmer.getId(), farmer);
+                }
+                registeredFarmers = idFarmerMap;
+                farmerListLoaded = true;
+//                hideProgressBar(); TODO add progress
+            }
+        });
+    }
+
+    @OnClick({R.id.farmerPaymentReport, R.id.farmer_payment_retrive})
+    public void getFarmerReport() {
         if (validate()) {
-            search();
+            String farmerId = registerFarmerId.getText().toString();
+            Farmer farmer = registeredFarmers.get(farmerId);
+            String farmerNAME = farmer.getName();
+            computeFarmerPayments(farmerId, farmerNAME);
         }
     }
 
-    private void search() {
-        String dairyId = getDairyID();
-        String farmerID = String.valueOf(getFarmerId.getText().toString());
-        listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, farmerPaymentsListingTableView,
-                FarmerPaymentReportsConstants.FarmerPaymentReportDataGrid.class, FireBaseDao.buildAllFarmersQuery(dairyId), null, true);
+    private void computeFarmerPayments(String getFarmerId, String farmerNAME) {
+        String dateStr = fromDate.getText().toString();
+        try {
+            final Date fromDate = dateFormatterDisplay.parse(dateStr);
+            dateStr = toDate.getText().toString();
+            final Date toDate = dateFormatterDisplay.parse(dateStr);
+            final String dairyId = getDairyID();
+            MilkRateCalculator.build(this, dairyId, fromDate, toDate, new ListenerAdapter<MilkRateCalculator>() {
+                @Override
+                public void onSuccess(final MilkRateCalculator milkRateCalculator) {
+                    FarmerReportActivity.this.milkRateCalculator = milkRateCalculator;
+                    final Query collectedMilkQuery = FireBaseDao.buildCollectedMilkQuery(dairyId)
+                            .whereEqualTo("farmerId", getFarmerId)
+                            .whereGreaterThanOrEqualTo("date", fromDate)
+                            .whereLessThanOrEqualTo("date", toDate);
+                    collectedMilkQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot documentSnapshots) {
+                            try {
+                                Map<String, Float> farmerPaymentAmntMap = new HashMap<>();
+                                for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                                    CollectedMilk collectedMilk = documentSnapshot.toObject(CollectedMilk.class);
+                                    farmerPaymentAmnt = farmerPaymentAmntMap.get(collectedMilk.getFarmerId());
+                                    if (farmerPaymentAmnt == null) {
+                                        farmerPaymentAmnt = 0f;
+                                    }
+                                    if (collectedMilk.getMilkQuantity() > 0 && collectedMilk.getFat() > 0) {
+                                        milkRateCalculator.computeAndSetMilkRate(collectedMilk, FarmerReportActivity.this);
+                                    }
 
+                                    farmerPaymentAmnt = farmerPaymentAmnt + collectedMilk.getMilkPriceComputed();
+                                    farmerPaymentAmntMap.put(collectedMilk.getFarmerId(), farmerPaymentAmnt);
+                                }
 
+                                TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(FarmerReportActivity.this,
+                                        farmerPaymentsListingTableView,
+                                        new TableViewModelDef(FarmerPaymentReportsConstants.FarmerPaymentReportDataGrid.class), true);
+                                listenerRegistration = tableViewHelper.initGridWithQuerySnapshot(FarmerReportActivity.this, collectedMilkQuery);
+                                farmerId.setText(getFarmerId);
+                                price.setText(farmerPaymentAmnt.toString());
+                                farmerName.setText(farmerNAME);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Exception while calculating farmer payments: ", e);
+                                Toast.makeText(FarmerReportActivity.this, "Exception while calculating farmer payments"
+                                        + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Exception while fetching Milk Collection data: ", e);
+                            Toast.makeText(FarmerReportActivity.this, "Exception while fetching Milk Collection data: "
+                                    + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Exception while fetching rates: ", e);
+                    Toast.makeText(FarmerReportActivity.this, "Exception while fetching rates: "
+                            + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Dateformat invalid", Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean validate() {
-        String farmerID = farmerId.getText().toString();
+        String farmerID = registerFarmerId.getText().toString();
         if (StringUtils.isBlank(farmerID)) {
-            Toast.makeText(this, "Farmer Id should not be blank", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FarmerReportActivity.this, "Farmer Id should not be blank", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

@@ -20,10 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import de.codecrafters.tableview.SortableTableView;
+
 import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.FarmerConstants;
-import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
+
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.Farmer;

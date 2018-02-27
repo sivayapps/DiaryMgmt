@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.ParseException;
@@ -22,13 +23,15 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.codecrafters.tableview.SortableTableView;
+
 import in.boshanam.diarymgmt.app.constants.RateConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.MilkType;
 import in.boshanam.diarymgmt.domain.Rate;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.StringUtils;
 import in.boshanam.diarymgmt.util.ui.UIHelper;
 
@@ -55,7 +58,7 @@ public class RateEntryActivity extends BaseAppCompatActivity {
     private int dayOfMonth;
 
     @BindView(R.id.rateListingTableView)
-    SortableTableView<String[]> rateListingTableView;
+    TableView rateListingTableView;
 
     private ListenerRegistration listenerRegistration;
 
@@ -69,8 +72,11 @@ public class RateEntryActivity extends BaseAppCompatActivity {
         calendar = Calendar.getInstance();
         effectiveDate.setText(dateFormatterDisplay.format(calendar.getTime()));
         String dairyId = getDairyID();
-        listenerRegistration = UIHelper.initGridWithQuerySnapshot(this, rateListingTableView,
-                RateConstants.RateDataGrid.class, FireBaseDao.buildRateQuery(dairyId));
+        TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(RateEntryActivity.this,
+                rateListingTableView,
+                new TableViewModelDef(RateConstants.RateDataGrid.class), true);
+        listenerRegistration = tableViewHelper.initGridWithQuerySnapshot(RateEntryActivity.this, FireBaseDao.buildRateQuery(dairyId));
+
     }
 
     @OnClick(R.id.effective_date)

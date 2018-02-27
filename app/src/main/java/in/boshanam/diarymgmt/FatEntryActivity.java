@@ -10,9 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evrencoskun.tableview.TableView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -24,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import de.codecrafters.tableview.SortableTableView;
+
 import in.boshanam.diarymgmt.app.constants.MilkCollectionConstants;
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
@@ -33,9 +35,10 @@ import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.Shift;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.service.MilkRateCalculator;
+import in.boshanam.diarymgmt.tableview.TableViewHelper;
+import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
 import in.boshanam.diarymgmt.util.MathUtil;
 import in.boshanam.diarymgmt.util.StringUtils;
-import in.boshanam.diarymgmt.util.ui.UIHelper;
 
 public class FatEntryActivity extends BaseAppCompatActivity {
 
@@ -61,7 +64,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
     EditText ltrRateField;
 
     @BindView(R.id.fat_entry_view_collected_milk_listing_table_view)
-    SortableTableView<String[]> collectedMilkListingTableView;
+    TableView collectedMilkListingTableView;
 
     @BindView(R.id.fat_save)
     Button saveFat;
@@ -83,6 +86,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
     private volatile boolean farmerListLoaded = false;
     private volatile boolean collectedMilkDetailsLoaded = false;
     private boolean progressBarVisible = true;
+    private ListenerRegistration recentFarmersQuerySnapshotListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +120,10 @@ public class FatEntryActivity extends BaseAppCompatActivity {
                 FatEntryActivity.this.milkRateCalculator = milkRateCalculator;
 //                initMilkCollectionDetailsGrid(collectedMilkQuery);
 
-                UIHelper.initGridWithQuerySnapshot(FatEntryActivity.this, collectedMilkListingTableView,
-                        MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
-                registerMilkCollectedCacheLoader(collectedMilkQuery);
+                TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(FatEntryActivity.this,
+                        collectedMilkListingTableView,
+                        new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class), true);
+                recentFarmersQuerySnapshotListener = tableViewHelper.initGridWithQuerySnapshot(FatEntryActivity.this, collectedMilkQuery);
             }
 
             @Override
@@ -159,23 +164,6 @@ public class FatEntryActivity extends BaseAppCompatActivity {
             }
         });
     }
-
-//    private void initMilkCollectionDetailsGrid(Query collectedMilkQuery) {
-    /*    TableColumnWeightModel columnModel = new TableColumnWeightModel(MilkCollectionConstants.CollectedMilkDataGrid.values().length);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FARMER_ID.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.DATE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SHIFT.ordinal(), 2);
-//        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.MILK_TYPE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.SAMPLE_NUM.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.QUANTITY.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.FAT.ordinal(), 1);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.LTR_PRICE.ordinal(), 2);
-        columnModel.setColumnWeight(MilkCollectionConstants.CollectedMilkDataGrid.PRICE.ordinal(), 2);
-        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery, columnModel);*/
-//        UIHelper.initGridWithQuerySnapshot(this, collectedMilkListingTableView,
-//                MilkCollectionConstants.CollectedMilkDataGrid.class, collectedMilkQuery);
-//    }
 
     protected void registerFarmersCacheLoader(String dairyId) {
         FireBaseDao.buildAllFarmersQuery(dairyId).addSnapshotListener(this, new EventListener<QuerySnapshot>() {

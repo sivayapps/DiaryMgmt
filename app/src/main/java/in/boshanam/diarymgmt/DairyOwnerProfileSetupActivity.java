@@ -33,11 +33,6 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
     @BindView(R.id.save)
     Button save;
 
-
-//    private String uid;
-//    private String email;
-//    private String dairyId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +67,6 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
                     //TODO MUST SET DAIRY_ID if not null in DairyOwner object from DB
                 }
                 findViewById(R.id.dairy_owner_profile_loadingProgressPanel).setVisibility(View.GONE);
-
             }
 
             @Override
@@ -82,7 +76,6 @@ public class DairyOwnerProfileSetupActivity extends AppCompatActivity {
                 findViewById(R.id.dairy_owner_profile_loadingProgressPanel).setVisibility(View.GONE);
             }
         });
-
     }
 
     @OnClick(R.id.save)
