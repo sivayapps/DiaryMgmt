@@ -58,8 +58,10 @@ public class FarmerReportActivity extends BaseAppCompatActivity {
     TextView farmerId;
     @BindView(R.id.farmerPaymentsReportsFarmerName)
     TextView farmerName;
+
     @BindView(R.id.farmerPaymentsReportsPrice)
     TextView price;
+
     private int year;
     private int month;
     private int dayOfMonth;
@@ -168,7 +170,7 @@ public class FarmerReportActivity extends BaseAppCompatActivity {
                                         new TableViewModelDef(FarmerPaymentReportsConstants.FarmerPaymentReportDataGrid.class), true);
                                 listenerRegistration = tableViewHelper.initGridWithQuerySnapshot(FarmerReportActivity.this, collectedMilkQuery);
                                 farmerId.setText(getFarmerId);
-                                price.setText(farmerPaymentAmnt.toString());
+                                price.setText(String.format("%.2f", farmerPaymentAmnt));
                                 farmerName.setText(farmerNAME);
                             } catch (Exception e) {
                                 Log.e(TAG, "Exception while calculating farmer payments: ", e);

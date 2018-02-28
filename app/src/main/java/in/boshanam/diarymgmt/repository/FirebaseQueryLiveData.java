@@ -13,8 +13,8 @@ import com.google.firebase.firestore.QuerySnapshot;
  * Created by Siva on 2/23/2018.
  */
 
-public class FirebaseQueryLiveData<T> extends LiveData<T> {
-    private static final String LOG_TAG = "FirebaseQueryLiveData";
+public abstract class FirebaseQueryLiveData<T> extends LiveData<T> {
+    private static final String TAG = "FirebaseQueryLiveData";
 
     private final Query query;
 
@@ -26,19 +26,23 @@ public class FirebaseQueryLiveData<T> extends LiveData<T> {
 
     @Override
     protected void onActive() {
-        Log.d(LOG_TAG, "onActive");
+        Log.d(TAG, "onActive");
         listenerRegistration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                setValue(null);//TODO set data
+                setValue(transformSnapshotToData(documentSnapshots));//TODO set data
             }
         });
     }
 
+    public abstract T transformSnapshotToData(QuerySnapshot documentSnapshots);
+
     @Override
     protected void onInactive() {
-        Log.d(LOG_TAG, "onInactive");
-        listenerRegistration.remove();
+        Log.d(TAG, "onInactive");
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
     }
 
 }

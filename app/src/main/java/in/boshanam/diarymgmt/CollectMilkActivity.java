@@ -3,6 +3,8 @@ package in.boshanam.diarymgmt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -314,7 +316,11 @@ public class CollectMilkActivity extends BaseAppCompatActivity {
         if (registeredFarmer == null) {
             return;
         }
-        selectedFarmerDisplayView.setText(getString(R.string.farmer_id_heading) + registeredFarmer.getId() + ", " + getString(R.string.farmer_name_heading) + registeredFarmer.getName());
+        Spanned formattedStr = Html.fromHtml("<b>" + getString(R.string.farmer_id_heading) + "</b> " +
+                registeredFarmer.getId() + ", " +
+                "<b>" + getString(R.string.farmer_name_heading) + "</b> " +
+                registeredFarmer.getName());
+        selectedFarmerDisplayView.setText(formattedStr);
         findViewById(R.id.collect_milk_farmer_details_display_view_id).setVisibility(View.VISIBLE);
         farmerRecentCollectedMilkDetailsTableViewLayout.setVisibility(View.VISIBLE);
     }
