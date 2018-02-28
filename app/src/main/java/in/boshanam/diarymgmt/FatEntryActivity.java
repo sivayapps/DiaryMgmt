@@ -118,8 +118,7 @@ public class FatEntryActivity extends BaseAppCompatActivity {
             @Override
             public void onSuccess(MilkRateCalculator milkRateCalculator) {
                 FatEntryActivity.this.milkRateCalculator = milkRateCalculator;
-//                initMilkCollectionDetailsGrid(collectedMilkQuery);
-
+                registerMilkCollectedCacheLoader(collectedMilkQuery);
                 TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(FatEntryActivity.this,
                         collectedMilkListingTableView,
                         new TableViewModelDef(MilkCollectionConstants.CollectedMilkDataGrid.class), true);

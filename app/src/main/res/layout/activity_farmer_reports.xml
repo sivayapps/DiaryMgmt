@@ -17,9 +17,7 @@
         android:visibility="visible"
         tools:ignore="MissingConstraints">
 
-
         <LinearLayout
-
             style="@style/formFieldsVerticalFlowStyle"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
@@ -43,17 +41,6 @@
                     android:textSize="20sp" />
             </android.support.design.widget.TextInputLayout>
 
-
-            <Button
-                android:id="@+id/farmerPaymentReport"
-                style="@style/formButtonStyle"
-                android:layout_width="0dp"
-                android:layout_gravity="center_horizontal|center_vertical|center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:text="@string/Report" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,6 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:focusable="false"
                 android:inputType="date"
                 android:textSize="12sp" />
 
@@ -81,6 +69,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:focusable="false"
                 android:inputType="date"
                 android:textSize="12sp" />
 
@@ -95,7 +84,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="@string/farmer_payment_retrive"
+                android:text="@string/Report"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -157,8 +146,8 @@
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
-                android:layout_weight="4"
                 android:layout_marginTop="5dp"
+                android:layout_weight="4"
                 android:gravity="start"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -167,8 +156,8 @@
                 android:id="@+id/farmerPaymentsReportsFarmerName"
                 style="@style/formFieldsHorizontalFlowStyle"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="4"
                 android:gravity="start"
                 android:textSize="16sp"
@@ -177,9 +166,9 @@
             <TextView
                 android:id="@+id/farmerPaymentsReportsPrice"
                 style="@style/formFieldsHorizontalFlowStyle"
-                android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="4"
                 android:gravity="start"
                 android:textSize="16sp"

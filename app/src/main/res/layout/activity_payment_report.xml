@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:inputType="date"
+                android:focusable="false"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
         <EditText
@@ -37,6 +38,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:inputType="date"
+            android:focusable="false"
             android:textSize="12sp"
             android:layout_weight="1"/>
         <Button
@@ -51,6 +53,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
+            android:focusable="true"
             android:text="@string/farmer_payment_retrive" />
     </LinearLayout>
 

@@ -30,10 +30,10 @@
     <string name="Next">తరువాత</string>
     <string name="search">Search</string>
     <string name="sample_id">నమూనా సంఖ్య</string>
-    <string name="find">find</string>
-    <string name="lr">LR</string>
+    <string name="find">కనుగొను</string>
+    <string name="lr">ఎల్ఆర్</string>
     <string name="sample_no">నమూనా సంఖ్య</string>
-    <string name="snf">SNF</string>
+    <string name="snf">ఎస్యెన్ఎఫ్</string>
     <string name="per_ltr_rate">లీ. ధర</string>
     <string name="fat_rates_missing_for_selected_date">ఎంచుకున్న తేదీకి వెన్న ధరలు లేవు</string>
     <string name="user_input_blank_error_msg">దయచేసి ఖాళీని పూరించండి</string>
@@ -44,7 +44,7 @@
     <string name="to_date">తేదీ వరకు</string>
     <string name="Retrive">farmer_report_retrive</string>
     <string name="farmer_payment_retrive">Retrive</string>
-    <string name="logout">logout</string>
+    <string name="logout">లాగౌట్</string>
     <string name="rate_register">ధర నమోదు</string>
     <string name="farmer_id_heading">రైతు సంఖ్య:</string>
     <string name="farmer_name_heading">పేరు:</string>
@@ -66,4 +66,5 @@
     <string name="payments_amount_col_header_key">మొత్తం</string>
     <string name="Report">నివేదిక</string>
     <string name="total">మొత్తం</string>
+    <string name="select_date">తేదీని ఎంచుకోండి</string>
 </resources>

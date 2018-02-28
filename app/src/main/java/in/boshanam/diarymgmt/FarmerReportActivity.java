@@ -41,15 +41,13 @@ import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.service.MilkRateCalculator;
 import in.boshanam.diarymgmt.tableview.TableViewHelper;
 import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
-import in.boshanam.diarymgmt.util.StringAsNumberComparator;
+
 import in.boshanam.diarymgmt.util.StringUtils;
 
 
 public class FarmerReportActivity extends BaseAppCompatActivity {
     @BindView(R.id.farmerPaymentFarmerId)
     EditText registerFarmerId;
-    @BindView(R.id.farmerPaymentReport)
-    Button report;
     @BindView(R.id.farmer_payment_from_date)
     EditText fromDate;
     @BindView(R.id.farmer_payment_to_date)
@@ -121,7 +119,7 @@ public class FarmerReportActivity extends BaseAppCompatActivity {
         });
     }
 
-    @OnClick({R.id.farmerPaymentReport, R.id.farmer_payment_retrive})
+    @OnClick( R.id.farmer_payment_retrive)
     public void getFarmerReport() {
         if (validate()) {
             String farmerId = registerFarmerId.getText().toString();

@@ -10,7 +10,7 @@
     <string name="register">Register</string>
     <string name="owner_name">Owner Name</string>
     <string name="phone_number">Phone Number</string>
-    <string name="farmer_register">Former Register</string>
+    <string name="farmer_register">Farmer Register</string>
     <string name="rate_entry">Rate Entry</string>
     <string name="fat_entry">Fat Entry</string>
     <string name="payment_reports">Payment Report</string>
@@ -69,5 +69,6 @@
     <string name="payments_amount_col_header_key">Amount</string>
     <string name="Report">Report</string>
     <string name="total">TotalAmount</string>
+    <string name="select_date">Select Date</string>
 
 </resources>

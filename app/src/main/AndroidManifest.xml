@@ -52,7 +52,7 @@
         </activity>
         <activity
             android:name=".DateShiftSelectActivity"
-            android:label="@string/collect_milk"
+            android:label="@string/select_date"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
