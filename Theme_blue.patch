@@ -1,0 +1,93 @@
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision Local version)
++++ app/src/main/res/values/styles.xml	(revision Shelved version)
+@@ -5,6 +5,9 @@
+         <item name="colorPrimary">@color/colorPrimary</item>
+         <!-- Customize your theme here. -->
+         <item name="android:textColorPrimary">@color/textColorPrimary</item>
++        <item name="android:colorBackground">@color/background_material_dark</item>
++        <item name="android:navigationBarColor">@android:color/holo_blue_dark</item>
++        <item name="android:textColorPrimaryInverse">?attr/actionModeSplitBackground</item>
+         <!--<item name="android:colorBackground">@color/background_material_light</item>-->
+         <!--<item name="android:colorButtonNormal">@color/colorButtonNormal</item>-->
+         <!--<item name="android:textColorPrimary">@color/textColorPrimary</item>-->
+Index: app/src/main/res/drawable/color_item_popup.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/color_item_popup.xml	(revision Local version)
++++ app/src/main/res/drawable/color_item_popup.xml	(revision Shelved version)
+@@ -2,5 +2,5 @@
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:color="@color/shadow_background_color" android:state_pressed="true"/>
+     <item android:color="@color/separator_color" android:state_focused="true"/>
+-    <item android:color="@color/background_material_light"/>
++    <item android:color="@color/colorPrimary"/>
+ </selector>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision Local version)
++++ app/src/main/res/values/colors.xml	(revision Shelved version)
+@@ -1,7 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources xmlns:tools="http://schemas.android.com/tools">
+-    <color name="textColorPrimary">#fbfbfc</color>
+-    <color name="background_material_light" tools:override="true">#4e4d4d</color>
+-    <color name="colorButtonNormal">#1e1d1d</color>
+-    <color name="colorPrimary">#1b1919</color>
++    <color name="textColorPrimary">#0a0a0a</color>
++    <color name="background_material_light" tools:override="true">#ffffff</color>
++    <color name="colorButtonNormal">#5aa6f2</color>
++    <color name="colorPrimary">#67a6dd</color>
++    <color name="primary_dark_material_dark">#2c70f6</color>
++    <color name="background_material_dark">#ffffff</color>
+ </resources>
+Index: app/src/main/res/drawable/rounded_button.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/rounded_button.xml	(revision Local version)
++++ app/src/main/res/drawable/rounded_button.xml	(revision Shelved version)
+@@ -6,12 +6,12 @@
+             <corners android:radius="10dp" />
+             <stroke
+                 android:width="2dp"
+-                android:color="#232222" />
++                android:color="#5e92fa" />
+             <gradient
+                 android:angle="270"
+-                android:startColor="#5c5a5a"
+-                android:centerColor="#3e3c3c"
+-                android:endColor="#313030"
++                android:startColor="#6f9bfa"
++                android:centerColor="#3a78fd"
++                android:endColor="#5e92fa"
+                 />
+         </shape>
+ 
+Index: app/src/main/res/values/table_colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/table_colors.xml	(revision Local version)
++++ app/src/main/res/values/table_colors.xml	(revision Shelved version)
+@@ -3,7 +3,7 @@
+ 
+     <color name="selected_background_color">@color/colorAccent</color>
+     <color name="unselected_background_color">@color/background_material_light</color>
+-    <color name="shadow_background_color">#28415f</color>
++    <color name="shadow_background_color">#e3ecf7</color>
+     <color name="unselected_header_background_color">@color/colorPrimary</color>
+ 
+     <color name="unselected_text_color">@color/textColorPrimary</color>
