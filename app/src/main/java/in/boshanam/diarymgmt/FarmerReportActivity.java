@@ -46,16 +46,22 @@ import in.boshanam.diarymgmt.util.StringUtils;
 
 
 public class FarmerReportActivity extends BaseAppCompatActivity {
+
     @BindView(R.id.farmerPaymentFarmerId)
     EditText registerFarmerId;
+
     @BindView(R.id.farmer_payment_from_date)
     EditText fromDate;
+
     @BindView(R.id.farmer_payment_to_date)
     EditText toDate;
+
     @BindView(R.id.farmer_payment_retrive)
     Button retrive;
+
     @BindView(R.id.farmerPaymentsReportsFarmerId)
     TextView farmerId;
+
     @BindView(R.id.farmerPaymentsReportsFarmerName)
     TextView farmerName;
 
@@ -66,6 +72,7 @@ public class FarmerReportActivity extends BaseAppCompatActivity {
     private int month;
     private int dayOfMonth;
     private Calendar calendar;
+
     @BindView(R.id.farmerPaymentsListingTableView)
     TableView farmerPaymentsListingTableView;
 

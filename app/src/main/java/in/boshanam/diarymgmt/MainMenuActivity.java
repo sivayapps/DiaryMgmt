@@ -10,6 +10,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.boshanam.diarymgmt.util.ui.UIHelper;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -44,8 +45,8 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout) {
-            LoginActivity loginActivity = new LoginActivity();
-            loginActivity.logoutUser();
+            UIHelper.logoutAndShowLogin(this, "Logged out");
+//            FirebaseAuth.getInstance().signOut();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -54,7 +55,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.farmerRegister)
     public void farmerRegister() {
-      farmerRegistration();
+        farmerRegistration();
 
     }
 
