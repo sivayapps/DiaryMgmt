@@ -137,24 +137,6 @@ public class TableViewHelper<T, E extends Enum<E> & GridBaseEnum> {
         return list;
     }
 
-   /* @NonNull
-    public List<List<Object>> extractRowData(List<DocumentSnapshot> documents, E[] enumConstants) {
-        List<List<Object>> rowsData = new ArrayList<>();
-        for (DocumentSnapshot dc : documents) {
-            List<Object> rowData = new ArrayList<>();
-            for (E columnDef : enumConstants) {
-                Object value = dc.get(columnDef.getFieldName());
-                if (value != null) {
-                    rowData.add(value);
-                } else {
-                    rowData.add("");
-                }
-            }
-            rowsData.add(rowData);
-        }
-        return rowsData;
-    }*/
-
     public TableViewModelDef<T, E> getTableViewModelDef() {
         return tableViewModelDef;
     }

@@ -1,8 +1,11 @@
 package in.boshanam.diarymgmt;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,19 +18,21 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-
 import in.boshanam.diarymgmt.app.constants.AppConstants;
 import in.boshanam.diarymgmt.app.constants.FarmerConstants;
-
 import in.boshanam.diarymgmt.command.ListenerAdapter;
 import in.boshanam.diarymgmt.domain.BaseAppCompatActivity;
 import in.boshanam.diarymgmt.domain.Farmer;
 import in.boshanam.diarymgmt.domain.MilkType;
+import in.boshanam.diarymgmt.model.viewmodel.FarmerViewModel;
 import in.boshanam.diarymgmt.repository.FireBaseDao;
 import in.boshanam.diarymgmt.tableview.TableViewHelper;
 import in.boshanam.diarymgmt.tableview.model.TableViewModelDef;
@@ -52,9 +57,11 @@ public class FarmerActivity extends BaseAppCompatActivity {
     @BindView(R.id.farmerListingTableView)
     TableView farmerListingTableView;
 
-    private String id;
-
     private ListenerRegistration listenerRegistration;
+
+    private FarmerViewModel farmerViewModel;
+    private Map<String, Farmer> farmerByFarmerId = new HashMap<>();
+    private boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +71,31 @@ public class FarmerActivity extends BaseAppCompatActivity {
         findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
         //TODO generate next available ID for farmer
         String dairyId = getDairyID();
+        farmerViewModel = ViewModelProviders.of(this).get(FarmerViewModel.class);
+        farmerViewModel.init(dairyId);
+        farmerViewModel.getFarmerLiveData().getFarmerIdFarmerCacheLiveData().observe(this, new Observer<Map<String, Farmer>>() {
+            @Override
+            public void onChanged(@Nullable Map<String, Farmer> farmerByFarmerId) {
+                FarmerActivity.this.farmerByFarmerId = farmerByFarmerId;
+            }
+        });
+        farmerViewModel.getFarmerLiveData().getFarmerDocSnapshotLiveData().observe(this, new Observer<List<DocumentSnapshot>>() {
+            @Override
+            public void onChanged(@Nullable List<DocumentSnapshot> documentSnapshots) {
 
-        TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(this,
-                farmerListingTableView,
-                new TableViewModelDef(FarmerConstants.FarmerDataGrid.class), true);
-        listenerRegistration = tableViewHelper.initGridWithQuerySnapshot(this, FireBaseDao.buildAllFarmersQuery(dairyId));
+                TableViewHelper tableViewHelper = TableViewHelper.buildTableViewHelper(FarmerActivity.this,
+                        farmerListingTableView,
+                        new TableViewModelDef(FarmerConstants.FarmerDataGrid.class), true);
+                tableViewHelper.initTableWithData(FarmerActivity.this, documentSnapshots);
+                findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
+                if (loading) {
+                    //offline save don't call listeners, but data change will trigger this
+                    //so clearing fields when save started and we see updates in data
+                    loading = false;
+                    clearFormFields();
+                }
+            }
+        });
     }
 
     @OnClick(R.id.register)
@@ -80,38 +107,23 @@ public class FarmerActivity extends BaseAppCompatActivity {
 
     @OnFocusChange(R.id.farmerId)
     public void onFocusChanged(boolean focused) {
+        if (focused) {
+            return;
+        }
         String farmerID = farmerId.getText().toString();
         String dairyId = getDairyID();
         if (StringUtils.isNotBlank(farmerID) && StringUtils.isNotBlank(dairyId)) {
-            findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.VISIBLE);
-            FireBaseDao.loadFarmerById(this, dairyId, farmerID, new ListenerAdapter<DocumentSnapshot>() {
-
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot != null && documentSnapshot.exists()) {
-                        Farmer farmer = documentSnapshot.toObject(Farmer.class);
-                        if (StringUtils.isNotBlank(farmer.getName())) {
-                            farmerName.setText(farmer.getName());
-                        }
-                        if (farmer.getMilkType() != null) {
-                            UIHelper.setSpinnerSelection(milkType, farmer.getMilkType().getIndex());
-                        }
-                    } else {
-                        farmerName.setText("");
-                    }
-                    findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
+            Farmer farmer = farmerByFarmerId.get(farmerID.trim());
+            if (farmer != null) {
+                if (StringUtils.isNotBlank(farmer.getName())) {
+                    farmerName.setText(farmer.getName());
                 }
-
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Failed to load Farmer, please retry.", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "Failed to load Farmer", e);
-                    farmerName.setText("");
-                    findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
+                if (farmer.getMilkType() != null) {
+                    UIHelper.setSpinnerSelection(milkType, farmer.getMilkType().getIndex());
                 }
-
-            });
-
+            } else {
+                farmerName.setText("");
+            }
         }
     }
 
@@ -130,14 +142,13 @@ public class FarmerActivity extends BaseAppCompatActivity {
             farmer.setMilkType(MilkType.getMilkTypeForIndex(milkType.getSelectedItemPosition()));
         }
         findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.VISIBLE);
+        loading = true;
         FireBaseDao.saveFarmer(this, farmer, new ListenerAdapter<Farmer>() {
             @Override
             public void onSuccess(Farmer data) {
                 Toast.makeText(getApplicationContext(), "Successfully Save", Toast.LENGTH_LONG).show();
                 clearFormFields();
                 findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
-//                    Intent intent = new Intent(FarmerActivity.this, MainMenuActivity.class);
-//                    startActivity(intent);
             }
 
             @Override
@@ -145,7 +156,6 @@ public class FarmerActivity extends BaseAppCompatActivity {
                 findViewById(R.id.farmer_loadingProgressPanel).setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Failed to Save Farmer, please retry.", Toast.LENGTH_LONG).show();
                 Log.e(TAG, "Failed to save Farmer", e);
-                //TODO handle error
             }
         });
     }
